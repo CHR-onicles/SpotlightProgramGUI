@@ -1,19 +1,9 @@
-import os, sys
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
-from getpass import getuser
+from PyQt5.QtGui import QPixmap, QIcon, QFont
+from PyQt5.QtCore import QSize, Qt
 
-
+# Local Imports
 import style
-
-
-class MainApp(QApplication):
-    def __init__(self, argv):
-        super(MainApp, self).__init__(argv)
-
-        # -- MAIN WINDOW INSTANCE --
-        self.main_window = MainWindow()
 
 
 class MainWindow(QWidget):
@@ -23,14 +13,12 @@ class MainWindow(QWidget):
         self.setWindowIcon(QIcon('icons/cat.ico'))
         self.setGeometry(250, 150, 1200, 800)
         self.setObjectName('MainWindow')
-
-        print(getuser())
-        print(self.screen().size())
         self.setStyleSheet(style.mainWindowStyle())
 
+        print(self.screen().size())
 
         self.UIComponents()
-        self.show()
+
 
     def UIComponents(self):
         self.widgets()
@@ -79,8 +67,6 @@ class MainWindow(QWidget):
         self.lbl_image.setAlignment(Qt.AlignCenter)
 
 
-
-
     def layouts(self):
         # DEFINING LAYOUTS -------------------------------------------------------------------------
         self.main_layout = QVBoxLayout()
@@ -115,17 +101,3 @@ class MainWindow(QWidget):
         self.main_layout.addWidget(self.image_frame, 90)
         self.main_layout.addLayout(self.main_bottom_layout, 10)
         self.setLayout(self.main_layout)
-
-
-
-
-
-
-
-
-
-if __name__ == '__main__':
-    app = MainApp(sys.argv)
-    sys.exit(app.exec_())
-
-
