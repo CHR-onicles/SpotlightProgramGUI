@@ -1,18 +1,14 @@
-# %%
 """
 ### Import Statements
 """
 
 import os,shutil,send2trash
 from PIL import Image
-from IPython.display import clear_output
 
-# %%
 """
 ### Functions
 """
 
-# %%
 def rename_func():
     """
     Function to ask user for new name of file.
@@ -31,12 +27,8 @@ def rename_func():
     
     return choice
 
-# %%
-"""
-<hr>
-"""
 
-# %%
+
 def ask_to_rename_or_delete_or_skip(file):
     """
     Function to ask user whether to delete, rename,
@@ -54,23 +46,14 @@ def ask_to_rename_or_delete_or_skip(file):
         else:
             print('Invalid Choice!')
 
-# %%
-"""
-<hr>
-"""
-
-# %%
-"""
 ### Copying raw files from spotlight path to win folder <hr>
-"""
 
-# %%
+
 # paths of win folder and spotlight photos files
 
 winpath = 'B:\\Desktop\\win'
 spotlight_path = ('C:\\Users\\tpand\\AppData\\Local\\Packages\\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\\LocalState\\Assets\\')
 
-# %%
 # First clear the folder of all default-named files/pics
 # (meaning User didnt actually rename it, hence it's not important)
 # even if it is, file would be located in recycle bin
@@ -83,18 +66,15 @@ for def_file in default_files:
         send2trash.send2trash(def_file)
 
 print('All previous files cleared!')
-
 # %%
 # changing OS directory to location of spotlight photos files
 
 os.chdir('C:\\Users\\tpand\\AppData\\Local\\Packages\\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\\LocalState\\Assets')
 
-# %%
 # giving all raw files full path names for later copy operation
 
 files = [spotlight_path + os.listdir()[count] for count,fl in enumerate(os.listdir())] 
 
-# %%
 # Copying raw files to win folder
 
 for f in files:
@@ -102,12 +82,8 @@ for f in files:
     
 print('Copying all raw files successful!')
 
-# %%
-"""
-<hr>
-"""
 
-# %%
+
 """
 ### Looping through pictures, rename and delete on the go
 """
@@ -160,12 +136,7 @@ for f in new_win_files:
 print('Unnecessary files deleted successfully')    
 
 # %%
-"""
-<hr>
-"""
 
-# %%
-from IPython.display import Image
 
 # %%
 # main code to display, rename, delete or skip pic
@@ -189,22 +160,11 @@ for f in selected_new_win_files:
     
 print('All done now!')
 
-# %%
 
 
-# %%
-"""
-<hr>
-"""
-
-# %%
-"""
+###########################################################################################################
 ### transferring remaining pictures to wallpapers folder
-"""
-
-# %%
 # Grab remaining pics(those that have been renamed by User)
-
 ready_pics = os.listdir()
 
 # %%
@@ -218,7 +178,3 @@ for file in ready_pics:
 
 print('Files moved successfully!')
 
-# %%
-"""
-<hr>
-"""
