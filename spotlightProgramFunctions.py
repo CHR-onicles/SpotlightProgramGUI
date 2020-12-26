@@ -3,11 +3,10 @@
 """
 
 import os,shutil,send2trash
+from getpass import getuser
 from PIL import Image
 
-"""
 ### Functions
-"""
 
 def rename_func():
     """
@@ -52,7 +51,7 @@ def ask_to_rename_or_delete_or_skip(file):
 # paths of win folder and spotlight photos files
 
 winpath = 'B:\\Desktop\\win'
-spotlight_path = ('C:\\Users\\tpand\\AppData\\Local\\Packages\\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\\LocalState\\Assets\\')
+spotlight_path = (f'C:\\Users\\{getuser()}\\AppData\\Local\\Packages\\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\\LocalState\\Assets\\')
 
 # First clear the folder of all default-named files/pics
 # (meaning User didnt actually rename it, hence it's not important)
@@ -69,7 +68,7 @@ print('All previous files cleared!')
 # %%
 # changing OS directory to location of spotlight photos files
 
-os.chdir('C:\\Users\\tpand\\AppData\\Local\\Packages\\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\\LocalState\\Assets')
+os.chdir(f'C:\\Users\\{getuser()}\\AppData\\Local\\Packages\\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\\LocalState\\Assets')
 
 # giving all raw files full path names for later copy operation
 
@@ -167,10 +166,8 @@ print('All done now!')
 # Grab remaining pics(those that have been renamed by User)
 ready_pics = os.listdir()
 
-# %%
 wallpapers_path = 'B:\\Desktop\\Wallpapers'
 
-# %%
 # transfer pics to new wallpaper folder
 
 for file in ready_pics:

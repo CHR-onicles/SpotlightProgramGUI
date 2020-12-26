@@ -1,2 +1,2 @@
 # SpotlightProgramGUI
- Same Spotlight Program like I did before but with GUI now
+ Same Spotlight Program like I did before but with GUI using PyQt5.
