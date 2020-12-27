@@ -14,6 +14,7 @@ class MainWindow(QWidget):
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon('icons/cat.ico'))
         self.setGeometry(250, 150, 1200, 800)
+        self.setFixedSize(self.size())
         self.setObjectName('MainWindow')
         self.setStyleSheet(style.mainWindowStyle())
 
