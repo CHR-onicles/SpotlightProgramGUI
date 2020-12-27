@@ -37,3 +37,11 @@ def buttonGroupBoxStyle():
     border-radius: 10px;
     }
     """
+
+def labelStyle():
+    return """
+    QLabel#lbl_counter {
+    font: 13pt segoe UI;
+    color: white;
+    }
+    """

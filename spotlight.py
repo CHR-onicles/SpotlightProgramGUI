@@ -82,8 +82,7 @@ class Spotlight:
 
         self.selected_new_win_files = os.listdir()
         print('All done now!')
-
-
+        # print(self.selected_new_win_files)
 
 
     def moveToSpecificFolder(self, new_folder='B:/Desktop/Wallpapers'):
@@ -102,7 +101,4 @@ class Spotlight:
 
 
 
-
-
-
-s = Spotlight()
+# s = Spotlight()

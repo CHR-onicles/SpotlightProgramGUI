@@ -9,7 +9,9 @@ import style
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('Spotty')
+        print(1)
+        self.title = 'Spotty'
+        self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon('icons/cat.ico'))
         self.setGeometry(250, 150, 1200, 800)
         self.setObjectName('MainWindow')
@@ -18,6 +20,7 @@ class MainWindow(QWidget):
         print(self.screen().size())
 
         self.UIComponents()
+        self.show()
 
 
     def UIComponents(self):
@@ -25,7 +28,7 @@ class MainWindow(QWidget):
         self.layouts()
 
     def widgets(self):
-        # BUTTONS ------------------------------------------------------------------------------------------------------
+        # BUTTONS ------------------------------------------------------------------------------
         #TODO: Set all buttons to disabled upon startup
         self.btn_save = QToolButton()
         self.btn_save.setIcon(QIcon('icons/wheart.png'))
@@ -61,10 +64,16 @@ class MainWindow(QWidget):
         self.btn_load_in.setStyleSheet(style.toolButtonStyle())
         self.btn_load_in.setToolTip('<b>Retrieve</b> Spotlight Images')
 
-        # IMAGE LABEL --------------------------------------------------------------------------------------------------
+        # IMAGE LABEL ----------------------------------------------------------------------------
         self.lbl_image = QLabel()
-        self.lbl_image.setPixmap(QPixmap('icons/2.jpg').scaled(1024, 576))  # change to 1280, 720 later
+        self.lbl_image.setPixmap(QPixmap('icons/no_image_2.png'))  # change to 1024, 576 later
         self.lbl_image.setAlignment(Qt.AlignCenter)
+
+        # COUNTER LABEL ---------------------------------------------------------------------------
+        self.lbl_counter = QLabel('')
+        self.lbl_counter.setObjectName('lbl_counter')
+        self.lbl_counter.setStyleSheet(style.labelStyle())
+        self.lbl_counter.setAlignment(Qt.AlignBottom | Qt.AlignRight)
 
 
     def layouts(self):
@@ -78,6 +87,7 @@ class MainWindow(QWidget):
         self.button_group_box.setObjectName('button_group_box')
         self.button_group_box.setStyleSheet(style.buttonGroupBoxStyle())
         self.image_frame = QFrame()
+        self.right_bottom_layout = QHBoxLayout()
         self.left_bottom_box = QFrame()
         self.right_bottom_box = QFrame()
 
@@ -92,6 +102,10 @@ class MainWindow(QWidget):
         self.bottom_button_layout.addWidget(self.btn_next)
         self.bottom_button_layout.addWidget(self.btn_delete)
         self.button_group_box.setLayout(self.bottom_button_layout)
+
+        # BOTTOM RIGHT LAYOUT AND FRAME --------------------------------------------------------------
+        self.right_bottom_layout.addWidget(self.lbl_counter)
+        self.right_bottom_box.setLayout(self.right_bottom_layout)
 
         # CONFIGURING MAIN LAYOUT -------------------------------------------------------------------
         self.main_bottom_layout.addWidget(self.left_bottom_box, 35)
