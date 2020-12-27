@@ -38,6 +38,10 @@ def DialogStyle():
     background-color:  qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0.363184 rgba(15, 8, 227, 255), stop:1 rgba(255, 255, 255, 255));
     }
     
+    QPushButton:focus {
+    border: 4px solid #3d7eff
+    }
+    
     QLineEdit {
     font: 11pt segoe UI;
     border: 1px solid #444;
@@ -49,13 +53,23 @@ def DialogStyle():
     }
     
     QLabel {
-    font: 14pt segoe UI;
+    font: 13pt segoe UI;
     color: white;
     }
     
     QLabel#lbl_rename {
     font: 12pt segoe UI;
     color: white;
+    }
+    
+    QMessageBox {
+    background-color: #444;
+    }
+    
+    QMessageBox QPushButton {
+    padding-left: 7px;
+    padding-right: 7px;
+    font: 10pt segoe UI;
     }
     
     """

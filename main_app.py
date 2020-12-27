@@ -29,12 +29,15 @@ class QHSeparationLine(QFrame):
 
 class RenameDialogWindow(QDialog):
 
+    signal_new_name = pyqtSignal(str, str)
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Rename')
         self.setObjectName('RenameDialogWindow')
         self.setWindowIcon(QIcon(':/icons/cat'))
         self.setStyleSheet(style.DialogStyle())
+        self.setModal(True)  # deactivates other windows till this window is interacted with
 
         self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 400, 200
         self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT
@@ -47,9 +50,7 @@ class RenameDialogWindow(QDialog):
         self.setGeometry(int(self.xpos), int(self.ypos), self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
         self.setFixedSize(self.size())
 
-        self.default_prefix = 'Spotlight_photos_'
-
-
+        self.default_prefix = 'spotlight_photos_'
 
         self.UI()
 
@@ -62,8 +63,9 @@ class RenameDialogWindow(QDialog):
     def widgets(self):
         # BUTTONS ----------------------------------------------------------------------------------------
         self.btn_submit = QPushButton('Submit')
+        self.btn_submit.clicked.connect(self.submitNewName)
         self.btn_cancel = QPushButton('Cancel')
-        self.btn_cancel.clicked.connect(self.close)
+        self.btn_cancel.clicked.connect(self.closeWindow)
 
         # LABELS -----------------------------------------------------------------------------------------
         self.lbl_rename = QLabel('')
@@ -108,6 +110,20 @@ class RenameDialogWindow(QDialog):
     def getPhotoName(self, pic):
         self.photoname = pic
         self.lbl_rename.setText(f'Renaming photo \'{self.photoname}\' to: ')
+
+    def closeWindow(self):
+        self.close()
+
+    def submitNewName(self):
+        prefix = self.entry_prefix.text()
+        name = self.entry_new_name.text()
+
+        if name == '':
+            QMessageBox.critical(self, 'Rename', 'New Name has NOT been provided!')
+
+        else:
+            self.signal_new_name.emit(prefix, name)
+            self.close()
 
 
 
@@ -161,7 +177,7 @@ class MainApp(MainWindow, QWidget):
         self.spotlight = Spotlight()
         print(self.spotlight.selected_new_win_files)
         self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)) + ' items')
-        self.lbl_counter.setToolTip('Number of <b>selected</b> images')
+        self.lbl_counter.setToolTip('Number of <b>selected</b> img')
         self.images = self.spotlight.selected_new_win_files
         self.lbl_image.close()
         self.lbl_image = Label()
@@ -246,6 +262,21 @@ class MainApp(MainWindow, QWidget):
         self.signal_photo_name.emit(self.images[self.image_index])
         # TODO: Implement later (Rename dialog to appear at the middle of app screen relatively not using signals.)
         self.save_dialog.show()
+        self.save_dialog.signal_new_name.connect(self.getNewName)
+
+    @pyqtSlot(str, str)
+    def getNewName(self, prefix, name):
+        self.new_prefix = prefix
+        self.new_name = name
+        print('\nOld name: ' + self.images[self.image_index])
+        print(self.new_prefix + self.new_name)
+        old_file = self.images[self.image_index]
+        os.rename(self.images[self.image_index], self.new_prefix+self.new_name+'.png')
+        self.images.remove(old_file)
+        self.setWindowTitle(self.title + ' - ' + self.new_prefix+self.new_name+'.png')
+        self.images = os.listdir()
+        print('New Images:', self.images)
+
 
 
 
@@ -260,6 +291,8 @@ if __name__ == '__main__':
 
 
 
-    # TODO: 1. Add settings button
+    # TODO: 1. Add settings button to configure destination or temp folder and prefix.
     #   2. Option for user to delete temp storage or specify his own storage.
     #   3 Decouple custom widgets from main app.
+    #   4. Export renamed photos to specific folder on desktop.
+    #   5. Set shortcuts for buttons.

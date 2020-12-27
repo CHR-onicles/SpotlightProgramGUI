@@ -66,7 +66,7 @@ class Spotlight:
         # Get new filenames
         new_win_files = os.listdir()
 
-        # Loop through and delete unnecessary windows pictures (images, thumbnails etc.)
+        # Loop through and delete unnecessary windows pictures (img, thumbnails etc.)
         # Their dimensions will not be same as desktop dimensions
 
         # change this value accordingly with your system's
@@ -92,12 +92,11 @@ class Spotlight:
         wallpapers_path = new_folder
 
         # transfer pics to new wallpaper folder
-
         for file in ready_pics:
             shutil.move(os.getcwd() + '/' + file, wallpapers_path)
 
         print('Files moved successfully!')
-
+        # TODO: Connect this to main window
 
 
 # s = Spotlight()

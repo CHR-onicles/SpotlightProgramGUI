@@ -1,6 +1,12 @@
 <RCC>
   <qresource prefix="icons">
-    <file alias="cat">images/cat.ico</file>
-    <file alias="no_image">images/no_image_2.png</file>
+    <file alias="cat">img/cat.ico</file>
+    <file alias="no_image">img/no_image_2.png</file>
+    <file alias="back_icon">img/wback.png</file>
+    <file alias="download_icon">img/wdownload.png</file>
+    <file alias="trash_icon">img/wgarbage.png</file>
+    <file alias="save_icon">img/wheart.png</file>
+    <file alias="next_icon">img/wnext.png</file>
+
   </qresource>
 </RCC>
