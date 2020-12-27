@@ -1,24 +1,43 @@
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QPixmap, QIcon, QFont
+from PyQt5.QtGui import QPixmap, QIcon, QPainter
 from PyQt5.QtCore import QSize, Qt
 
 # Local Imports
 import style
 
 
+class Label(QWidget):
+    """
+    Custom Class to override QLabel and automatically resize photo with window size
+    """
+    def __init__(self, parent=None):
+        QWidget.__init__(self, parent=parent)
+        self.p = QPixmap()
+
+    def setPixmap(self, p):
+        self.p = p
+        self.update()
+
+    def paintEvent(self, event):
+        if not self.p.isNull():
+            painter = QPainter(self)
+            painter.setRenderHint(QPainter.SmoothPixmapTransform)
+            painter.drawPixmap(self.rect(), self.p)
+
+
+
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
-        print(1)
         self.title = 'Spotty'
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon('icons/cat.ico'))
         self.setGeometry(250, 150, 1200, 800)
-        self.setFixedSize(self.size())
+        self.setMinimumSize(600, 500)
         self.setObjectName('MainWindow')
         self.setStyleSheet(style.mainWindowStyle())
 
-        print(self.screen().size())
+        # print(self.screen().size())
 
         self.UIComponents()
         self.show()
@@ -30,34 +49,33 @@ class MainWindow(QWidget):
 
     def widgets(self):
         # BUTTONS ------------------------------------------------------------------------------
-        #TODO: Set all buttons to disabled upon startup
         self.btn_save = QToolButton()
         self.btn_save.setIcon(QIcon('icons/wheart.png'))
         self.btn_save.setIconSize(QSize(50, 50))
         self.btn_save.setStyleSheet(style.toolButtonStyle())
         self.btn_save.setToolTip('<b>Save</b> Image')
-        # self.btn_save.setEnabled(False)
+        self.btn_save.setEnabled(False)
 
         self.btn_next = QToolButton()
         self.btn_next.setIcon(QIcon('icons/wnext.png'))
         self.btn_next.setIconSize(QSize(50, 50))
         self.btn_next.setStyleSheet(style.toolButtonStyle())
         self.btn_next.setToolTip('<b>Next</b> Image')
-        # self.btn_next.setEnabled(False)
+        self.btn_next.setEnabled(False)
 
         self.btn_previous = QToolButton()
         self.btn_previous.setIcon(QIcon('icons/wback.png'))
         self.btn_previous.setIconSize(QSize(50, 50))
         self.btn_previous.setStyleSheet(style.toolButtonStyle())
         self.btn_previous.setToolTip('<b>Previous</b> Image')
-        # self.btn_previous.setEnabled(False)
+        self.btn_previous.setEnabled(False)
 
         self.btn_delete = QToolButton()
         self.btn_delete.setIcon(QIcon('icons/wgarbage.png'))
         self.btn_delete.setIconSize(QSize(50,50))
         self.btn_delete.setStyleSheet(style.toolButtonStyle())
         self.btn_delete.setToolTip('<b>Delete</b> Image')
-        # self.btn_delete.setEnabled(False)
+        self.btn_delete.setEnabled(False)
 
         self.btn_load_in = QToolButton()
         self.btn_load_in.setIcon(QIcon('icons/wdownload.png'))
