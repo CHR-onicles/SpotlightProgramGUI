@@ -75,7 +75,9 @@ class RenameDialogWindow(QDialog):
 
         # ENTRIES ---------------------------------------------------------------------------------------
         self.entry_prefix = QLineEdit(self.default_prefix)
+        self.entry_prefix.setToolTip('<b>Default</b> prefix for all photos')
         self.entry_new_name = QLineEdit(self)
+        self.entry_new_name.setToolTip('<b>Short</b> description about photo')
         self.entry_new_name.setFocus()
 
         # SEPARATION LINE ------------------------------------------------------------------------------
@@ -109,7 +111,9 @@ class RenameDialogWindow(QDialog):
     @pyqtSlot(str)
     def getPhotoName(self, pic):
         self.photoname = pic
-        self.lbl_rename.setText(f'Renaming photo \'{self.photoname}\' to: ')
+        if len(self.photoname) > 21:
+            self.photoname = self.photoname[0:4] + '...' + self.photoname[-15:]
+        self.lbl_rename.setText(f'Renaming photo <i>\'{self.photoname}\'</i> to: ')
 
     def closeWindow(self):
         self.close()
@@ -119,7 +123,7 @@ class RenameDialogWindow(QDialog):
         name = self.entry_new_name.text()
 
         if name == '':
-            QMessageBox.critical(self, 'Rename', 'New Name has NOT been provided!')
+            QMessageBox.critical(self, 'Rename', 'New Name has <b>NOT</b> been provided!')
 
         else:
             self.signal_new_name.emit(prefix, name)
@@ -163,12 +167,19 @@ class MainApp(MainWindow, QWidget):
         self.btn_load_in.clicked.connect(self.retrieveSpotlightPhotos)
 
         self.btn_next.clicked.connect(self.nextImage)
+        self.btn_next.setShortcut('Right')
 
         self.btn_previous.clicked.connect(self.previousImage)
+        self.btn_previous.setShortcut('Left')
 
         self.btn_delete.clicked.connect(self.deleteImage)
+        self.btn_delete.setShortcut('Del')
 
         self.btn_save.clicked.connect(self.saveImage)
+        self.btn_save.setShortcut('Return')
+
+
+
 
 
 
@@ -270,11 +281,19 @@ class MainApp(MainWindow, QWidget):
         self.new_name = name
         print('\nOld name: ' + self.images[self.image_index])
         print(self.new_prefix + self.new_name)
+
         old_file = self.images[self.image_index]
-        os.rename(self.images[self.image_index], self.new_prefix+self.new_name+'.png')
+        os.rename(old_file, self.new_prefix+self.new_name+'.png')
         self.images.remove(old_file)
-        self.setWindowTitle(self.title + ' - ' + self.new_prefix+self.new_name+'.png')
         self.images = os.listdir()
+        # print(self.images.index('.png'))  # Doesn't work...have no idea why
+        for count, item in enumerate(self.images):
+            print('entered loop')
+            if self.new_name in item:
+                print('Renamed image at:', count)
+                break
+        self.image_index = count
+        self.setWindowTitle(self.title + ' - ' + self.new_prefix+self.new_name+'.png')
         print('New Images:', self.images)
 
 
@@ -295,4 +314,3 @@ if __name__ == '__main__':
     #   2. Option for user to delete temp storage or specify his own storage.
     #   3 Decouple custom widgets from main app.
     #   4. Export renamed photos to specific folder on desktop.
-    #   5. Set shortcuts for buttons.
