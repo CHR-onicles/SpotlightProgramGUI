@@ -13,6 +13,7 @@ from spotlight import Spotlight
 class MainApp(MainWindow, QWidget):
     def __init__(self):
         super(MainApp, self).__init__()
+
         self.images = []
         self.image_index = 0
 
@@ -33,16 +34,20 @@ class MainApp(MainWindow, QWidget):
         self.btn_previous.setEnabled(False)
         self.btn_previous.clicked.connect(self.previousImage)
 
+        self.btn_delete.setEnabled(False)
+        self.btn_delete.clicked.connect(self.deleteImage)
+
     def retrieveSpotlightPhotos(self):
         self.image_index = 0
         self.spotlight = Spotlight()
-        # print(len(self.spotlight.selected_new_win_files), self.spotlight.selected_new_win_files)
+        print(len(self.spotlight.selected_new_win_files), self.spotlight.selected_new_win_files)
         self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)) + ' items')
         self.lbl_counter.setToolTip('Number of <b>selected</b> images')
         self.images = self.spotlight.selected_new_win_files
         self.lbl_image.setPixmap(QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index]))
                                  .scaled(1024, 576))
         self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
+        self.btn_delete.setEnabled(True)
 
     def nextImage(self):
         self.image_index += 1
@@ -66,6 +71,15 @@ class MainApp(MainWindow, QWidget):
         self.btn_next.setEnabled(True)
         self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
 
+    def deleteImage(self):
+        self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)-1) + ' items')
+        self.images.remove(self.images[self.image_index])
+        print(self.images)
+        # Use send2Trash here...
+        self.image_index += 1
+        self.lbl_image.setPixmap(QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index]))
+                                 .scaled(1024, 576))
+
 
 
 
@@ -75,3 +89,4 @@ if __name__ == '__main__':
     sys.exit(app.exec_())
 
     # TODO: 1. Add settings button
+    #   2. Option for user to delete temp storage or specify his own storage.
