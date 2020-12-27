@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="icons">
+    <file alias="cat">images/cat.ico</file>
+    <file alias="no_image">images/no_image_2.png</file>
+  </qresource>
+</RCC>

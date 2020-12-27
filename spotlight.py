@@ -66,7 +66,7 @@ class Spotlight:
         # Get new filenames
         new_win_files = os.listdir()
 
-        # Loop through and delete unnecessary windows pictures (icons, thumbnails etc.)
+        # Loop through and delete unnecessary windows pictures (images, thumbnails etc.)
         # Their dimensions will not be same as desktop dimensions
 
         # change this value accordingly with your system's
@@ -81,7 +81,6 @@ class Spotlight:
 
 
         self.selected_new_win_files = os.listdir()
-        print('All done now!')
         # print(self.selected_new_win_files)
 
 
