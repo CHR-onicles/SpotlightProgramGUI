@@ -133,9 +133,9 @@ class MainWindow(QWidget):
         self.right_bottom_box.setLayout(self.right_bottom_layout)
 
         # CONFIGURING BOTTOM LAYOUT -------------------------------------------------------------------
-        self.main_bottom_layout.addWidget(self.left_bottom_box, 40)
-        self.main_bottom_layout.addWidget(self.button_group_box, 20)
-        self.main_bottom_layout.addWidget(self.right_bottom_box, 40)
+        self.main_bottom_layout.addWidget(self.left_bottom_box, 30)
+        self.main_bottom_layout.addWidget(self.button_group_box, 40)
+        self.main_bottom_layout.addWidget(self.right_bottom_box, 30)
 
 
         self.main_layout.addWidget(self.image_frame, 90)
@@ -159,6 +159,6 @@ class MainWindow(QWidget):
             else:
                 print('Window is restored down')
                 # CONFIGURING BOTTOM LAYOUT IN RESTORED WINDOW ------------------------------------------------
-                self.main_bottom_layout.addWidget(self.left_bottom_box, 40)
-                self.main_bottom_layout.addWidget(self.button_group_box, 20)
-                self.main_bottom_layout.addWidget(self.right_bottom_box, 40)
+                self.main_bottom_layout.addWidget(self.left_bottom_box, 30)
+                self.main_bottom_layout.addWidget(self.button_group_box, 40)
+                self.main_bottom_layout.addWidget(self.right_bottom_box, 30)

@@ -142,6 +142,7 @@ class MainApp(MainWindow, QWidget):
         # print(self.DESKTOP_HEIGHT, self.DESKTOP_WIDTH)
         self.setGeometry(int(self.app_x_pos), int(self.app_y_pos), self.APP_WIDTH, self.APP_HEIGHT)
         self.setMinimumSize(600, 555)
+        # self.setMaximumSize(1600, 900)
 
         # Object Attributes
         self.images = []
