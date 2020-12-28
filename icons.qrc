@@ -1,14 +1,29 @@
 <RCC>
   <qresource prefix="icons">
     <file alias="cat">img/cat.ico</file>
+
     <file alias="no_image">img/no_image_2.png</file>
+
     <file alias="back_icon">img/wback.png</file>
+    <file alias="back_icon_disabled">img/dwback.png</file>
+
     <file alias="download_icon">img/wdownload.png</file>
+    <file alias="download_icon_disabled">img/dwdownload.png</file>
+
     <file alias="trash_icon">img/wgarbage.png</file>
+    <file alias="trash_icon_disabled">img/dwgarbage.png</file>
+
     <file alias="save_icon">img/wheart.png</file>
+    <file alias="save_icon_disabled">img/dwheart.png</file>
+
     <file alias="next_icon">img/wnext.png</file>
+    <file alias="next_icon_disabled">img/dwnext.png</file>
+
     <file alias="export_icon">img/wexport.png</file>
+    <file alias="export_icon_disabled">img/dwexport.png</file>
+
     <file alias="settings_icon">img/wsettings.png</file>
+
     <file alias="more_icon">img/wmore.png</file>
   </qresource>
 </RCC>

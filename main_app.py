@@ -193,6 +193,7 @@ class MainApp(MainWindow, QWidget):
         self.btn_next.setEnabled(True)
         self.btn_previous.setEnabled(True)
         self.btn_save.setEnabled(True)
+        self.btn_export.setEnabled(True)
 
     def nextImage(self):
         self.image_index += 1
@@ -232,6 +233,7 @@ class MainApp(MainWindow, QWidget):
             self.btn_previous.setEnabled(False)
             self.btn_save.setEnabled(False)
             self.btn_delete.setEnabled(False)
+            self.btn_export.setEnabled(False)
             return
 
 
