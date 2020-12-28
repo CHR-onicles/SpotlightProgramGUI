@@ -180,7 +180,7 @@ class MainApp(MainWindow, QWidget):
         self.spotlight = Spotlight(desktop_resolution=(self.DESKTOP_WIDTH, self.DESKTOP_HEIGHT))
         print(self.spotlight.selected_new_win_files)
         self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)) + ' items')
-        self.lbl_counter.setToolTip('Number of <b>selected</b> img')
+        # self.lbl_counter.setToolTip('Number of <b>selected</b> img')
         self.images = self.spotlight.selected_new_win_files
         self.lbl_image.close()
         self.lbl_image = Label()

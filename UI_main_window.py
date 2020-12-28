@@ -38,7 +38,7 @@ class MainWindow(QWidget):
         self.btn_save.setIcon(QIcon(save_icon))
         self.btn_save.setIconSize(QSize(self.button_icon_size_x, self.button_icon_size_y))
         self.btn_save.setStyleSheet(style.toolButtonStyle())
-        self.btn_save.setToolTip('<b>Save</b> Image')
+        self.btn_save.setToolTip('Add to <b>favorites</b> (Enter)')
         self.btn_save.setEnabled(False)
 
         self.btn_next = QToolButton()
@@ -68,7 +68,7 @@ class MainWindow(QWidget):
         self.btn_delete.setIcon(QIcon(delete_icon))
         self.btn_delete.setIconSize(QSize(self.button_icon_size_x, self.button_icon_size_y))
         self.btn_delete.setStyleSheet(style.toolButtonStyle())
-        self.btn_delete.setToolTip('<b>Delete</b> Image')
+        self.btn_delete.setToolTip('<b>Delete</b> Image (Del)')
         self.btn_delete.setEnabled(False)
 
         self.btn_load_in = QToolButton()
@@ -87,7 +87,7 @@ class MainWindow(QWidget):
         self.btn_export.setIcon(export_icon)
         self.btn_export.setIconSize(QSize(self.button_icon_size_x, self.button_icon_size_y))
         self.btn_export.setStyleSheet(style.toolButtonStyle())
-        self.btn_export.setToolTip('<b>Export</b> to specified destination')
+        self.btn_export.setToolTip('<b>Export</b> favorites to specified destination')
         self.btn_export.setEnabled(False)
 
         self.btn_settings = QToolButton()
