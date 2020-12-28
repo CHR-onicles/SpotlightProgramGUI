@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import *
 
 class QHSeparationLine(QFrame):
     """
-      Custom Class to create a horizontal separation line
+      Custom Class to create a horizontal separation line.
     """
     def __init__(self):
         super().__init__()
@@ -15,6 +15,20 @@ class QHSeparationLine(QFrame):
         self.setFrameShape(QFrame.HLine)
         self.setFrameShadow(QFrame.Sunken)
         self.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+        return
+
+
+class QVSeparationLine(QFrame):
+    """
+    Custom Class to create a vertical separation line.
+    """
+    def __init__(self):
+        super().__init__()
+        self.setFixedWidth(20)
+        self.setMinimumHeight(1)
+        self.setFrameShape(QFrame.VLine)
+        self.setFrameShadow(QFrame.Sunken)
+        self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
         return
 
 

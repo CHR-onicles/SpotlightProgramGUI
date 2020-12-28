@@ -11,6 +11,24 @@ def mainWindowStyle():
     color: white;
     background-color: #444
     }
+    
+    QVSeparationLine#vline_1 {
+    border-width: 1px;
+    border-top-style: none;
+    border-right-style: solid;
+    border-bottom-style: none;
+    border-left-style: none;
+    border-color: #3d7eff;
+    }
+    
+    QVSeparationLine#vline_2 {
+    border-width: 1px;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: solid;
+    border-color: #3d7eff;
+    } 
     """
 
 def DialogStyle():
@@ -18,7 +36,6 @@ def DialogStyle():
     QDialog#RenameDialogWindow {
     background-color: #444;
     color: white;
-    
     }
     
     QPushButton {
@@ -39,7 +56,12 @@ def DialogStyle():
     }
     
     QPushButton:focus {
-    border: 4px solid #3d7eff
+    border: 4px solid #3d7eff;
+    }
+    
+    QPushButton#btn_submit {
+    background-color: #3d7eff;
+    border-color: #3db7ff;
     }
     
     QLineEdit {
@@ -73,7 +95,7 @@ def DialogStyle():
     }
     
     QMessageBox QPushButton:focus {
-    border: 3px solid #3d7eff
+    border: 3px solid #3d7eff;
     }
     
     QToolTip {
@@ -82,6 +104,15 @@ def DialogStyle():
     border-radius: 5px;
     color: white;
     background-color: #444
+    }
+    
+    QHSeparationLine {
+    border-width: 1px;
+    border-top-style: solid;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    border-color: #3d7eff;
     }
     """
 

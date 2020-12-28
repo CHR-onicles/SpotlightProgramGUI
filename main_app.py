@@ -53,6 +53,7 @@ class RenameDialogWindow(QDialog):
         # BUTTONS ----------------------------------------------------------------------------------------
         self.btn_submit = QPushButton('Submit')
         self.btn_submit.clicked.connect(self.submitNewName)
+        self.btn_submit.setObjectName('btn_submit')
         self.btn_cancel = QPushButton('Cancel')
         self.btn_cancel.clicked.connect(self.closeWindow)
 
@@ -71,6 +72,7 @@ class RenameDialogWindow(QDialog):
 
         # SEPARATION LINE ------------------------------------------------------------------------------
         self.hline = QHSeparationLine()
+        self.hline.setObjectName('hline')
 
     def layouts(self):
         # DEFINING LAYOUTS ------------------------------------------------------------------------------
@@ -303,5 +305,6 @@ if __name__ == '__main__':
     #   2. Option for user to delete temp storage or specify his own storage.
     #   3 Decouple custom widgets from main app.
     #   4. Export renamed photos to specific folder on desktop.
+    #      (moves renamed pics to specified dir, and updates the list and image index).
     #   5. Another dialog when 'Load in' is clicked to set directories and temp storage etc.
     #   6. Add more vivid description to README.
