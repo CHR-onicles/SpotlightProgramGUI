@@ -67,8 +67,13 @@ def DialogStyle():
     }
     
     QMessageBox QPushButton {
+    border: 1px solid #3d7eff;
     font: 10pt segoe UI;
     min-width: 4em;
+    }
+    
+    QMessageBox QPushButton:focus {
+    border: 3px solid #3d7eff
     }
     
     QToolTip {

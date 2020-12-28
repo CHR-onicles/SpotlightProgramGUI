@@ -1,30 +1,9 @@
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QPixmap, QIcon, QPainter
-from PyQt5 import QtGui
+from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import QSize, Qt
 
 # Local Imports
 import style, icons_rc
-
-
-class Label(QWidget):
-    """
-    Custom Class to override QLabel and automatically resize photo with window size
-    """
-
-    def __init__(self, parent=None):
-        QWidget.__init__(self, parent=parent)
-        self.p = QPixmap()
-
-    def setPixmap(self, p):
-        self.p = p
-        self.update()
-
-    def paintEvent(self, event):
-        if not self.p.isNull():
-            painter = QPainter(self)
-            painter.setRenderHint(QPainter.SmoothPixmapTransform)
-            painter.drawPixmap(self.rect(), self.p)
 
 
 

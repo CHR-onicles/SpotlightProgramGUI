@@ -14,12 +14,12 @@ class Spotlight:
             f'C:/Users/{getuser()}/AppData/Local/Packages/Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy'
             f'/LocalState/Assets')
 
-        print('Spotlight Path:', os.path.isdir(self.spotlight_path))
+        print('Spotlight Path valid:', os.path.isdir(self.spotlight_path))
         self.temp_storage = temp_storage
-        print('Temp Storage: ', os.path.isdir(self.temp_storage))
+        print('Temp Storage valid: ', os.path.isdir(self.temp_storage))
 
 
-        # change to temp storage and check if there are previous files
+        # Change to temp storage and check if there are previous files
         # First clear the folder of all default-named files/pics
         # (meaning User didn't actually rename it, hence it's not important)
         # even if it is, file would be located in recycle bin

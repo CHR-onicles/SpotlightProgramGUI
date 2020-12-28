@@ -5,29 +5,18 @@ from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot
 
 # Local Imports
-from UI_main_window import MainWindow, Label
+from UI_main_window import MainWindow
+from custom_widgets import Label, QHSeparationLine
 from spotlight import Spotlight
 import style
 
 
 
 
-class QHSeparationLine(QFrame):
-    """
-      Class to create a horizontal separation line
-    """
-    def __init__(self):
-        super().__init__()
-        self.setMinimumWidth(1)
-        self.setFixedHeight(20)
-        self.setFrameShape(QFrame.HLine)
-        self.setFrameShadow(QFrame.Sunken)
-        self.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
-        return
-
-
-
 class RenameDialogWindow(QDialog):
+    """
+    class for Renaming Dialog Box
+    """
 
     signal_new_name = pyqtSignal(str, str)
 
@@ -123,7 +112,7 @@ class RenameDialogWindow(QDialog):
         name = self.entry_new_name.text()
 
         if name == '':
-            QMessageBox.critical(self, 'Rename', 'New Name has <b>NOT</b> been provided!')
+            QMessageBox.critical(self, 'Rename Failed', 'New Name has <b>NOT</b> been provided!')
 
         else:
             self.signal_new_name.emit(prefix, name)
@@ -133,6 +122,9 @@ class RenameDialogWindow(QDialog):
 
 
 class MainApp(MainWindow, QWidget):
+    """
+    class for main app which makes use of main window UI
+    """
 
     signal_photo_name = pyqtSignal(str)
 
@@ -164,7 +156,7 @@ class MainApp(MainWindow, QWidget):
 
     def app_widgets(self):
         # BUTTONS ---------------------------------------------------------------------------
-        self.btn_load_in.clicked.connect(self.retrieveSpotlightPhotos)
+        self.btn_load_in.clicked.connect(self.retrieveSpotlightPhotos)  # add shortcut Ctrl+D
 
         self.btn_next.clicked.connect(self.nextImage)
         self.btn_next.setShortcut('Right')
@@ -180,12 +172,9 @@ class MainApp(MainWindow, QWidget):
 
 
 
-
-
-
     def retrieveSpotlightPhotos(self):
         self.image_index = 0
-        self.spotlight = Spotlight()
+        self.spotlight = Spotlight(desktop_resolution=(self.DESKTOP_WIDTH, self.DESKTOP_HEIGHT))
         print(self.spotlight.selected_new_win_files)
         self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)) + ' items')
         self.lbl_counter.setToolTip('Number of <b>selected</b> img')
@@ -226,6 +215,7 @@ class MainApp(MainWindow, QWidget):
         if len(self.images) == 1:
             send2trash.send2trash(self.images[self.image_index])
             self.images.remove(self.images[self.image_index])
+            print(self.images)
             self.lbl_image.close()
             self.lbl_image = QLabel()
             self.lbl_image.setPixmap(QPixmap(':/icons/no_image'))
@@ -288,7 +278,6 @@ class MainApp(MainWindow, QWidget):
         self.images = os.listdir()
         # print(self.images.index('.png'))  # Doesn't work...have no idea why
         for count, item in enumerate(self.images):
-            print('entered loop')
             if self.new_name in item:
                 print('Renamed image at:', count)
                 break
@@ -314,3 +303,5 @@ if __name__ == '__main__':
     #   2. Option for user to delete temp storage or specify his own storage.
     #   3 Decouple custom widgets from main app.
     #   4. Export renamed photos to specific folder on desktop.
+    #   5. Another dialog when 'Load in' is clicked to set directories and temp storage etc.
+    #   6. Add more vivid description to README.
