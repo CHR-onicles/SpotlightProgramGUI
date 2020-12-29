@@ -151,7 +151,7 @@ class SettingsDialog(QDialog):
         self.setStyleSheet(style.SettingsDialogStyle())
         self.setModal(True)  # deactivates other windows till this window is interacted with
 
-        self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 400, 300
+        self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 500, 400
         self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT
         # print(self.D_WIDTH, self.D_HEIGHT)
 
@@ -170,7 +170,12 @@ class SettingsDialog(QDialog):
         self.layouts()
 
     def widgets(self):
+        # BUTTONS ----------------------------------------------------------------------------------------
         pass
+
+        # ENTRIES ----------------------------------------------------------------------------------------
+
+
 
     def layouts(self):
         pass
@@ -294,8 +299,6 @@ class MainApp(MainWindow, QWidget):
                     self.btn_save.setEnabled(True)
                     self.btn_export.setEnabled(True)
                     self.load_in_button_clicked += 1
-
-
 
     def nextImage(self):
         self.image_index += 1
