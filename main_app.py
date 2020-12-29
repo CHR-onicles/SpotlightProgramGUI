@@ -194,10 +194,11 @@ class MainApp(MainWindow, QWidget):
         self.APP_WIDTH, self.APP_HEIGHT = 1200, 800
         self.app_x_pos = (self.DESKTOP_WIDTH / 2) - (self.APP_WIDTH / 2)
         self.app_y_pos = (self.DESKTOP_HEIGHT / 2) - (self.APP_HEIGHT / 2)
-        # print(self.DESKTOP_HEIGHT, self.DESKTOP_WIDTH)
+        print(self.DESKTOP_WIDTH, self.DESKTOP_HEIGHT)
         self.setGeometry(int(self.app_x_pos), int(self.app_y_pos), self.APP_WIDTH, self.APP_HEIGHT)
         self.setMinimumSize(600, 555)
         # self.setMaximumSize(1600, 900)
+        self.load_in_button_clicked = 0
 
         # Object Attributes
         self.images = []
@@ -236,23 +237,65 @@ class MainApp(MainWindow, QWidget):
 
     def retrieveSpotlightPhotos(self):
         self.image_index = 0
-        self.spotlight = Spotlight(desktop_resolution=(self.DESKTOP_WIDTH, self.DESKTOP_HEIGHT))
-        print(self.spotlight.selected_new_win_files)
-        self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)) + ' items')
-        # self.lbl_counter.setToolTip('Number of <b>selected</b> img')
-        self.images = self.spotlight.selected_new_win_files
-        self.lbl_image.close()
-        self.lbl_image = Label()
-        self.top_layout.addWidget(self.lbl_image)
-        self.lbl_image.setPixmap(QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
-        self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
 
-        # Enable buttons
-        self.btn_delete.setEnabled(True)
-        self.btn_next.setEnabled(True)
-        self.btn_previous.setEnabled(True)
-        self.btn_save.setEnabled(True)
-        self.btn_export.setEnabled(True)
+        if self.load_in_button_clicked == 0 or (self.load_in_button_clicked != 0 and self.images == []):
+            # First time its clicked or Clicked when user deletes all pictures
+            self.spotlight = Spotlight()
+            print(self.spotlight.selected_new_win_files)
+
+            if self.spotlight.selected_new_win_files == []:
+                QMessageBox.critical(self, 'Spotlight Photos', 'No New Spotlight Photos Found!')
+                return
+            else:
+                self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)) + ' items')
+                # self.lbl_counter.setToolTip('Number of <b>selected</b> img')
+                self.images = self.spotlight.selected_new_win_files
+                self.lbl_image.close()
+                self.lbl_image = Label()
+                self.top_layout.addWidget(self.lbl_image)
+                self.lbl_image.setPixmap(QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
+                self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
+
+                # Enable buttons
+                self.btn_delete.setEnabled(True)
+                self.btn_next.setEnabled(True)
+                self.btn_previous.setEnabled(True)
+                self.btn_save.setEnabled(True)
+                self.btn_export.setEnabled(True)
+                self.load_in_button_clicked += 1
+
+        else:  # Clicked while user is still viewing pictures.
+            mbox = QMessageBox.warning(self, 'Spotlight Photos', 'Previous images could be lost!',
+                                       QMessageBox.Ok | QMessageBox.Cancel, QMessageBox.Cancel)
+            if mbox == QMessageBox.Cancel:
+                pass
+            else:
+                self.spotlight = Spotlight()
+                print(self.spotlight.selected_new_win_files)
+
+                if self.spotlight.selected_new_win_files == []:
+                    QMessageBox.critical(self, 'Spotlight Photos', 'No New Spotlight Photos Found!')
+                    return
+                else:
+                    self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)) + ' items')
+                    # self.lbl_counter.setToolTip('Number of <b>selected</b> img')
+                    self.images = self.spotlight.selected_new_win_files
+                    self.lbl_image.close()
+                    self.lbl_image = Label()
+                    self.top_layout.addWidget(self.lbl_image)
+                    self.lbl_image.setPixmap(
+                        QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
+                    self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
+
+                    # Enable buttons
+                    self.btn_delete.setEnabled(True)
+                    self.btn_next.setEnabled(True)
+                    self.btn_previous.setEnabled(True)
+                    self.btn_save.setEnabled(True)
+                    self.btn_export.setEnabled(True)
+                    self.load_in_button_clicked += 1
+
+
 
     def nextImage(self):
         self.image_index += 1
@@ -392,6 +435,9 @@ if __name__ == '__main__':
     #   3. Another dialog when 'Load in' is clicked to set directories and temp storage etc.
     #   4. Add more vivid description to README.
     #   5. Edit the no_image icon to show the text more and reduce opacity of the circle .
+    #   6. Check if spotlight images is enabled
+    #   7. Option to open previous pics or load new ones (Use more icon and put some buttons there)
+    #   8. Lookup context menus.
 
     # TODO: FOR SETTINGS OPTIONS
     #   0. Create settings file stuff in User/AppData/Roaming/ or /Local/
