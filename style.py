@@ -58,11 +58,10 @@ def mainWindowStyle():
     } 
     """
 
-def DialogStyle():
+def RenameDialogStyle():
     return """
-    QDialog#RenameDialogWindow {
+    QDialog#RenameDialogBox {
     background-color: #444;
-    color: white;
     }
     
     QPushButton {
@@ -148,11 +147,28 @@ def DialogStyle():
     }
     """
 
+def SettingsDialogStyle():
+    return """
+    QDialog#SettingsDialogBox {
+    background-color: #444;
+    }
+    
+    QPushButton {
+    color: white;
+    font: 10pt segoe UI;
+    border: 2px solid #3d7eff;
+    border-radius: 5px;
+    padding-top:5px;
+    padding-bottom:5px;
+    }
+    
+    """
+
 
 def toolButtonStyle():
     return """
     QToolButton {
-    border: #444;
+    border: #444; /* Not visible tho*/
     }
     
     QToolButton:hover {

@@ -13,9 +13,9 @@ import style
 
 
 
-class RenameDialogWindow(QDialog):
+class RenameDialogBox(QDialog):
     """
-    class for Renaming Dialog Box
+    class for Renaming Dialog Box.
     """
 
     signal_new_name = pyqtSignal(str, str)
@@ -23,9 +23,9 @@ class RenameDialogWindow(QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Rename')
-        self.setObjectName('RenameDialogWindow')
+        self.setObjectName('RenameDialogBox')
         self.setWindowIcon(QIcon(':/icons/cat'))
-        self.setStyleSheet(style.DialogStyle())
+        self.setStyleSheet(style.RenameDialogStyle())
         self.setModal(True)  # deactivates other windows till this window is interacted with
 
         self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 400, 200
@@ -123,6 +123,46 @@ class RenameDialogWindow(QDialog):
 
 
 
+class SettingsDialog(QDialog):
+    """
+    Class for Settings Dialog Box.
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('Settings')
+        self.setObjectName('SettingsDialogBox')
+        self.setWindowIcon(QIcon(':/icons/cat'))
+        self.setStyleSheet(style.SettingsDialogStyle())
+        self.setModal(True)  # deactivates other windows till this window is interacted with
+
+        self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 400, 300
+        self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT
+        # print(self.D_WIDTH, self.D_HEIGHT)
+
+        self.xpos = (self.D_WIDTH / 2) - (self.DIALOG_WIDTH / 2)
+        self.ypos = (self.D_HEIGHT / 2) - (self.DIALOG_HEIGHT / 2)
+
+        # Positioning at center of screen
+        self.setGeometry(int(self.xpos), int(self.ypos), self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
+        self.setFixedSize(self.size())
+
+        self.UI()
+
+
+    def UI(self):
+        self.widgets()
+        self.layouts()
+
+    def widgets(self):
+        pass
+
+    def layouts(self):
+        pass
+
+
+
+
 class MainApp(MainWindow, QWidget):
     """
     class for main app which makes use of main window UI
@@ -173,7 +213,9 @@ class MainApp(MainWindow, QWidget):
         self.btn_save.clicked.connect(self.saveImage)
         self.btn_save.setShortcut('Return')
 
-        self.btn_export.clicked.connect(self.exportImages)
+        self.btn_export.clicked.connect(self.exportImages)  # add shortcut Ctrl+Shift+E / W
+
+        self.btn_settings.clicked.connect(self.openSettings)
 
 
 
@@ -265,7 +307,7 @@ class MainApp(MainWindow, QWidget):
         self.lbl_counter.setText(str(len(self.images)) + ' items')
 
     def saveImage(self):
-        self.save_dialog = RenameDialogWindow()
+        self.save_dialog = RenameDialogBox()
         # self.signal_coords.emit(self.pos().x(), self.pos().y())
         self.signal_photo_name.emit(self.images[self.image_index])
         # TODO: Implement later (Rename dialog to appear at the middle of app screen relatively not using signals.)
@@ -301,8 +343,7 @@ class MainApp(MainWindow, QWidget):
             selected_pics = self.spotlight.moveToSpecificFolder(target_folder=directory)
             print('from main app, selected pics: ', selected_pics)
             if selected_pics is None:
-                print('Got no selected pic')
-                QMessageBox.critical(self, 'Export Failed', '<b>NO</b> Favorited Images to Export!')
+                QMessageBox.critical(self, 'Export Failed', '<b>NO</b> Favorite images to Export!')
             else:
                 for item in selected_pics:
                     self.images.remove(item)
@@ -312,8 +353,11 @@ class MainApp(MainWindow, QWidget):
                 self.lbl_image.setPixmap(QPixmap(self.images[self.image_index]))
                 self.lbl_counter.setText(str(len(self.images)) + ' items')
                 self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
+                QMessageBox.information(self, 'Export Success', 'Favorite image(s) exported.')
 
-
+    def openSettings(self):
+        self.settings = SettingsDialog()
+        self.settings.show()
 
 
 
@@ -327,18 +371,16 @@ if __name__ == '__main__':
 
 
     # TODO:
-    #   3 Decouple custom widgets from main app.
-    #   4. Export renamed photos to specific folder on desktop.
+    #   1 Decouple custom widgets from main app.
+    #   2. Export renamed photos to specific folder on desktop.
     #      (moves renamed pics to specified dir, and updates the list and image index).
-    #   5. Another dialog when 'Load in' is clicked to set directories and temp storage etc.
-    #   6. Add more vivid description to README.
-
-
-    # TODO: FOR EXPORT OPTIONS
-    #   1. Add option to export all, and export only selected images.
-    #   2. Option to remember target directory.
+    #   3. Another dialog when 'Load in' is clicked to set directories and temp storage etc.
+    #   4. Add more vivid description to README.
+    #   5. Edit the no_image icon to show the text more and reduce opacity of the circle .
 
     # TODO: FOR SETTINGS OPTIONS
+    #   0. Create settings file stuff in User/AppData/Roaming/ or /Local/
     #   1. Set new prefix name (and save to file permanently).
     #   2. Set target storage (and save to file permanently) and possibly temp storage.
     #   3. Option for user to delete temp storage when done.
+    #   4. Add option to export all, and export only selected images.
