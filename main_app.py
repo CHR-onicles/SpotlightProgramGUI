@@ -173,6 +173,8 @@ class MainApp(MainWindow, QWidget):
         self.btn_save.clicked.connect(self.saveImage)
         self.btn_save.setShortcut('Return')
 
+        self.btn_export.clicked.connect(self.exportImages)
+
 
 
     def retrieveSpotlightPhotos(self):
@@ -290,6 +292,26 @@ class MainApp(MainWindow, QWidget):
         self.setWindowTitle(self.title + ' - ' + self.new_prefix+self.new_name+'.png')
         print('New Images:', self.images)
 
+    def exportImages(self):
+        print('cur directory: ', os.getcwd())
+        directory = QFileDialog.getExistingDirectory(self, "Open Directory", "../", QFileDialog.ShowDirsOnly)
+        print('Dir chosen:', directory)
+
+        if directory != '':
+            selected_pics = self.spotlight.moveToSpecificFolder(target_folder=directory)
+            print('from main app, selected pics: ', selected_pics)
+            if selected_pics is None:
+                print('Got no selected pic')
+                QMessageBox.critical(self, 'Export Failed', '<b>NO</b> Favorited Images to Export!')
+            else:
+                for item in selected_pics:
+                    self.images.remove(item)
+                self.images = os.listdir()
+                print(self.images)
+                self.image_index = 0
+                self.lbl_image.setPixmap(QPixmap(self.images[self.image_index]))
+                self.lbl_counter.setText(str(len(self.images)) + ' items')
+                self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
 
 
 
@@ -304,10 +326,19 @@ if __name__ == '__main__':
 
 
 
-    # TODO: 1. Add settings button to configure destination or temp folder and prefix.
-    #   2. Option for user to delete temp storage or specify his own storage.
+    # TODO:
     #   3 Decouple custom widgets from main app.
     #   4. Export renamed photos to specific folder on desktop.
     #      (moves renamed pics to specified dir, and updates the list and image index).
     #   5. Another dialog when 'Load in' is clicked to set directories and temp storage etc.
     #   6. Add more vivid description to README.
+
+
+    # TODO: FOR EXPORT OPTIONS
+    #   1. Add option to export all, and export only selected images.
+    #   2. Option to remember target directory.
+
+    # TODO: FOR SETTINGS OPTIONS
+    #   1. Set new prefix name (and save to file permanently).
+    #   2. Set target storage (and save to file permanently) and possibly temp storage.
+    #   3. Option for user to delete temp storage when done.

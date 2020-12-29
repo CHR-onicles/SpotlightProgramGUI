@@ -84,19 +84,31 @@ class Spotlight:
         # print(self.selected_new_win_files)
 
 
-    def moveToSpecificFolder(self, new_folder='B:/Desktop/Wallpapers'):
+    def moveToSpecificFolder(self, target_folder='B:/Desktop/Wallpapers'):
         # transferring remaining pictures to wallpapers folder
         # Grab remaining pics(those that have been renamed by User)
-        ready_pics = os.listdir()
+        pics = os.listdir()
+        fav_pics = []
 
-        wallpapers_path = new_folder
+        for pic in pics:
+            if 'spotlight' in pic:
+                fav_pics.append(pic)
+            else:
+                continue
 
-        # transfer pics to new wallpaper folder
-        for file in ready_pics:
-            shutil.move(os.getcwd() + '/' + file, wallpapers_path)
+        if fav_pics == []:
+            print('No image selected')
+            return
+        else:
+            wallpapers_path = target_folder
 
-        print('Files moved successfully!')
-        # TODO: Connect this to main window
+            # transfer pics to new wallpaper folder
+            for file in fav_pics:
+                shutil.move(os.path.join(os.getcwd(), file), os.path.join(wallpapers_path, file))
+
+            print('Files moved successfully!')
+            return fav_pics
+        # TODO: Connect this to main window, add prefix to class call for this function in case user changes it.
 
 
 # s = Spotlight()

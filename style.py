@@ -28,6 +28,33 @@ def mainWindowStyle():
     border-bottom-style: none;
     border-left-style: solid;
     border-color: #3d7eff;
+    }
+    
+    QMessageBox {
+    background-color: #444;
+    }
+    
+    QMessageBox QLabel {
+    font: 11pt segoe UI;
+    color: white;
+    }
+    
+    QMessageBox QPushButton {
+    border: 1px solid #3d7eff;
+    border-radius: 5px;
+    font: 10pt segoe UI;
+    min-width: 4em;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: white;
+    }
+    
+    QMessageBox QPushButton:hover {
+    background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0.363184 rgba(17, 103, 241, 255), stop:1 rgba(255, 255, 255, 255));
+    }
+    
+    QMessageBox QPushButton:focus {
+    border: 3px solid #3d7eff;
     } 
     """
 
@@ -86,6 +113,11 @@ def DialogStyle():
     
     QMessageBox {
     background-color: #444;
+    }
+    
+    QMessageBox QLabel {
+    font: 11pt segoe UI;
+    color: white;
     }
     
     QMessageBox QPushButton {
