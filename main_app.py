@@ -63,6 +63,9 @@ class RenameDialogBox(QDialog):
         # self.lbl_rename.setAlignment(Qt.AlignCenter)
         main_.signal_photo_name.connect(self.getPhotoName)
 
+        self.lbl_prefix_options = QLabel('Name options')
+        self.lbl_prefix_options.setStyleSheet('font: 9pt segoe UI; color: #3db7ff;')
+
         # ENTRIES ---------------------------------------------------------------------------------------
         self.entry_prefix = QLineEdit(self.default_prefix)
         self.entry_prefix.setToolTip('<b>Default</b> prefix for all photos')
@@ -73,13 +76,20 @@ class RenameDialogBox(QDialog):
         # SEPARATION LINE ------------------------------------------------------------------------------
         self.hline = QHSeparationLine()
         self.hline.setObjectName('hline')
+        self.hline.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
 
     def layouts(self):
         # DEFINING LAYOUTS ------------------------------------------------------------------------------
         self.main_layout = QVBoxLayout()
         self.top_layout = QHBoxLayout()
+        self.bottom_main_layout = QVBoxLayout()
         self.bottom_layout = QFormLayout()
         self.button_layout = QHBoxLayout()
+
+        self.section_layout = QHBoxLayout()
+        self.section_layout.addWidget(self.lbl_prefix_options)
+        self.section_layout.addWidget(self.hline)
+
 
         # Adding Widgets to Top Layout -----------------------------------------------------------------
         self.top_layout.addWidget(self.lbl_rename)
@@ -89,14 +99,19 @@ class RenameDialogBox(QDialog):
         self.button_layout.addWidget(self.btn_cancel)
 
         # Adding Widgets to Bottom Layout ---------------------------------------------------------------
+        self.bottom_layout.setContentsMargins(10, 0, 0, 0)
         self.bottom_layout.addRow(QLabel('Prefix:'), self.entry_prefix)
         self.bottom_layout.addRow(QLabel('New Name:'), self.entry_new_name)
         self.bottom_layout.addRow('', self.button_layout)
 
+        self.bottom_main_layout.setContentsMargins(0, 7, 0, 0)
+        self.bottom_main_layout.addLayout(self.section_layout, 2)
+        self.bottom_main_layout.addLayout(self.bottom_layout, 98)
+
+
         # Adding Layouts and Widgets to Main Layout ----------------------------------------------------
         self.main_layout.addLayout(self.top_layout, 10)
-        self.main_layout.addWidget(self.hline)
-        self.main_layout.addLayout(self.bottom_layout, 90)
+        self.main_layout.addLayout(self.bottom_main_layout, 90)
         self.setLayout(self.main_layout)
 
     @pyqtSlot(str)
@@ -104,7 +119,7 @@ class RenameDialogBox(QDialog):
         self.photoname = pic
         if len(self.photoname) > 21:
             self.photoname = self.photoname[0:4] + '...' + self.photoname[-15:]
-        self.lbl_rename.setText(f'Renaming photo <i>\'{self.photoname}\'</i> to: ')
+        self.lbl_rename.setText(f'Renaming photo \'<i>{self.photoname}</i>\' to: ')
 
     def closeWindow(self):
         self.close()

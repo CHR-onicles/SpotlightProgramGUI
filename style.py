@@ -12,24 +12,12 @@ def mainWindowStyle():
     background-color: #444
     }
     
-    QVSeparationLine#vline_1 {
+    QVSeparationLine {
     border-width: 1px;
-    border-top-style: none;
-    border-right-style: solid;
-    border-bottom-style: none;
-    border-left-style: none;
+    border-style: solid;
     border-color: #3d7eff;
     }
-    
-    QVSeparationLine#vline_2 {
-    border-width: 1px;
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: none;
-    border-left-style: solid;
-    border-color: #3d7eff;
-    }
-    
+
     QMessageBox {
     background-color: #444;
     }
@@ -101,12 +89,12 @@ def RenameDialogStyle():
     }
     
     QLabel {
-    font: 13pt segoe UI;
+    font: 11pt segoe UI;
     color: white;
     }
     
     QLabel#lbl_rename {
-    font: 12pt segoe UI;
+    font: 11pt segoe UI;
     color: white;
     }
     
@@ -139,10 +127,7 @@ def RenameDialogStyle():
     
     QHSeparationLine {
     border-width: 1px;
-    border-top-style: solid;
-    border-right-style: none;
-    border-bottom-style: none;
-    border-left-style: none;
+    border-style: solid;
     border-color: #3d7eff;
     }
     """
