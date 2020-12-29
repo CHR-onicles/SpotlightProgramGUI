@@ -9,7 +9,7 @@ class Spotlight:
     """
     TODO: Documentation here
     """
-    def __init__(self, temp_storage='B:/Desktop/win'):
+    def __init__(self, temp_storage='B:/Desktop/win'):  # C:/Users/ADMIN/Desktop/win
         self.spotlight_path = (
             f'C:/Users/{getuser()}/AppData/Local/Packages/Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy'
             f'/LocalState/Assets')
@@ -84,7 +84,7 @@ class Spotlight:
         print('from Spotlight, selected images: ', self.selected_new_win_files)
 
 
-    def moveToSpecificFolder(self, target_folder='B:/Desktop/Wallpapers'):
+    def moveToSpecificFolder(self, target_folder='B:/Desktop/Wallpapers'):  # C:/Users/ADMIN/Desktop/win
         # transferring remaining pictures to wallpapers folder
         # Grab remaining pics(those that have been renamed by User)
         pics = os.listdir()

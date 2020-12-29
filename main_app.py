@@ -264,7 +264,7 @@ class MainApp(MainWindow, QWidget):
                 # Enable buttons
                 self.btn_delete.setEnabled(True)
                 self.btn_next.setEnabled(True)
-                self.btn_previous.setEnabled(True)
+                self.btn_previous.setEnabled(False)
                 self.btn_save.setEnabled(True)
                 self.btn_export.setEnabled(True)
                 self.load_in_button_clicked += 1
@@ -295,33 +295,41 @@ class MainApp(MainWindow, QWidget):
                     # Enable buttons
                     self.btn_delete.setEnabled(True)
                     self.btn_next.setEnabled(True)
-                    self.btn_previous.setEnabled(True)
+                    self.btn_previous.setEnabled(False)
                     self.btn_save.setEnabled(True)
                     self.btn_export.setEnabled(True)
                     self.load_in_button_clicked += 1
 
     def nextImage(self):
-        self.image_index += 1
-        if self.image_index == len(self.images):
+        if self.image_index == (len(self.images) - 1):
             self.image_index -= 1
             self.btn_next.setEnabled(False)
 
+        self.image_index += 1
         self.lbl_image.setPixmap(QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
         self.btn_previous.setEnabled(True)
         self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
 
+        if self.image_index == (len(self.images) - 1):
+            self.btn_next.setEnabled(False)
+
     def previousImage(self):
-        self.image_index -= 1
-        if self.image_index < 0:
+        # Check before executing button function
+        if self.image_index == 0:
             self.image_index += 1
             self.btn_previous.setEnabled(False)
 
+        self.image_index -= 1
         self.lbl_image.setPixmap(QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
         self.btn_next.setEnabled(True)
         self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
 
+        # Check after executing button function
+        if self.image_index == 0:
+            self.btn_previous.setEnabled(False)
+
     def deleteImage(self):
-        if len(self.images) == 1:
+        if len(self.images) == 1:  # Deleting the last image
             send2trash.send2trash(self.images[self.image_index])
             self.images.remove(self.images[self.image_index])
             print(self.images)
@@ -343,12 +351,14 @@ class MainApp(MainWindow, QWidget):
 
 
         if self.image_index == len(self.images)-1:
+            print('deleting last image in list')
             send2trash.send2trash(self.images[self.image_index])
             self.images.remove(self.images[self.image_index])
             self.image_index -= 1
             print(self.images)
 
         elif self.image_index <= 0:
+            print('deleting first image in list')
             send2trash.send2trash(self.images[self.image_index])
             self.images.remove(self.images[self.image_index])
             if len(self.images) == 1:
@@ -358,6 +368,7 @@ class MainApp(MainWindow, QWidget):
             print(self.images)
 
         else:
+            print('deleting image in the middle of list')
             send2trash.send2trash(self.images[self.image_index])
             self.images.remove(self.images[self.image_index])
             self.image_index -= 1
