@@ -9,7 +9,7 @@ class Spotlight:
     """
     TODO: Documentation here
     """
-    def __init__(self, temp_storage='B:/Desktop/win', desktop_resolution=(1920, 1080)):
+    def __init__(self, temp_storage='B:/Desktop/win'):
         self.spotlight_path = (
             f'C:/Users/{getuser()}/AppData/Local/Packages/Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy'
             f'/LocalState/Assets')
@@ -70,7 +70,7 @@ class Spotlight:
         # Their dimensions will not be same as desktop dimensions
 
         # change this value accordingly with your system's
-        self.DESKTOP_RESOLUTION = desktop_resolution
+        self.DESKTOP_RESOLUTION = (1920, 1080)
 
         # PIL to check dimensions and delete unnecessary pics since using
         # raw file size was inefficient
