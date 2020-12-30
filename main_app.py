@@ -133,6 +133,7 @@ class RenameDialogBox(QDialog):
 
         else:
             self.signal_new_name.emit(prefix, name)
+            QMessageBox.information(self, 'Rename success', 'Image renamed successfully.')
             self.close()
 
 
@@ -355,6 +356,9 @@ class MainApp(MainWindow, QWidget):
             send2trash.send2trash(self.images[self.image_index])
             self.images.remove(self.images[self.image_index])
             self.image_index -= 1
+            self.btn_next.setEnabled(False)
+            if len(self.images) == 1:
+                self.btn_previous.setEnabled(False)
             print(self.images)
 
         elif self.image_index <= 0:
@@ -362,7 +366,8 @@ class MainApp(MainWindow, QWidget):
             send2trash.send2trash(self.images[self.image_index])
             self.images.remove(self.images[self.image_index])
             if len(self.images) == 1:
-                pass
+                self.btn_previous.setEnabled(False)
+                self.btn_next.setEnabled(False)
             else:
                 self.image_index += 1
             print(self.images)
@@ -372,11 +377,20 @@ class MainApp(MainWindow, QWidget):
             send2trash.send2trash(self.images[self.image_index])
             self.images.remove(self.images[self.image_index])
             self.image_index -= 1
+            if len(self.images) == 2 and self.image_index == 0:
+                self.btn_previous.setEnabled(False)
+            elif len(self.images) == 2 and self.image_index  == 1:
+                self.btn_next.setEnabled(False)
             print(self.images)
 
         self.lbl_image.setPixmap(QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
         self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
-        self.lbl_counter.setText(str(len(self.images)) + ' items')
+        if len(self.images) > 1:
+            self.lbl_counter.setText(str(len(self.images)) + ' items')
+        else:
+            self.lbl_counter.setText(str(len(self.images)) + ' item')
+
+
 
     def saveImage(self):
         self.save_dialog = RenameDialogBox()
@@ -403,6 +417,13 @@ class MainApp(MainWindow, QWidget):
                 print('Renamed image at:', count)
                 break
         self.image_index = count
+        print(self.image_index)
+        if self.image_index == len(self.images) - 1:
+            self.btn_next.setEnabled(False)
+            self.btn_previous.setEnabled(True)
+        elif self.image_index == 0:
+            self.btn_previous.setEnabled(False)
+            self.btn_next.setEnabled(True)
         self.setWindowTitle(self.title + ' - ' + self.new_prefix+self.new_name+'.png')
         print('New Images:', self.images)
 
@@ -420,12 +441,34 @@ class MainApp(MainWindow, QWidget):
                 for item in selected_pics:
                     self.images.remove(item)
                 self.images = os.listdir()
-                print(self.images)
+                print(self.images, len(self.images))
                 self.image_index = 0
-                self.lbl_image.setPixmap(QPixmap(self.images[self.image_index]))
-                self.lbl_counter.setText(str(len(self.images)) + ' items')
-                self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
-                QMessageBox.information(self, 'Export Success', 'Favorite image(s) exported.')
+                if len(self.images) != 0:
+                    self.lbl_image.setPixmap(QPixmap(self.images[self.image_index]))
+                    if len(self.images) == 1:
+                        self.lbl_counter.setText(str(len(self.images)) + ' item')
+                    elif len(self.images) > 1:
+                        self.lbl_counter.setText(str(len(self.images)) + ' items')
+                    self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
+                    QMessageBox.information(self, 'Export Success', 'Favorite image(s) exported.')
+                    self.btn_previous.setEnabled(False)
+                    self.btn_next.setEnabled(True)
+
+                else:
+                    self.lbl_image.close()
+                    self.lbl_image = QLabel()
+                    self.lbl_image.setPixmap(QPixmap(':/icons/no_image'))
+                    self.lbl_image.setAlignment(Qt.AlignCenter)
+                    self.top_layout.addWidget(self.lbl_image)
+                    self.lbl_counter.setText('')
+                    self.setWindowTitle(self.title)
+
+                    # Disable buttons to prevent crash
+                    self.btn_next.setEnabled(False)
+                    self.btn_previous.setEnabled(False)
+                    self.btn_save.setEnabled(False)
+                    self.btn_delete.setEnabled(False)
+                    self.btn_export.setEnabled(False)
 
     def openSettings(self):
         self.settings = SettingsDialog()
@@ -447,7 +490,7 @@ if __name__ == '__main__':
     #   1 Decouple custom widgets from main app.
     #   2. Export renamed photos to specific folder on desktop.
     #      (moves renamed pics to specified dir, and updates the list and image index).
-    #   3. Another dialog when 'Load in' is clicked to set directories and temp storage etc.
+    #   3. Open settings when 'Load in' is clicked for first time to set directories and temp storage etc.
     #   4. Add more vivid description to README.
     #   5. Edit the no_image icon to show the text more and reduce opacity of the circle .
     #   6. Check if spotlight images is enabled
