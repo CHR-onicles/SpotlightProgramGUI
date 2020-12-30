@@ -12,7 +12,7 @@ class MainWindow(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.title = 'Spotty'
+        self.title = 'SpottyApp'
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon(':/icons/cat'))
 

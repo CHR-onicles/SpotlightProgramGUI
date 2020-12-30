@@ -147,6 +147,75 @@ def SettingsDialogStyle():
     padding-bottom:5px;
     }
     
+    QPushButton#btn_browse {
+    color: white;
+    font: 10pt segoe UI;
+    border: 2px solid #3d7eff;
+    border-radius: 5px;
+    padding-top:5px;
+    padding-bottom:5px;
+    min-width: 4em;
+    }
+    
+    QPushButton:hover {
+    background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0.363184 rgba(17, 103, 241, 255), stop:1 rgba(255, 255, 255, 255));
+    }
+    
+    QPushButton:pressed {
+    background-color:  qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0.363184 rgba(15, 8, 227, 255), stop:1 rgba(255, 255, 255, 255));
+    }
+    
+    QPushButton:focus {
+    border: 4px solid #3d7eff;
+    }
+    
+    QPushButton#btn_ok {
+    background-color: #3d7eff;
+    border-color: #3db7ff;
+    }
+    
+    QHSeparationLine {
+    border-width: 1px;
+    border-style: solid;
+    border-color: #3d7eff;
+    }
+    
+    QLineEdit {
+    font: 10pt segoe UI;
+    border: 1px solid #444;
+    border-radius: 7px;
+    }
+    
+    QLineEdit#entry_dir {
+    font: 9pt segoe UI;
+    }
+    
+    QLineEdit:focus {
+    border: 2px solid #3d7eff;
+    }
+    
+    QLabel#lbl_options {
+    font: 9pt segoe UI;
+    color: #3d7eff;
+    }
+    
+    QLabel {
+    font: 11pt segoe UI;
+    color: white;
+    }
+    
+    QRadioButton {
+    font: 10pt segoei UI;
+    color: white;    
+    }
+    
+    QToolTip {
+    border: 1px solid white;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    background-color: #444
+    }
     """
 
 

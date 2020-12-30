@@ -1,4 +1,3 @@
-# from getpass import getuser
 import os, sys, send2trash
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QPixmap, QIcon
@@ -118,8 +117,10 @@ class RenameDialogBox(QDialog):
     def getPhotoName(self, pic):
         self.photoname = pic
         if len(self.photoname) > 21:
-            self.photoname = self.photoname[0:4] + '...' + self.photoname[-15:]
-        self.lbl_rename.setText(f'Renaming photo \'<i>{self.photoname}</i>\' to: ')
+            new_photoname = self.photoname[0:4] + '...' + self.photoname[-15:]
+            self.lbl_rename.setText(f'Renaming photo \'<i>{new_photoname}</i>\' to: ')
+        else:
+            self.lbl_rename.setText(f'Renaming photo \'<i>{self.photoname}</i>\' to: ')
 
     def closeWindow(self):
         self.close()
@@ -130,7 +131,6 @@ class RenameDialogBox(QDialog):
 
         if name == '':
             QMessageBox.critical(self, 'Rename Failed', 'New Name has <b>NOT</b> been provided!')
-
         else:
             self.signal_new_name.emit(prefix, name)
             QMessageBox.information(self, 'Rename success', 'Image renamed successfully.')
@@ -152,7 +152,7 @@ class SettingsDialog(QDialog):
         self.setStyleSheet(style.SettingsDialogStyle())
         self.setModal(True)  # deactivates other windows till this window is interacted with
 
-        self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 500, 400
+        self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 450, 400
         self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT
         # print(self.D_WIDTH, self.D_HEIGHT)
 
@@ -162,6 +162,7 @@ class SettingsDialog(QDialog):
         # Positioning at center of screen
         self.setGeometry(int(self.xpos), int(self.ypos), self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
         self.setFixedSize(self.size())
+        self.setStyleSheet(style.SettingsDialogStyle())
 
         self.UI()
 
@@ -171,15 +172,158 @@ class SettingsDialog(QDialog):
         self.layouts()
 
     def widgets(self):
-        # BUTTONS ----------------------------------------------------------------------------------------
-        pass
+        # TOP LAYOUT WIDGETS ------------------------------------------------------------------------------
+        self.lbl_prefix_options = QLabel('Prefix options')
+        self.lbl_prefix_options.setObjectName('lbl_options')
+        self.hline_1 = QHSeparationLine()
+        self.hline_1.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
 
-        # ENTRIES ----------------------------------------------------------------------------------------
+        self.lbl_default_prefix = QLabel('Default Prefix')
+        self.lbl_custom_prefix = QLabel('Custom Prefix')
+
+        self.entry_default_prefix = QLineEdit('spotlight_photos_')
+        self.entry_default_prefix.setReadOnly(True)
+        self.entry_custom_prefix = QLineEdit(self)
+        self.entry_custom_prefix.setFocus()
+        self.entry_custom_prefix.textEdited.connect(self.showHint)
+
+        self.lbl_custom_prefix_hint = QLabel('')  # change to all time later
+        self.lbl_custom_prefix_hint.setWordWrap(True)
 
 
+        # MIDDLE LAYOUT WIDGETS ----------------------------------------------------------------------------
+        self.lbl_dir_options = QLabel('Folder options')
+        self.lbl_dir_options.setObjectName('lbl_options')
+        self.hline_2 = QHSeparationLine()
+        self.hline_2.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+
+        self.lbl_temp_dir = QLabel('Temp. Folder')
+        self.lbl_target_dir = QLabel('Target Folder')
+
+        self.entry_temp_dir = QLineEdit()
+        self.entry_temp_dir.setReadOnly(True)
+        self.entry_temp_dir.setObjectName('entry_dir')
+        self.entry_target_dir = QLineEdit()
+        self.entry_target_dir.setReadOnly(True)
+        self.entry_target_dir.setObjectName('entry_dir')
+
+        self.btn_temp_dir_browse = QPushButton('Browse')
+        self.btn_temp_dir_browse.setObjectName('btn_browse')
+        self.btn_temp_dir_browse.setToolTip('Select folder for <b>temporary</b> storage of spotlight photos')
+        self.btn_temp_dir_browse.clicked.connect(self.browseTempDirectory)
+        self.btn_target_dir_browse = QPushButton('Browse')
+        self.btn_target_dir_browse.setObjectName('btn_browse')
+        self.btn_target_dir_browse.setToolTip('Select folder to <b>move</b> favorite/all photos to')
+        self.btn_target_dir_browse.clicked.connect(self.browseTargetDirectory)
+
+
+        # BOTTOM LAYOUT WIDGETS ----------------------------------------------------------------------------
+        self.lbl_export_options = QLabel('Export options')
+        self.lbl_export_options.setObjectName('lbl_options')
+        self.hline_3 = QHSeparationLine()
+        self.hline_3.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+
+        self.rbtn_fav = QRadioButton('Favorite images only')
+        self.rbtn_fav.setChecked(True)
+        self.rbtn_all = QRadioButton('All images')
+
+        self.btn_ok = QPushButton('OK')
+        self.btn_ok.setObjectName('btn_ok')
+        self.btn_ok.clicked.connect(self.submitSettings)
+        self.btn_cancel = QPushButton('Cancel')
+        self.btn_cancel.clicked.connect(self.close)
 
     def layouts(self):
-        pass
+        # DEFINING LAYOUTS ---------------------------------------------------------------------------------
+        self.main_layout = QVBoxLayout()
+        self.top_layout = QVBoxLayout()
+        self.middle_layout = QVBoxLayout()
+        self.bottom_layout = QVBoxLayout()
+
+        self.prefix_options_layout = QHBoxLayout()
+        self.dir_options_layout = QHBoxLayout()
+        self.export_options_layout = QHBoxLayout()
+
+        self.top_form_layout = QFormLayout()
+        self.middle_form_layout = QFormLayout()
+        self.bottom_form_layout = QFormLayout()
+        self.btn_ok_cancel_layout = QHBoxLayout()
+
+        self.temp_dir_row_layout = QHBoxLayout()
+        self.target_dir_row_layout = QHBoxLayout()
+
+        # TOP LAYOUT --------------------------------------------------------------------------------------
+        self.prefix_options_layout.addWidget(self.lbl_prefix_options)
+        self.prefix_options_layout.addWidget(self.hline_1)
+        self.top_form_layout.addRow(self.lbl_default_prefix, self.entry_default_prefix)
+        self.top_form_layout.addRow(self.lbl_custom_prefix, self.entry_custom_prefix)
+        self.top_layout.addLayout(self.prefix_options_layout)
+        self.top_layout.addLayout(self.top_form_layout)
+
+        # MIDDLE LAYOUT -----------------------------------------------------------------------------------
+        self.dir_options_layout.addWidget(self.lbl_dir_options)
+        self.dir_options_layout.addWidget(self.hline_2)
+        self.temp_dir_row_layout.addWidget(self.entry_temp_dir)
+        self.temp_dir_row_layout.addWidget(self.btn_temp_dir_browse)
+        self.target_dir_row_layout.addWidget(self.entry_target_dir)
+        self.target_dir_row_layout.addWidget(self.btn_target_dir_browse)
+        self.middle_form_layout.addRow(self.lbl_temp_dir, self.temp_dir_row_layout)
+        self.middle_form_layout.addRow(self.lbl_target_dir, self.target_dir_row_layout)
+        self.middle_layout.addLayout(self.dir_options_layout)
+        self.middle_layout.addLayout(self.middle_form_layout)
+
+        # BOTTOM LAYOUT -----------------------------------------------------------------------------------
+        self.export_options_layout.addWidget(self.lbl_export_options)
+        self.export_options_layout.addWidget(self.hline_3)
+        self.bottom_form_layout.addRow(self.rbtn_fav, self.rbtn_all)
+        self.btn_ok_cancel_layout.addWidget(self.btn_ok)
+        self.btn_ok_cancel_layout.addWidget(self.btn_cancel)
+        self.bottom_form_layout.addRow('', self.btn_ok_cancel_layout)
+        self.bottom_layout.addLayout(self.export_options_layout)
+        self.bottom_layout.addLayout(self.bottom_form_layout)
+
+        # SETTING MAIN LAYOUTS ----------------------------------------------------------------------------
+
+        self.main_layout.addLayout(self.top_layout, 35)
+        self.main_layout.addLayout(self.middle_layout, 35)
+        self.main_layout.addLayout(self.bottom_layout, 30)
+        self.setLayout(self.main_layout)
+
+
+    def showHint(self):
+        if self.entry_custom_prefix.text() != '':
+            # print('Typed something in custom prefix')
+            self.lbl_custom_prefix_hint.setText('This prefix will be used for all images viewed in this session.')
+            self.lbl_custom_prefix_hint.setStyleSheet('font: 8pt segoe UI; color: #3db7ff;')
+            self.top_form_layout.addRow('', self.lbl_custom_prefix_hint)
+        else:
+            # print('removed all text from custom prefix')
+            self.lbl_custom_prefix_hint.clear()
+
+    def submitSettings(self):
+        # TODO: Add logic here
+
+        self.close()
+
+    def browseTempDirectory(self):
+        self.temp_dir = QFileDialog.getExistingDirectory(self, 'Select Temporary Folder for Images')
+        if self.temp_dir != '':
+            print('temp dir: ', self.temp_dir)
+            if len(self.temp_dir) > 26:
+                new_temp_dir = self.temp_dir[0:4] + '...' + self.temp_dir[-20:]
+                self.entry_temp_dir.setText(new_temp_dir)
+            else:
+                self.entry_temp_dir.setText(self.temp_dir)
+
+    def browseTargetDirectory(self):
+        self.target_dir = QFileDialog.getExistingDirectory(self, 'Select Target Folder for Favorite/All Images')
+        if self.target_dir != '':
+            print('target dir: ', self.target_dir)
+            if len(self.target_dir) > 26:
+                new_target_dir = self.target_dir[0:4] + '...' + self.target_dir[-20:]
+                self.entry_target_dir.setText(new_target_dir)
+            else:
+                self.entry_target_dir.setText(self.target_dir)
 
 
 
@@ -390,8 +534,6 @@ class MainApp(MainWindow, QWidget):
         else:
             self.lbl_counter.setText(str(len(self.images)) + ' item')
 
-
-
     def saveImage(self):
         self.save_dialog = RenameDialogBox()
         # self.signal_coords.emit(self.pos().x(), self.pos().y())
@@ -497,19 +639,17 @@ if __name__ == '__main__':
 
 
     # TODO:
-    #   1 Decouple custom widgets from main app.
-    #   2. Export renamed photos to specific folder on desktop.
-    #      (moves renamed pics to specified dir, and updates the list and image index).
-    #   3. Open settings when 'Load in' is clicked for first time to set directories and temp storage etc.
-    #   4. Add more vivid description to README.
-    #   5. Edit the no_image icon to show the text more and reduce opacity of the circle .
+    #   1 Decouple custom widgets from main app
+    #   3. Open settings when 'Load in' is clicked for first time to set directories and temp storage etc
+    #   4. Add more vivid description to README
+    #   5. Edit the no_image icon to show the text more and reduce opacity of the circle
     #   6. Check if spotlight images is enabled
-    #   7. Option to open previous pics or load new ones (Use more icon and put some buttons there)
-    #   8. Lookup context menus.
+    #   7. Option to open previous pics or load new ones (Use 'more icon' and put some buttons there)
+    #   8. Lookup context menus
 
     # TODO: FOR SETTINGS OPTIONS
     #   0. Create settings file stuff in User/AppData/Roaming/ or /Local/
-    #   1. Set new prefix name (and save to file permanently).
-    #   2. Set target storage (and save to file permanently) and possibly temp storage.
-    #   3. Option for user to delete temp storage when done.
-    #   4. Add option to export all, and export only selected images.
+    #   1. Set new prefix name (and save to file permanently)
+    #   2. Set target storage (and save to file permanently) and possibly temp storage
+    #   3. Option for user to delete temp storage when done
+    #   4. Add option to export all, and export only selected images
