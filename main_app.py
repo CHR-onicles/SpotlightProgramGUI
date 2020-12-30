@@ -430,6 +430,7 @@ class MainApp(MainWindow, QWidget):
     def openSettings(self):
         self.settings = SettingsDialog()
         self.settings.show()
+        # Finish this
 
 
 
