@@ -417,13 +417,21 @@ class MainApp(MainWindow, QWidget):
                 print('Renamed image at:', count)
                 break
         self.image_index = count
-        print(self.image_index)
+        print('index: ', self.image_index)
         if self.image_index == len(self.images) - 1:
-            self.btn_next.setEnabled(False)
-            self.btn_previous.setEnabled(True)
+            print('last image')
+            if len(self.images) == 1:
+                self.btn_next.setEnabled(False)
+                self.btn_previous.setEnabled(False)
+            else:
+                self.btn_next.setEnabled(False)
+                self.btn_previous.setEnabled(True)
+
         elif self.image_index == 0:
+            print('first image')
             self.btn_previous.setEnabled(False)
             self.btn_next.setEnabled(True)
+
         self.setWindowTitle(self.title + ' - ' + self.new_prefix+self.new_name+'.png')
         print('New Images:', self.images)
 
@@ -447,12 +455,14 @@ class MainApp(MainWindow, QWidget):
                     self.lbl_image.setPixmap(QPixmap(self.images[self.image_index]))
                     if len(self.images) == 1:
                         self.lbl_counter.setText(str(len(self.images)) + ' item')
+                        self.btn_next.setEnabled(False)
+                        self.btn_previous.setEnabled(False)
                     elif len(self.images) > 1:
                         self.lbl_counter.setText(str(len(self.images)) + ' items')
+                        self.btn_previous.setEnabled(False)
+                        self.btn_next.setEnabled(True)
                     self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
                     QMessageBox.information(self, 'Export Success', 'Favorite image(s) exported.')
-                    self.btn_previous.setEnabled(False)
-                    self.btn_next.setEnabled(True)
 
                 else:
                     self.lbl_image.close()
