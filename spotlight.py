@@ -106,7 +106,7 @@ class Spotlight:
             for file in fav_pics:
                 shutil.move(os.path.join(os.getcwd(), file), os.path.join(wallpapers_path, file))
 
-            print('Files moved successfully!')
+            print('Files moved successfully! \n')
             return fav_pics
         # TODO: Connect this to main window, add prefix to class call for this function in case user changes it.
 

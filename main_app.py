@@ -1,7 +1,7 @@
 import os, sys, send2trash
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot, QSettings
 
 # Local Imports
 from UI_main_window import MainWindow
@@ -16,7 +16,6 @@ class RenameDialogBox(QDialog):
     """
     class for Renaming Dialog Box.
     """
-
     signal_new_name = pyqtSignal(str, str)
 
     def __init__(self):
@@ -30,7 +29,6 @@ class RenameDialogBox(QDialog):
         self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 400, 200
         self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT
         # print(self.D_WIDTH, self.D_HEIGHT)
-
         self.xpos = (self.D_WIDTH / 2) - (self.DIALOG_WIDTH / 2)
         self.ypos = (self.D_HEIGHT / 2) - (self.DIALOG_HEIGHT / 2)
 
@@ -38,15 +36,23 @@ class RenameDialogBox(QDialog):
         self.setGeometry(int(self.xpos), int(self.ypos), self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
         self.setFixedSize(self.size())
 
+        # RENAME DIALOG SETTINGS ---------------------------------------------------------------
         self.default_prefix = 'spotlight_photos_'
+        self.settings = QSettings('CHR-onicles', 'SpottyApp')
+        try:
+            pass
+        except:
+            pass
+
 
         self.UI()
 
+    def closeEvent(self, event):
+        pass
 
     def UI(self):
         self.widgets()
         self.layouts()
-
 
     def widgets(self):
         # BUTTONS ----------------------------------------------------------------------------------------
@@ -60,7 +66,6 @@ class RenameDialogBox(QDialog):
         self.lbl_rename = QLabel('')
         self.lbl_rename.setObjectName('lbl_rename')
         # self.lbl_rename.setAlignment(Qt.AlignCenter)
-        main_.signal_photo_name.connect(self.getPhotoName)
 
         self.lbl_prefix_options = QLabel('Name options')
         self.lbl_prefix_options.setStyleSheet('font: 9pt segoe UI; color: #3db7ff;')
@@ -76,6 +81,12 @@ class RenameDialogBox(QDialog):
         self.hline = QHSeparationLine()
         self.hline.setObjectName('hline')
         self.hline.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+
+        # SIGNALS --------------------------------------------------------------------------------------
+        main_.signal_photo_name.connect(self.getDefaultPrefix)
+        main_.signal_from_settings_prefix.connect(self.getDefaultPrefix)
+
+
 
     def layouts(self):
         # DEFINING LAYOUTS ------------------------------------------------------------------------------
@@ -114,13 +125,20 @@ class RenameDialogBox(QDialog):
         self.setLayout(self.main_layout)
 
     @pyqtSlot(str)
+    def getDefaultPrefix(self, prefix):
+        print('Slot: ', prefix, type(prefix))
+
+    @pyqtSlot(str)
     def getPhotoName(self, pic):
+        # print('pic', pic)
         self.photoname = pic
         if len(self.photoname) > 21:
             new_photoname = self.photoname[0:4] + '...' + self.photoname[-15:]
             self.lbl_rename.setText(f'Renaming photo \'<i>{new_photoname}</i>\' to: ')
         else:
             self.lbl_rename.setText(f'Renaming photo \'<i>{self.photoname}</i>\' to: ')
+
+
 
     def closeWindow(self):
         self.close()
@@ -143,6 +161,7 @@ class SettingsDialog(QDialog):
     """
     Class for Settings Dialog Box.
     """
+    signal_prefix = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
@@ -155,7 +174,6 @@ class SettingsDialog(QDialog):
         self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 450, 400
         self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT
         # print(self.D_WIDTH, self.D_HEIGHT)
-
         self.xpos = (self.D_WIDTH / 2) - (self.DIALOG_WIDTH / 2)
         self.ypos = (self.D_HEIGHT / 2) - (self.DIALOG_HEIGHT / 2)
 
@@ -164,8 +182,26 @@ class SettingsDialog(QDialog):
         self.setFixedSize(self.size())
         self.setStyleSheet(style.SettingsDialogStyle())
 
+        # SETTINGS DIALOG SETTINGS lol --------------------------------------------------------------------
+        self.default_prefix_text = 'spotlight_photos_'
+        self.settings = QSettings('CHR-onicles', 'SpottyApp')
+        try:
+            self.move(self.settings.value('settings dialog location'))
+            if self.settings.value('default prefix') is None:
+                pass
+            else:
+                self.default_prefix_text = self.settings.value('default prefix')
+                print('value at default prefix registry:', self.default_prefix_text)
+        except:
+            pass
+
         self.UI()
 
+    def closeEvent(self, event):
+        self.settings.setValue('settings dialog location', self.pos())
+        self.settings.setValue('default prefix', self.default_prefix_text)
+        self.signal_prefix.emit(self.default_prefix_text)
+        print('signal emitted', self.default_prefix_text)
 
     def UI(self):
         self.widgets()
@@ -181,7 +217,7 @@ class SettingsDialog(QDialog):
         self.lbl_default_prefix = QLabel('Default Prefix')
         self.lbl_custom_prefix = QLabel('Custom Prefix')
 
-        self.entry_default_prefix = QLineEdit('spotlight_photos_')
+        self.entry_default_prefix = QLineEdit(self.default_prefix_text)
         self.entry_default_prefix.setReadOnly(True)
         self.entry_custom_prefix = QLineEdit(self)
         self.entry_custom_prefix.setFocus()
@@ -257,6 +293,7 @@ class SettingsDialog(QDialog):
         self.prefix_options_layout.addWidget(self.hline_1)
         self.top_form_layout.addRow(self.lbl_default_prefix, self.entry_default_prefix)
         self.top_form_layout.addRow(self.lbl_custom_prefix, self.entry_custom_prefix)
+        self.top_form_layout.setContentsMargins(10, 0, 0, 0)
         self.top_layout.addLayout(self.prefix_options_layout)
         self.top_layout.addLayout(self.top_form_layout)
 
@@ -269,6 +306,7 @@ class SettingsDialog(QDialog):
         self.target_dir_row_layout.addWidget(self.btn_target_dir_browse)
         self.middle_form_layout.addRow(self.lbl_temp_dir, self.temp_dir_row_layout)
         self.middle_form_layout.addRow(self.lbl_target_dir, self.target_dir_row_layout)
+        self.middle_form_layout.setContentsMargins(10, 0, 0, 0)
         self.middle_layout.addLayout(self.dir_options_layout)
         self.middle_layout.addLayout(self.middle_form_layout)
 
@@ -278,15 +316,16 @@ class SettingsDialog(QDialog):
         self.bottom_form_layout.addRow(self.rbtn_fav, self.rbtn_all)
         self.btn_ok_cancel_layout.addWidget(self.btn_ok)
         self.btn_ok_cancel_layout.addWidget(self.btn_cancel)
-        self.bottom_form_layout.addRow('', self.btn_ok_cancel_layout)
+        self.btn_ok_cancel_layout.setContentsMargins(170, 0, 0, 0)
+        self.bottom_form_layout.setContentsMargins(10, 0, 0, 0)
         self.bottom_layout.addLayout(self.export_options_layout)
         self.bottom_layout.addLayout(self.bottom_form_layout)
 
-        # SETTING MAIN LAYOUTS ----------------------------------------------------------------------------
-
-        self.main_layout.addLayout(self.top_layout, 35)
+        # CONFIGURING MAIN LAYOUT ----------------------------------------------------------------------------
+        self.main_layout.addLayout(self.top_layout, 30)
         self.main_layout.addLayout(self.middle_layout, 35)
-        self.main_layout.addLayout(self.bottom_layout, 30)
+        self.main_layout.addLayout(self.bottom_layout, 20)
+        self.main_layout.addLayout(self.btn_ok_cancel_layout, 15)
         self.setLayout(self.main_layout)
 
 
@@ -334,6 +373,8 @@ class MainApp(MainWindow, QWidget):
     """
 
     signal_photo_name = pyqtSignal(str)
+    signal_from_settings_prefix = pyqtSignal(str)
+
 
     def __init__(self):
         super().__init__()
@@ -344,10 +385,8 @@ class MainApp(MainWindow, QWidget):
         self.APP_WIDTH, self.APP_HEIGHT = 1200, 800
         self.app_x_pos = (self.DESKTOP_WIDTH / 2) - (self.APP_WIDTH / 2)
         self.app_y_pos = (self.DESKTOP_HEIGHT / 2) - (self.APP_HEIGHT / 2)
-        print(self.DESKTOP_WIDTH, self.DESKTOP_HEIGHT)
         self.setGeometry(int(self.app_x_pos), int(self.app_y_pos), self.APP_WIDTH, self.APP_HEIGHT)
         self.setMinimumSize(600, 555)
-        # self.setMaximumSize(1600, 900)
         self.load_in_button_clicked = 0
 
         # Object Attributes
@@ -355,9 +394,20 @@ class MainApp(MainWindow, QWidget):
         self.image_index = 0
         self.app_dir = os.getcwd()
 
+        # APP SETTINGS -------------------------------------------------------------------------------
+        self.setts = QSettings('CHR-onicles', 'SpottyApp')
+        try:
+            self.resize(self.setts.value('window size'))
+            self.move(self.setts.value('window position'))
+
+        except:
+            pass
 
         self.UI()
 
+    def closeEvent(self, event):
+        self.setts.setValue('window size', self.size())
+        self.setts.setValue('window position', self.pos())
 
     def UI(self):
         self.app_widgets()
@@ -623,10 +673,16 @@ class MainApp(MainWindow, QWidget):
                     self.btn_export.setEnabled(False)
 
     def openSettings(self):
-        self.settings = SettingsDialog()
-        self.settings.show()
-        # Finish this
+        self.settings_dialog = SettingsDialog()
+        self.settings_dialog.signal_prefix.connect(self.getDefPrefix)
+        self.settings_dialog.show()
 
+        # Finish this
+    @pyqtSlot(str)
+    def getDefPrefix(self, prefix):
+        print('from main app slot: ', prefix)
+        self.signal_from_settings_prefix.emit(str(prefix))
+        print('main signal emitted:', prefix)
 
 
 

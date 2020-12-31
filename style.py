@@ -152,8 +152,8 @@ def SettingsDialogStyle():
     font: 10pt segoe UI;
     border: 2px solid #3d7eff;
     border-radius: 5px;
-    padding-top:5px;
-    padding-bottom:5px;
+    padding-top:3px;
+    padding-bottom:3px;
     min-width: 4em;
     }
     
@@ -184,10 +184,14 @@ def SettingsDialogStyle():
     font: 10pt segoe UI;
     border: 1px solid #444;
     border-radius: 7px;
+    padding-top: 2px;
+    padding-bottom: 2px;
     }
     
     QLineEdit#entry_dir {
     font: 9pt segoe UI;
+    padding-top: 2px;
+    padding-bottom: 2px;
     }
     
     QLineEdit:focus {
