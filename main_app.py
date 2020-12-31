@@ -450,7 +450,8 @@ class MainApp(MainWindow, QWidget):
 
             if self.load_in_button_clicked == 0 or (self.load_in_button_clicked != 0 and self.images == []):
                 # First time its clicked or Clicked when user deletes all pictures
-                self.spotlight = Spotlight(temp_storage=self.setts.value('temporary directory'))
+                self.spotlight = Spotlight(prefix=self.setts.value('default prefix'),
+                                           temp_storage=self.setts.value('temporary directory'))
                 print(self.spotlight.selected_new_win_files)
 
                 if self.spotlight.selected_new_win_files == []:
@@ -646,6 +647,11 @@ class MainApp(MainWindow, QWidget):
         print('from main app, selected pics: ', selected_pics)
         if selected_pics is None:
             QMessageBox.critical(self, 'Export Failed', '<b>NO</b> Favorite images to Export!')
+
+        elif selected_pics[0] == 'FileExistsError':
+            QMessageBox.critical(self, 'Image already exists', f'Image with the name \'<i>{selected_pics[1]}</i>\''
+                                f' already exists at <b>target folder</b>!')
+
         else:
             for item in selected_pics:
                 self.images.remove(item)
@@ -698,11 +704,12 @@ if __name__ == '__main__':
 
     # TODO:
     #   1 Decouple custom widgets from main app
-    #   4. Add more vivid description to README
-    #   5. Edit the no_image icon to show the text more and reduce opacity of the circle
-    #   6. Check if spotlight images is enabled
-    #   7. Option to open previous pics or load new ones (Use 'more icon' and put some buttons there)
-    #   8. Lookup context menus
+    #   2. Add more vivid description to README
+    #   3. Edit the no_image icon to show the text more and reduce opacity of the circle
+    #   4. Check if spotlight images is enabled
+    #   5. Option to open previous pics or load new ones (Use 'more icon' and put some buttons there)
+    #   6. Lookup context menus
+    #   7. Prevent export from overwriting images with same names
 
     # TODO: FOR SETTINGS OPTIONS
     #   3. Option for user to delete temp storage when done
