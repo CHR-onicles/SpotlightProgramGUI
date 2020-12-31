@@ -329,7 +329,7 @@ class SettingsDialog(QDialog):
     def showHint(self):
         if self.entry_custom_prefix.text() != '':
             # print('Typed something in custom prefix')
-            self.lbl_custom_prefix_hint.setText('This prefix will be used for all images viewed in this session.')
+            self.lbl_custom_prefix_hint.setText('This prefix will be used as the default prefix for all images from now on.')
             self.lbl_custom_prefix_hint.setStyleSheet('font: 8pt segoe UI; color: #3db7ff;')
             self.top_form_layout.addRow('', self.lbl_custom_prefix_hint)
         else:
@@ -407,7 +407,6 @@ class MainApp(MainWindow, QWidget):
 
     def UI(self):
         self.app_widgets()
-
 
     def app_widgets(self):
         # BUTTONS ---------------------------------------------------------------------------
@@ -541,6 +540,8 @@ class MainApp(MainWindow, QWidget):
 
 
         if self.image_index == len(self.images)-1:
+            if len(self.images) == 2:
+                self.btn_next.setEnabled(False)  # Don't know whether this works or not
             print('deleting last image in list')
             send2trash.send2trash(self.images[self.image_index])
             self.images.remove(self.images[self.image_index])
@@ -548,7 +549,7 @@ class MainApp(MainWindow, QWidget):
             self.btn_next.setEnabled(False)
             if len(self.images) == 1:
                 self.btn_previous.setEnabled(False)
-            print(self.images)
+            print('remaining images:', self.images)
 
         elif self.image_index <= 0:
             print('deleting first image in list')
@@ -559,18 +560,18 @@ class MainApp(MainWindow, QWidget):
                 self.btn_next.setEnabled(False)
             else:
                 self.image_index += 1
-            print(self.images)
+            print('remaining images', self.images)
 
         else:
             print('deleting image in the middle of list')
             send2trash.send2trash(self.images[self.image_index])
             self.images.remove(self.images[self.image_index])
             self.image_index -= 1
-            if len(self.images) == 2 and self.image_index == 0:
+            if self.image_index == 0:
                 self.btn_previous.setEnabled(False)
             elif len(self.images) == 2 and self.image_index  == 1:
                 self.btn_next.setEnabled(False)
-            print(self.images)
+            print('remaining images:', self.images)
 
         self.lbl_image.setPixmap(QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
         self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
@@ -671,7 +672,7 @@ class MainApp(MainWindow, QWidget):
         self.settings_dialog = SettingsDialog()
         self.settings_dialog.show()
 
-        # Finish this
+
 
 
 if __name__ == '__main__':
