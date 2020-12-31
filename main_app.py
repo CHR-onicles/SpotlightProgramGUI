@@ -37,10 +37,12 @@ class RenameDialogBox(QDialog):
         self.setFixedSize(self.size())
 
         # RENAME DIALOG SETTINGS ---------------------------------------------------------------
-        self.default_prefix = 'spotlight_photos_'
+        self.default_prefix = ''
         self.settings = QSettings('CHR-onicles', 'SpottyApp')
         try:
-            pass
+            self.move(self.settings.value('rename dialog position'))
+            self.default_prefix = self.settings.value('default prefix')
+            print('rename dialog box default prefix:', self.default_prefix)
         except:
             pass
 
@@ -48,7 +50,7 @@ class RenameDialogBox(QDialog):
         self.UI()
 
     def closeEvent(self, event):
-        pass
+        self.settings.setValue('rename dialog position', self.pos())
 
     def UI(self):
         self.widgets()
@@ -83,9 +85,7 @@ class RenameDialogBox(QDialog):
         self.hline.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
 
         # SIGNALS --------------------------------------------------------------------------------------
-        main_.signal_photo_name.connect(self.getDefaultPrefix)
-        main_.signal_from_settings_prefix.connect(self.getDefaultPrefix)
-
+        main_.signal_photo_name.connect(self.getPhotoName)
 
 
     def layouts(self):
@@ -124,9 +124,6 @@ class RenameDialogBox(QDialog):
         self.main_layout.addLayout(self.bottom_main_layout, 90)
         self.setLayout(self.main_layout)
 
-    @pyqtSlot(str)
-    def getDefaultPrefix(self, prefix):
-        print('Slot: ', prefix, type(prefix))
 
     @pyqtSlot(str)
     def getPhotoName(self, pic):
@@ -137,7 +134,6 @@ class RenameDialogBox(QDialog):
             self.lbl_rename.setText(f'Renaming photo \'<i>{new_photoname}</i>\' to: ')
         else:
             self.lbl_rename.setText(f'Renaming photo \'<i>{self.photoname}</i>\' to: ')
-
 
 
     def closeWindow(self):
@@ -161,7 +157,6 @@ class SettingsDialog(QDialog):
     """
     Class for Settings Dialog Box.
     """
-    signal_prefix = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
@@ -191,7 +186,7 @@ class SettingsDialog(QDialog):
                 pass
             else:
                 self.default_prefix_text = self.settings.value('default prefix')
-                print('value at default prefix registry:', self.default_prefix_text)
+                # print('value at default prefix registry:', self.default_prefix_text)
         except:
             pass
 
@@ -199,9 +194,10 @@ class SettingsDialog(QDialog):
 
     def closeEvent(self, event):
         self.settings.setValue('settings dialog location', self.pos())
-        self.settings.setValue('default prefix', self.default_prefix_text)
-        self.signal_prefix.emit(self.default_prefix_text)
-        print('signal emitted', self.default_prefix_text)
+        if self.entry_custom_prefix.text() != '':
+            QMessageBox.information(self, 'Settings saved', 'Settings have been updated!')
+        else:
+            self.settings.setValue('default prefix', self.default_prefix_text)
 
     def UI(self):
         self.widgets()
@@ -219,6 +215,7 @@ class SettingsDialog(QDialog):
 
         self.entry_default_prefix = QLineEdit(self.default_prefix_text)
         self.entry_default_prefix.setReadOnly(True)
+        self.entry_default_prefix.setToolTip('<b>Current</b> default prefix for images')
         self.entry_custom_prefix = QLineEdit(self)
         self.entry_custom_prefix.setFocus()
         self.entry_custom_prefix.textEdited.connect(self.showHint)
@@ -340,8 +337,9 @@ class SettingsDialog(QDialog):
             self.lbl_custom_prefix_hint.clear()
 
     def submitSettings(self):
-        # TODO: Add logic here
-
+        custom_prefix = self.entry_custom_prefix.text()
+        if custom_prefix != '':
+            self.settings.setValue('default prefix', custom_prefix)
         self.close()
 
     def browseTempDirectory(self):
@@ -373,8 +371,6 @@ class MainApp(MainWindow, QWidget):
     """
 
     signal_photo_name = pyqtSignal(str)
-    signal_from_settings_prefix = pyqtSignal(str)
-
 
     def __init__(self):
         super().__init__()
@@ -432,7 +428,6 @@ class MainApp(MainWindow, QWidget):
         self.btn_export.clicked.connect(self.exportImages)  # add shortcut Ctrl+Shift+E / W
 
         self.btn_settings.clicked.connect(self.openSettings)
-
 
 
     def retrieveSpotlightPhotos(self):
@@ -674,16 +669,9 @@ class MainApp(MainWindow, QWidget):
 
     def openSettings(self):
         self.settings_dialog = SettingsDialog()
-        self.settings_dialog.signal_prefix.connect(self.getDefPrefix)
         self.settings_dialog.show()
 
         # Finish this
-    @pyqtSlot(str)
-    def getDefPrefix(self, prefix):
-        print('from main app slot: ', prefix)
-        self.signal_from_settings_prefix.emit(str(prefix))
-        print('main signal emitted:', prefix)
-
 
 
 if __name__ == '__main__':

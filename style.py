@@ -220,6 +220,25 @@ def SettingsDialogStyle():
     color: white;
     background-color: #444
     }
+    
+    QMessageBox {
+    background-color: #444;
+    }
+    
+    QMessageBox QLabel {
+    font: 11pt segoe UI;
+    color: white;
+    }
+    
+    QMessageBox QPushButton {
+    border: 1px solid #3d7eff;
+    font: 10pt segoe UI;
+    min-width: 4em;
+    }
+    
+    QMessageBox QPushButton:focus {
+    border: 3px solid #3d7eff;
+    }
     """
 
 
