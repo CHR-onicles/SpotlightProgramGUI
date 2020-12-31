@@ -1,5 +1,6 @@
 import os, sys, send2trash
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QApplication, QDialog, QWidget, QLabel, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, \
+     QFormLayout, QMessageBox, QRadioButton, QFileDialog, QSizePolicy, QDesktopWidget
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot, QSettings
 
@@ -28,7 +29,6 @@ class RenameDialogBox(QDialog):
 
         self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 400, 200
         self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT
-        # print(self.D_WIDTH, self.D_HEIGHT)
         self.xpos = (self.D_WIDTH / 2) - (self.DIALOG_WIDTH / 2)
         self.ypos = (self.D_HEIGHT / 2) - (self.DIALOG_HEIGHT / 2)
 
@@ -37,12 +37,11 @@ class RenameDialogBox(QDialog):
         self.setFixedSize(self.size())
 
         # RENAME DIALOG SETTINGS ---------------------------------------------------------------
-        self.default_prefix = ''
+        # self.default_prefix = ''
         self.settings = QSettings('CHR-onicles', 'SpottyApp')
+        self.default_prefix = self.settings.value('default prefix')
         try:
             self.move(self.settings.value('rename dialog position'))
-            self.default_prefix = self.settings.value('default prefix')
-            print('rename dialog box default prefix:', self.default_prefix)
         except:
             pass
 
@@ -86,7 +85,6 @@ class RenameDialogBox(QDialog):
 
         # SIGNALS --------------------------------------------------------------------------------------
         main_.signal_photo_name.connect(self.getPhotoName)
-
 
     def layouts(self):
         # DEFINING LAYOUTS ------------------------------------------------------------------------------
@@ -135,7 +133,6 @@ class RenameDialogBox(QDialog):
         else:
             self.lbl_rename.setText(f'Renaming photo \'<i>{self.photoname}</i>\' to: ')
 
-
     def closeWindow(self):
         self.close()
 
@@ -168,7 +165,6 @@ class SettingsDialog(QDialog):
 
         self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 450, 400
         self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT
-        # print(self.D_WIDTH, self.D_HEIGHT)
         self.xpos = (self.D_WIDTH / 2) - (self.DIALOG_WIDTH / 2)
         self.ypos = (self.D_HEIGHT / 2) - (self.DIALOG_HEIGHT / 2)
 
@@ -178,7 +174,9 @@ class SettingsDialog(QDialog):
         self.setStyleSheet(style.SettingsDialogStyle())
 
         # SETTINGS DIALOG SETTINGS lol --------------------------------------------------------------------
-        self.default_prefix_text = 'spotlight_photos_'
+        self.default_prefix_text = 'sp'
+        self.temp_dir = ''
+        self.target_dir = ''
         self.settings = QSettings('CHR-onicles', 'SpottyApp')
         try:
             self.move(self.settings.value('settings dialog location'))
@@ -186,7 +184,8 @@ class SettingsDialog(QDialog):
                 pass
             else:
                 self.default_prefix_text = self.settings.value('default prefix')
-                # print('value at default prefix registry:', self.default_prefix_text)
+            self.temp_dir = str(self.settings.value('temporary directory'))
+            self.target_dir = str(self.settings.value('target directory'))
         except:
             pass
 
@@ -194,10 +193,6 @@ class SettingsDialog(QDialog):
 
     def closeEvent(self, event):
         self.settings.setValue('settings dialog location', self.pos())
-        if self.entry_custom_prefix.text() != '':
-            QMessageBox.information(self, 'Settings saved', 'Settings have been updated!')
-        else:
-            self.settings.setValue('default prefix', self.default_prefix_text)
 
     def UI(self):
         self.widgets()
@@ -233,12 +228,14 @@ class SettingsDialog(QDialog):
         self.lbl_temp_dir = QLabel('Temp. Folder')
         self.lbl_target_dir = QLabel('Target Folder')
 
-        self.entry_temp_dir = QLineEdit()
+        self.entry_temp_dir = QLineEdit(self.temp_dir)
         self.entry_temp_dir.setReadOnly(True)
         self.entry_temp_dir.setObjectName('entry_dir')
-        self.entry_target_dir = QLineEdit()
+        self.entry_temp_dir.setToolTip('Folder path to keep retrieved Spotlight Photos for processing')
+        self.entry_target_dir = QLineEdit(self.target_dir)
         self.entry_target_dir.setReadOnly(True)
         self.entry_target_dir.setObjectName('entry_dir')
+        self.entry_target_dir.setToolTip('Folder path to <b>export</b> Favorite/All images to')
 
         self.btn_temp_dir_browse = QPushButton('Browse')
         self.btn_temp_dir_browse.setObjectName('btn_browse')
@@ -246,7 +243,7 @@ class SettingsDialog(QDialog):
         self.btn_temp_dir_browse.clicked.connect(self.browseTempDirectory)
         self.btn_target_dir_browse = QPushButton('Browse')
         self.btn_target_dir_browse.setObjectName('btn_browse')
-        self.btn_target_dir_browse.setToolTip('Select folder to <b>move</b> favorite/all photos to')
+        self.btn_target_dir_browse.setToolTip('Select folder to <b>export</b> favorite/all images to')
         self.btn_target_dir_browse.clicked.connect(self.browseTargetDirectory)
 
 
@@ -337,10 +334,23 @@ class SettingsDialog(QDialog):
             self.lbl_custom_prefix_hint.clear()
 
     def submitSettings(self):
-        custom_prefix = self.entry_custom_prefix.text()
-        if custom_prefix != '':
-            self.settings.setValue('default prefix', custom_prefix)
-        self.close()
+        if self.entry_temp_dir.text() and self.entry_target_dir.text() != '':
+            if self.entry_custom_prefix.text() == '':
+                self.custom_prefix = self.entry_default_prefix.text()
+                print('set custom prefix to default entry', self.entry_default_prefix.text())
+            else:
+                self.custom_prefix = self.entry_custom_prefix.text()
+                print('set custom prefix to custom entry')
+            self.temp_dir = self.entry_temp_dir.text()
+            self.target_dir = self.entry_target_dir.text()
+            self.settings.setValue('default prefix', self.custom_prefix)
+            self.settings.setValue('temporary directory', self.temp_dir)
+            self.settings.setValue('target directory', self.target_dir)
+            QMessageBox.information(self, 'Settings saved', 'Settings have been updated!')
+            self.close()
+        else:
+            QMessageBox.warning(self, 'Settings Warning', 'Please fill <b>all</b> required fields!')
+
 
     def browseTempDirectory(self):
         self.temp_dir = QFileDialog.getExistingDirectory(self, 'Select Temporary Folder for Images')
@@ -390,8 +400,11 @@ class MainApp(MainWindow, QWidget):
         self.image_index = 0
         self.app_dir = os.getcwd()
 
+
         # APP SETTINGS -------------------------------------------------------------------------------
         self.setts = QSettings('CHR-onicles', 'SpottyApp')
+        print('App data already exists:', self.setts.contains('default prefix'))
+
         try:
             self.resize(self.setts.value('window size'))
             self.move(self.setts.value('window position'))
@@ -430,41 +443,14 @@ class MainApp(MainWindow, QWidget):
 
 
     def retrieveSpotlightPhotos(self):
-        self.image_index = 0
+        if self.setts.contains('default prefix') is False:
+            self.openSettings()
+        else:
+            self.image_index = 0
 
-        if self.load_in_button_clicked == 0 or (self.load_in_button_clicked != 0 and self.images == []):
-            # First time its clicked or Clicked when user deletes all pictures
-            self.spotlight = Spotlight()
-            print(self.spotlight.selected_new_win_files)
-
-            if self.spotlight.selected_new_win_files == []:
-                QMessageBox.critical(self, 'Spotlight Photos', 'No New Spotlight Photos Found!')
-                return
-            else:
-                self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)) + ' items')
-                # self.lbl_counter.setToolTip('Number of <b>selected</b> img')
-                self.images = self.spotlight.selected_new_win_files
-                self.lbl_image.close()
-                self.lbl_image = Label()
-                self.top_layout.addWidget(self.lbl_image)
-                self.lbl_image.setPixmap(QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
-                self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
-
-                # Enable buttons
-                self.btn_delete.setEnabled(True)
-                self.btn_next.setEnabled(True)
-                self.btn_previous.setEnabled(False)
-                self.btn_save.setEnabled(True)
-                self.btn_export.setEnabled(True)
-                self.load_in_button_clicked += 1
-
-        else:  # Clicked while user is still viewing pictures.
-            mbox = QMessageBox.warning(self, 'Spotlight Photos', 'Previous images could be lost!',
-                                       QMessageBox.Ok | QMessageBox.Cancel, QMessageBox.Cancel)
-            if mbox == QMessageBox.Cancel:
-                pass
-            else:
-                self.spotlight = Spotlight()
+            if self.load_in_button_clicked == 0 or (self.load_in_button_clicked != 0 and self.images == []):
+                # First time its clicked or Clicked when user deletes all pictures
+                self.spotlight = Spotlight(temp_storage=self.setts.value('temporary directory'))
                 print(self.spotlight.selected_new_win_files)
 
                 if self.spotlight.selected_new_win_files == []:
@@ -477,8 +463,7 @@ class MainApp(MainWindow, QWidget):
                     self.lbl_image.close()
                     self.lbl_image = Label()
                     self.top_layout.addWidget(self.lbl_image)
-                    self.lbl_image.setPixmap(
-                        QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
+                    self.lbl_image.setPixmap(QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
                     self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
 
                     # Enable buttons
@@ -488,6 +473,37 @@ class MainApp(MainWindow, QWidget):
                     self.btn_save.setEnabled(True)
                     self.btn_export.setEnabled(True)
                     self.load_in_button_clicked += 1
+
+            else:  # Clicked while user is still viewing pictures.
+                mbox = QMessageBox.warning(self, 'Spotlight Photos', 'Previous images could be lost!',
+                                           QMessageBox.Ok | QMessageBox.Cancel, QMessageBox.Cancel)
+                if mbox == QMessageBox.Cancel:
+                    pass
+                else:
+                    self.spotlight = Spotlight()
+                    print(self.spotlight.selected_new_win_files)
+
+                    if self.spotlight.selected_new_win_files == []:
+                        QMessageBox.critical(self, 'Spotlight Photos', 'No New Spotlight Photos Found!')
+                        return
+                    else:
+                        self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)) + ' items')
+                        # self.lbl_counter.setToolTip('Number of <b>selected</b> img')
+                        self.images = self.spotlight.selected_new_win_files
+                        self.lbl_image.close()
+                        self.lbl_image = Label()
+                        self.top_layout.addWidget(self.lbl_image)
+                        self.lbl_image.setPixmap(
+                            QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
+                        self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
+
+                        # Enable buttons
+                        self.btn_delete.setEnabled(True)
+                        self.btn_next.setEnabled(True)
+                        self.btn_previous.setEnabled(False)
+                        self.btn_save.setEnabled(True)
+                        self.btn_export.setEnabled(True)
+                        self.load_in_button_clicked += 1
 
     def nextImage(self):
         if self.image_index == (len(self.images) - 1):
@@ -582,9 +598,7 @@ class MainApp(MainWindow, QWidget):
 
     def saveImage(self):
         self.save_dialog = RenameDialogBox()
-        # self.signal_coords.emit(self.pos().x(), self.pos().y())
         self.signal_photo_name.emit(self.images[self.image_index])
-        # TODO: Implement later (Rename dialog to appear at the middle of app screen relatively not using signals.)
         self.save_dialog.show()
         self.save_dialog.signal_new_name.connect(self.getNewName)
 
@@ -625,48 +639,47 @@ class MainApp(MainWindow, QWidget):
 
     def exportImages(self):
         print('cur directory: ', os.getcwd())
-        directory = QFileDialog.getExistingDirectory(self, "Open Directory", "../", QFileDialog.ShowDirsOnly)
-        print('Dir chosen:', directory)
+        print('Dir chosen:', self.setts.value('target directory'))
 
-        if directory != '':
-            selected_pics = self.spotlight.moveToSpecificFolder(target_folder=directory)
-            print('from main app, selected pics: ', selected_pics)
-            if selected_pics is None:
-                QMessageBox.critical(self, 'Export Failed', '<b>NO</b> Favorite images to Export!')
-            else:
-                for item in selected_pics:
-                    self.images.remove(item)
-                self.images = os.listdir()
-                print(self.images, len(self.images))
-                self.image_index = 0
-                if len(self.images) != 0:
-                    self.lbl_image.setPixmap(QPixmap(self.images[self.image_index]))
-                    if len(self.images) == 1:
-                        self.lbl_counter.setText(str(len(self.images)) + ' item')
-                        self.btn_next.setEnabled(False)
-                        self.btn_previous.setEnabled(False)
-                    elif len(self.images) > 1:
-                        self.lbl_counter.setText(str(len(self.images)) + ' items')
-                        self.btn_previous.setEnabled(False)
-                        self.btn_next.setEnabled(True)
-                    self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
-                    QMessageBox.information(self, 'Export Success', 'Favorite image(s) exported.')
-
-                else:
-                    self.lbl_image.close()
-                    self.lbl_image = QLabel()
-                    self.lbl_image.setPixmap(QPixmap(':/icons/no_image'))
-                    self.lbl_image.setAlignment(Qt.AlignCenter)
-                    self.top_layout.addWidget(self.lbl_image)
-                    self.lbl_counter.setText('')
-                    self.setWindowTitle(self.title)
-
-                    # Disable buttons to prevent crash
+        selected_pics = self.spotlight.moveToSpecificFolder(prefix=self.setts.value('default prefix'),
+                                                            target_folder=self.setts.value('target directory'))
+        print('from main app, selected pics: ', selected_pics)
+        if selected_pics is None:
+            QMessageBox.critical(self, 'Export Failed', '<b>NO</b> Favorite images to Export!')
+        else:
+            for item in selected_pics:
+                self.images.remove(item)
+            self.images = os.listdir()
+            print(self.images, len(self.images))
+            self.image_index = 0
+            if len(self.images) != 0:
+                self.lbl_image.setPixmap(QPixmap(self.images[self.image_index]))
+                if len(self.images) == 1:
+                    self.lbl_counter.setText(str(len(self.images)) + ' item')
                     self.btn_next.setEnabled(False)
                     self.btn_previous.setEnabled(False)
-                    self.btn_save.setEnabled(False)
-                    self.btn_delete.setEnabled(False)
-                    self.btn_export.setEnabled(False)
+                elif len(self.images) > 1:
+                    self.lbl_counter.setText(str(len(self.images)) + ' items')
+                    self.btn_previous.setEnabled(False)
+                    self.btn_next.setEnabled(True)
+                self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
+                QMessageBox.information(self, 'Export Success', 'Favorite image(s) exported.')
+
+            else:
+                self.lbl_image.close()
+                self.lbl_image = QLabel()
+                self.lbl_image.setPixmap(QPixmap(':/icons/no_image'))
+                self.lbl_image.setAlignment(Qt.AlignCenter)
+                self.top_layout.addWidget(self.lbl_image)
+                self.lbl_counter.setText('')
+                self.setWindowTitle(self.title)
+
+                # Disable buttons to prevent crash
+                self.btn_next.setEnabled(False)
+                self.btn_previous.setEnabled(False)
+                self.btn_save.setEnabled(False)
+                self.btn_delete.setEnabled(False)
+                self.btn_export.setEnabled(False)
 
     def openSettings(self):
         self.settings_dialog = SettingsDialog()
@@ -685,7 +698,6 @@ if __name__ == '__main__':
 
     # TODO:
     #   1 Decouple custom widgets from main app
-    #   3. Open settings when 'Load in' is clicked for first time to set directories and temp storage etc
     #   4. Add more vivid description to README
     #   5. Edit the no_image icon to show the text more and reduce opacity of the circle
     #   6. Check if spotlight images is enabled
@@ -693,8 +705,5 @@ if __name__ == '__main__':
     #   8. Lookup context menus
 
     # TODO: FOR SETTINGS OPTIONS
-    #   0. Create settings file stuff in User/AppData/Roaming/ or /Local/
-    #   1. Set new prefix name (and save to file permanently)
-    #   2. Set target storage (and save to file permanently) and possibly temp storage
     #   3. Option for user to delete temp storage when done
-    #   4. Add option to export all, and export only selected images
+    #   4. Implement option to export all, and export only selected images

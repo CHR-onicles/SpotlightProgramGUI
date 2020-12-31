@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QPixmap, QIcon, QWindowStateChangeEvent
-from PyQt5.QtCore import *
+from PyQt5.QtWidgets import QWidget, QToolButton, QHBoxLayout, QVBoxLayout, QFrame, QLabel, QGroupBox
+from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtCore import QSize, Qt, QEvent
 
 # Local Imports
 import style, icons_rc
@@ -19,7 +19,6 @@ class MainWindow(QWidget):
         self.setObjectName('MainWindow')
         self.setStyleSheet(style.mainWindowStyle())
         self.button_icon_size_x, self.button_icon_size_y = 30, 30
-
 
         self.UIComponents()
         self.show()

@@ -7,9 +7,9 @@ from PIL import Image
 
 class Spotlight:
     """
-    TODO: Documentation here
+    Class for handling retrieval and filtering of spotlight photos for further processing.
     """
-    def __init__(self, temp_storage='B:/Desktop/win'):  # C:/Users/ADMIN/Desktop/win
+    def __init__(self, temp_storage=''):  # C:/Users/ADMIN/Desktop/win
         self.spotlight_path = (
             f'C:/Users/{getuser()}/AppData/Local/Packages/Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy'
             f'/LocalState/Assets')
@@ -38,13 +38,13 @@ class Spotlight:
         # giving all raw files full path names for later copy operation
         files = [os.path.join(self.spotlight_path, os.listdir()[count]) for count, fl in enumerate(os.listdir())]
 
-        # Copying raw files to win folder
+        # Copying raw files to temporary folder
         for f in files:
             shutil.copy(f, self.temp_storage)
         print('Copying all raw files successful!')
 
 
-        # change path to win folder on desktop
+        # change path to temporary folder
         os.chdir(self.temp_storage)
 
         # converting all raw files to pictures (* + .png) except those that are already pictures
@@ -67,15 +67,13 @@ class Spotlight:
         new_win_files = os.listdir()
 
         # Loop through and delete unnecessary windows pictures (img, thumbnails etc.)
-        # Their dimensions will not be same as desktop dimensions
-
-        # change this value accordingly with your system's
-        self.DESKTOP_RESOLUTION = (1920, 1080)
+        # All spotlight_photos on all desktops are 1920x1080
+        self.IMAGE_RESOLUTION = (1920, 1080)
 
         # PIL to check dimensions and delete unnecessary pics since using
         # raw file size was inefficient
         for f in new_win_files:
-            if Image.open(f).size != self.DESKTOP_RESOLUTION:
+            if Image.open(f).size != self.IMAGE_RESOLUTION:
                 send2trash.send2trash(f)
         print('Unnecessary files deleted successfully')
 
@@ -84,14 +82,14 @@ class Spotlight:
         print('from Spotlight, selected images: ', self.selected_new_win_files)
 
 
-    def moveToSpecificFolder(self, target_folder='B:/Desktop/Wallpapers'):  # C:/Users/ADMIN/Desktop/win
-        # transferring remaining pictures to wallpapers folder
-        # Grab remaining pics(those that have been renamed by User)
+    def moveToSpecificFolder(self, prefix='', target_folder=''):
+        # Transferring remaining pictures to target folder
         pics = os.listdir()
         fav_pics = []
+        print('Target folder valid: ', os.path.isdir(target_folder))
 
         for pic in pics:
-            if 'spotlight' in pic:
+            if prefix in pic:
                 fav_pics.append(pic)
             else:
                 continue
