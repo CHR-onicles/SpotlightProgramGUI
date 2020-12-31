@@ -356,21 +356,17 @@ class SettingsDialog(QDialog):
         self.temp_dir = QFileDialog.getExistingDirectory(self, 'Select Temporary Folder for Images')
         if self.temp_dir != '':
             print('temp dir: ', self.temp_dir)
-            if len(self.temp_dir) > 26:
-                new_temp_dir = self.temp_dir[0:4] + '...' + self.temp_dir[-20:]
-                self.entry_temp_dir.setText(new_temp_dir)
-            else:
-                self.entry_temp_dir.setText(self.temp_dir)
+            # if len(self.temp_dir) > 26:
+            #     new_temp_dir = self.temp_dir[0:4] + '...' + self.temp_dir[-20:]
+            #     self.entry_temp_dir.setText(new_temp_dir)
+            # else:
+            self.entry_temp_dir.setText(self.temp_dir)
 
     def browseTargetDirectory(self):
         self.target_dir = QFileDialog.getExistingDirectory(self, 'Select Target Folder for Favorite/All Images')
         if self.target_dir != '':
             print('target dir: ', self.target_dir)
-            if len(self.target_dir) > 26:
-                new_target_dir = self.target_dir[0:4] + '...' + self.target_dir[-20:]
-                self.entry_target_dir.setText(new_target_dir)
-            else:
-                self.entry_target_dir.setText(self.target_dir)
+            self.entry_target_dir.setText(self.target_dir)
 
 
 

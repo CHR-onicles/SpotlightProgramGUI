@@ -85,6 +85,7 @@ class Spotlight:
     def moveToSpecificFolder(self, prefix='', target_folder=''):
         # Transferring remaining pictures to target folder
         pics = os.listdir()
+        print('listing target dir: ', os.listdir(target_folder))
         fav_pics = []
         print('Target folder valid: ', os.path.isdir(target_folder))
 
