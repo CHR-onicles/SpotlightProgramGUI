@@ -77,7 +77,6 @@ class Spotlight:
                 send2trash.send2trash(f)
         print('Unnecessary files deleted successfully')
 
-
         self.selected_new_win_files = os.listdir()
         print('from Spotlight, selected images: ', self.selected_new_win_files)
 
@@ -111,7 +110,6 @@ class Spotlight:
 
             print('Files moved successfully! \n')
             return fav_pics
-        # TODO: Connect this to main window, add prefix to class call for this function in case user changes it.
 
 
 # s = Spotlight()

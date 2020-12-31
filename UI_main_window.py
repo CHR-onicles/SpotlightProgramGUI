@@ -19,6 +19,7 @@ class MainWindow(QWidget):
         self.setObjectName('MainWindow')
         self.setStyleSheet(style.mainWindowStyle())
         self.button_icon_size_x, self.button_icon_size_y = 30, 30
+        self.fav_icon_size_x, self.fav_icon_size_y = 25, 25
 
         self.UIComponents()
         self.show()
@@ -107,6 +108,11 @@ class MainWindow(QWidget):
         self.lbl_counter.setStyleSheet(style.labelStyle())
         self.lbl_counter.setAlignment(Qt.AlignBottom | Qt.AlignRight)
 
+        # FAVORITED ICON LABEL --------------------------------------------------------------------
+        self.lbl_fav_icon = QLabel()
+        self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
+        self.lbl_fav_icon.setAlignment(Qt.AlignBottom | Qt.AlignLeft)
+
         # SEPARATION LINES -------------------------------------------------------------------------
         self.vline_1 = QVSeparationLine()
         self.vline_1.setObjectName('vline_1')
@@ -125,6 +131,7 @@ class MainWindow(QWidget):
         self.button_group_box.setObjectName('button_group_box')
         self.button_group_box.setStyleSheet(style.buttonGroupBoxStyle())
         self.image_frame = QFrame()
+        self.left_bottom_layout = QHBoxLayout()
         self.right_bottom_layout = QHBoxLayout()
         self.left_bottom_box = QFrame()
         self.right_bottom_box = QFrame()
@@ -144,6 +151,9 @@ class MainWindow(QWidget):
         self.bottom_button_layout.addWidget(self.btn_delete)
         self.bottom_button_layout.addWidget(self.btn_export)
         self.button_group_box.setLayout(self.bottom_button_layout)
+
+        # BOTTOM LEFT LAYOUT AND FRAME ---------------------------------------------------------------
+        self.left_bottom_box.setLayout(self.left_bottom_layout)
 
         # BOTTOM RIGHT LAYOUT AND FRAME --------------------------------------------------------------
         self.right_bottom_layout.addWidget(self.lbl_counter)

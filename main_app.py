@@ -354,6 +354,10 @@ class SettingsDialog(QDialog):
 
     def browseTempDirectory(self):
         self.temp_dir = QFileDialog.getExistingDirectory(self, 'Select Temporary Folder for Images')
+        if self.temp_dir != '' and self.temp_dir == self.target_dir:
+            QMessageBox.critical(self, 'Invalid Folder Error',
+                                 'You <b>cannot</b> use the same folder as the <b>Target Folder<b>!')
+            return
         if self.temp_dir != '':
             print('temp dir: ', self.temp_dir)
             # if len(self.temp_dir) > 26:
@@ -364,6 +368,10 @@ class SettingsDialog(QDialog):
 
     def browseTargetDirectory(self):
         self.target_dir = QFileDialog.getExistingDirectory(self, 'Select Target Folder for Favorite/All Images')
+        if self.target_dir != '' and self.target_dir == self.temp_dir:
+            QMessageBox.critical(self, 'Invalid Folder Error',
+                                 'You <b>cannot</b> use the same folder as the <b>Temporary Folder<b>!')
+            return
         if self.target_dir != '':
             print('target dir: ', self.target_dir)
             self.entry_target_dir.setText(self.target_dir)
@@ -502,6 +510,12 @@ class MainApp(MainWindow, QWidget):
                         self.btn_export.setEnabled(True)
                         self.load_in_button_clicked += 1
 
+        if self.setts.value('default prefix') in self.images[self.image_index]:
+            self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
+            self.left_bottom_layout.addWidget(self.lbl_fav_icon)
+        else:
+            self.lbl_fav_icon.clear()
+
     def nextImage(self):
         if self.image_index == (len(self.images) - 1):
             self.image_index -= 1
@@ -514,6 +528,12 @@ class MainApp(MainWindow, QWidget):
 
         if self.image_index == (len(self.images) - 1):
             self.btn_next.setEnabled(False)
+
+        if self.setts.value('default prefix') in self.images[self.image_index]:
+            self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
+            self.left_bottom_layout.addWidget(self.lbl_fav_icon)
+        else:
+            self.lbl_fav_icon.clear()
 
     def previousImage(self):
         # Check before executing button function
@@ -529,6 +549,12 @@ class MainApp(MainWindow, QWidget):
         # Check after executing button function
         if self.image_index == 0:
             self.btn_previous.setEnabled(False)
+
+        if self.setts.value('default prefix') in self.images[self.image_index]:
+            self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
+            self.left_bottom_layout.addWidget(self.lbl_fav_icon)
+        else:
+            self.lbl_fav_icon.clear()
 
     def deleteImage(self):
         if len(self.images) == 1:  # Deleting the last image
@@ -549,6 +575,7 @@ class MainApp(MainWindow, QWidget):
             self.btn_save.setEnabled(False)
             self.btn_delete.setEnabled(False)
             self.btn_export.setEnabled(False)
+            self.lbl_fav_icon.clear()
             return
 
 
@@ -588,6 +615,11 @@ class MainApp(MainWindow, QWidget):
 
         self.lbl_image.setPixmap(QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
         self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
+        if self.setts.value('default prefix') in self.images[self.image_index]:
+            self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
+            self.left_bottom_layout.addWidget(self.lbl_fav_icon)
+        else:
+            self.lbl_fav_icon.clear()
         if len(self.images) > 1:
             self.lbl_counter.setText(str(len(self.images)) + ' items')
         else:
@@ -632,6 +664,11 @@ class MainApp(MainWindow, QWidget):
             self.btn_next.setEnabled(True)
 
         self.setWindowTitle(self.title + ' - ' + self.new_prefix+self.new_name+'.png')
+        if self.setts.value('default prefix') in self.images[self.image_index]:
+            self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
+            self.left_bottom_layout.addWidget(self.lbl_fav_icon)
+        else:
+            self.lbl_fav_icon.clear()
         print('New Images:', self.images)
 
     def exportImages(self):
@@ -646,7 +683,7 @@ class MainApp(MainWindow, QWidget):
 
         elif selected_pics[0] == 'FileExistsError':
             QMessageBox.critical(self, 'Image already exists', f'Image with the name \'<i>{selected_pics[1]}</i>\''
-                                f' already exists at <b>target folder</b>!')
+                                 f' already exists at <b>target folder</b>!')
 
         else:
             for item in selected_pics:
@@ -666,8 +703,15 @@ class MainApp(MainWindow, QWidget):
                     self.btn_next.setEnabled(True)
                 self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
                 QMessageBox.information(self, 'Export Success', 'Favorite image(s) exported.')
+                if self.setts.value('default prefix') in self.images[self.image_index]:
+                    self.lbl_fav_icon.setPixmap(
+                        QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
+                    self.left_bottom_layout.addWidget(self.lbl_fav_icon)
+                else:
+                    self.lbl_fav_icon.clear()
 
             else:
+                self.lbl_fav_icon.clear()
                 self.lbl_image.close()
                 self.lbl_image = QLabel()
                 self.lbl_image.setPixmap(QPixmap(':/icons/no_image'))
@@ -682,6 +726,7 @@ class MainApp(MainWindow, QWidget):
                 self.btn_save.setEnabled(False)
                 self.btn_delete.setEnabled(False)
                 self.btn_export.setEnabled(False)
+                QMessageBox.information(self, 'Export Success', 'Favorite image(s) exported.')
 
     def openSettings(self):
         self.settings_dialog = SettingsDialog()
@@ -705,7 +750,6 @@ if __name__ == '__main__':
     #   4. Check if spotlight images is enabled
     #   5. Option to open previous pics or load new ones (Use 'more icon' and put some buttons there)
     #   6. Lookup context menus
-    #   7. Prevent export from overwriting images with same names
 
     # TODO: FOR SETTINGS OPTIONS
     #   3. Option for user to delete temp storage when done
