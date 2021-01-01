@@ -766,6 +766,7 @@ if __name__ == '__main__':
     #   5. Option to open previous pics or load new ones (Use 'more icon' and put some buttons there)
     #   6. Lookup context menus
     #   7. Informative text with Messagebox for 'No fav image selected'
+    #   8. Animating loading in of pictures with a progress bar kinda style
 
     # TODO: FOR SETTINGS OPTIONS
     #   3. Option for user to delete temp storage when done

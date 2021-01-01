@@ -19,7 +19,7 @@ class MainWindow(QWidget):
         self.setObjectName('MainWindow')
         self.setStyleSheet(style.mainWindowStyle())
         self.button_icon_size_x, self.button_icon_size_y = 30, 30
-        self.fav_icon_size_x, self.fav_icon_size_y = 25, 25
+        self.fav_icon_size_x, self.fav_icon_size_y = 30, 30
 
         self.UIComponents()
         self.show()
