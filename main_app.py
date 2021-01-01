@@ -744,7 +744,6 @@ if __name__ == '__main__':
 
 
     # TODO:
-    #   1 Decouple custom widgets from main app
     #   2. Add more vivid description to README
     #   3. Edit the no_image icon to show the text more and reduce opacity of the circle
     #   4. Check if spotlight images is enabled
@@ -753,4 +752,4 @@ if __name__ == '__main__':
 
     # TODO: FOR SETTINGS OPTIONS
     #   3. Option for user to delete temp storage when done
-    #   4. Implement option to export all, and export only selected images
+    #   4. Implement option to export all, export only selected images, or export one at a time
