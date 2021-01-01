@@ -177,6 +177,7 @@ class SettingsDialog(QDialog):
         self.default_prefix_text = 'sp'
         self.temp_dir = ''
         self.target_dir = ''
+
         self.settings = QSettings('CHR-onicles', 'SpottyApp')
         try:
             self.move(self.settings.value('settings dialog location'))
@@ -186,6 +187,9 @@ class SettingsDialog(QDialog):
                 self.default_prefix_text = self.settings.value('default prefix')
             self.temp_dir = str(self.settings.value('temporary directory'))
             self.target_dir = str(self.settings.value('target directory'))
+            self.rbtn_fav_state = self.toBool(self.settings.value('fav button checked'))
+            self.rbtn_all_state = self.toBool(self.settings.value('all button checked'))
+            self.rbtn_one_state = self.toBool(self.settings.value('one button checked'))
         except:
             pass
 
@@ -254,8 +258,11 @@ class SettingsDialog(QDialog):
         self.hline_3.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
 
         self.rbtn_fav = QRadioButton('Favorite images only')
-        self.rbtn_fav.setChecked(True)
+        self.rbtn_fav.setChecked(self.rbtn_fav_state)
         self.rbtn_all = QRadioButton('All images')
+        self.rbtn_all.setChecked(self.rbtn_all_state)
+        self.rbtn_one = QRadioButton('One at a time')
+        self.rbtn_one.setChecked(self.rbtn_one_state)
 
         self.btn_ok = QPushButton('OK')
         self.btn_ok.setObjectName('btn_ok')
@@ -276,6 +283,7 @@ class SettingsDialog(QDialog):
 
         self.top_form_layout = QFormLayout()
         self.middle_form_layout = QFormLayout()
+        self.bottom_rbtn_layout = QHBoxLayout()
         self.bottom_form_layout = QFormLayout()
         self.btn_ok_cancel_layout = QHBoxLayout()
 
@@ -307,7 +315,9 @@ class SettingsDialog(QDialog):
         # BOTTOM LAYOUT -----------------------------------------------------------------------------------
         self.export_options_layout.addWidget(self.lbl_export_options)
         self.export_options_layout.addWidget(self.hline_3)
-        self.bottom_form_layout.addRow(self.rbtn_fav, self.rbtn_all)
+        self.bottom_rbtn_layout.addWidget(self.rbtn_fav)
+        self.bottom_rbtn_layout.addWidget(self.rbtn_one)
+        self.bottom_form_layout.addRow(self.rbtn_all, self.bottom_rbtn_layout)
         self.btn_ok_cancel_layout.addWidget(self.btn_ok)
         self.btn_ok_cancel_layout.addWidget(self.btn_cancel)
         self.btn_ok_cancel_layout.setContentsMargins(170, 0, 0, 0)
@@ -316,8 +326,8 @@ class SettingsDialog(QDialog):
         self.bottom_layout.addLayout(self.bottom_form_layout)
 
         # CONFIGURING MAIN LAYOUT ----------------------------------------------------------------------------
-        self.main_layout.addLayout(self.top_layout, 30)
-        self.main_layout.addLayout(self.middle_layout, 35)
+        self.main_layout.addLayout(self.top_layout, 35)
+        self.main_layout.addLayout(self.middle_layout, 30)
         self.main_layout.addLayout(self.bottom_layout, 20)
         self.main_layout.addLayout(self.btn_ok_cancel_layout, 15)
         self.setLayout(self.main_layout)
@@ -346,6 +356,9 @@ class SettingsDialog(QDialog):
             self.settings.setValue('default prefix', self.custom_prefix)
             self.settings.setValue('temporary directory', self.temp_dir)
             self.settings.setValue('target directory', self.target_dir)
+            self.settings.setValue('fav button checked', self.rbtn_fav.isChecked())
+            self.settings.setValue('all button checked', self.rbtn_all.isChecked())
+            self.settings.setValue('one button checked', self.rbtn_one.isChecked())
             QMessageBox.information(self, 'Settings saved', 'Settings have been updated!')
             self.close()
         else:
@@ -375,6 +388,9 @@ class SettingsDialog(QDialog):
         if self.target_dir != '':
             print('target dir: ', self.target_dir)
             self.entry_target_dir.setText(self.target_dir)
+
+    def toBool(self, text):
+        return text.lower() in ['true', 'True', 1]
 
 
 
@@ -749,6 +765,7 @@ if __name__ == '__main__':
     #   4. Check if spotlight images is enabled
     #   5. Option to open previous pics or load new ones (Use 'more icon' and put some buttons there)
     #   6. Lookup context menus
+    #   7. Informative text with Messagebox for 'No fav image selected'
 
     # TODO: FOR SETTINGS OPTIONS
     #   3. Option for user to delete temp storage when done

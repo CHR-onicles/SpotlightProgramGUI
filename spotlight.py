@@ -1,6 +1,8 @@
 import os, shutil, send2trash
 from getpass import getuser
 from PIL import Image
+from random import choices
+import string
 
 
 
@@ -76,6 +78,12 @@ class Spotlight:
             if Image.open(f).size != self.IMAGE_RESOLUTION:
                 send2trash.send2trash(f)
         print('Unnecessary files deleted successfully')
+
+        # Giving selected pics random non-repeating(hopefully) names
+        self.selected_new_win_files = os.listdir()
+
+        for pics in self.selected_new_win_files:
+            os.rename(pics, ''.join(choices(string.ascii_letters + string.digits, k=7)) + '.png')
 
         self.selected_new_win_files = os.listdir()
         print('from Spotlight, selected images: ', self.selected_new_win_files)
