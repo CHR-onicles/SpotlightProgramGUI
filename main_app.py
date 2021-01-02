@@ -1,6 +1,6 @@
 import os, sys, send2trash
 from PyQt5.QtWidgets import QApplication, QDialog, QWidget, QLabel, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, \
-    QFormLayout, QMessageBox, QRadioButton, QFileDialog, QSizePolicy, QDesktopWidget
+     QFormLayout, QMessageBox, QRadioButton, QFileDialog, QSizePolicy, QDesktopWidget
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot, QSettings, QPropertyAnimation, QSize, QEasingCurve, QTimer
 
@@ -158,12 +158,11 @@ class SettingsDialog(QDialog):
         self.setModal(True)  # deactivates other windows till this window is interacted with
 
         self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 450, 100
-        self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT
-        self.xpos = (self.D_WIDTH / 2) - (self.DIALOG_WIDTH / 2)
-        self.ypos = (self.D_HEIGHT / 2) - (self.DIALOG_HEIGHT / 2)
-
-        # Positioning at center of screen
-        self.setGeometry(int(self.xpos), int(self.ypos), self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
+        # self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT
+        # self.xpos = (self.D_WIDTH / 2) - (self.DIALOG_WIDTH / 2)
+        # self.ypos = (self.D_HEIGHT / 2) - (self.DIALOG_HEIGHT / 2)
+        self.resize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
+        # self.setGeometry(int(self.xpos), int(self.ypos), self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
         self.setStyleSheet(style.SettingsDialogStyle())
 
 
@@ -447,7 +446,17 @@ class MainApp(MainWindow, QWidget):
         except:
             pass
 
+        self.first_time_settings_opened = False
+        if self.setts.contains('default prefix') is False:
+            self.timer = QTimer()
+            self.timer.setInterval(500)
+            self.timer.start()
+            self.timer.timeout.connect(self.openSettings)
+            self.first_time_settings_opened = True
+
+
         self.UI()
+
 
     def closeEvent(self, event):
         self.setts.setValue('window size', self.size())
@@ -455,6 +464,7 @@ class MainApp(MainWindow, QWidget):
 
     def UI(self):
         self.app_widgets()
+
 
     def app_widgets(self):
         # BUTTONS ---------------------------------------------------------------------------
@@ -479,17 +489,46 @@ class MainApp(MainWindow, QWidget):
 
     def retrieveSpotlightPhotos(self):
         self.image_index = 0
-        if self.setts.contains('default prefix') is False:
-            self.openSettings()
+        temp_dir = self.setts.value('temporary directory')
+        target_dir = self.setts.value('target directory')
+        if ((temp_dir is None or target_dir is None) or (temp_dir in ['none', 'None'] or target_dir in ['none', 'None'])):
+            QMessageBox.critical(self, 'Directory Error', 'Folder(s) NOT chosen in <b>Settings</b>')
         else:
-            if self.setts.value('temporary directory') in ['none', 'None'] or self.setts.value('target directory') \
-                    in ['none', 'None']:
-                QMessageBox.critical(self, 'Directory Error', 'No Directory is chosen in <b>Settings</b>')
-            else:
-                if self.load_in_button_clicked == 0 or (self.load_in_button_clicked != 0 and self.images == []):
-                    # First time its clicked or Clicked when user deletes all pictures
-                    self.spotlight = Spotlight(prefix=self.setts.value('default prefix'),
-                                               temp_storage=self.setts.value('temporary directory'))
+            if self.load_in_button_clicked == 0 or (self.load_in_button_clicked != 0 and self.images == []):
+                # First time its clicked or Clicked when user deletes all pictures
+                self.spotlight = Spotlight(prefix=self.setts.value('default prefix'),
+                                           temp_storage=temp_dir)
+                print(self.spotlight.selected_new_win_files)
+
+                if self.spotlight.selected_new_win_files == []:
+                    QMessageBox.critical(self, 'Spotlight Photos', 'No New Spotlight Photos Found!')
+                    return
+                else:
+                    self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)) + ' items')
+                    # self.lbl_counter.setToolTip('Number of <b>selected</b> img')
+                    self.images = self.spotlight.selected_new_win_files
+                    self.lbl_image.close()
+                    self.lbl_image = Label()
+                    self.top_layout.addWidget(self.lbl_image)
+                    self.lbl_image.setPixmap(
+                        QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
+                    self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
+
+                    # Enable buttons except previous button since we'll be at first image
+                    self.btn_delete.setEnabled(True)
+                    self.btn_next.setEnabled(True)
+                    self.btn_previous.setEnabled(False)
+                    self.btn_save.setEnabled(True)
+                    self.btn_export.setEnabled(True)
+                    self.load_in_button_clicked += 1
+
+            else:  # Clicked while user is still viewing pictures.
+                mbox = QMessageBox.warning(self, 'Spotlight Photos', 'Previous images could be lost!',
+                                           QMessageBox.Ok | QMessageBox.Cancel, QMessageBox.Cancel)
+                if mbox == QMessageBox.Cancel:
+                    pass
+                else:
+                    self.spotlight = Spotlight()
                     print(self.spotlight.selected_new_win_files)
 
                     if self.spotlight.selected_new_win_files == []:
@@ -506,7 +545,7 @@ class MainApp(MainWindow, QWidget):
                             QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
                         self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
 
-                        # Enable buttons except previous button since we'll be at first image
+                        # Enable buttons
                         self.btn_delete.setEnabled(True)
                         self.btn_next.setEnabled(True)
                         self.btn_previous.setEnabled(False)
@@ -514,43 +553,12 @@ class MainApp(MainWindow, QWidget):
                         self.btn_export.setEnabled(True)
                         self.load_in_button_clicked += 1
 
-                else:  # Clicked while user is still viewing pictures.
-                    mbox = QMessageBox.warning(self, 'Spotlight Photos', 'Previous images could be lost!',
-                                               QMessageBox.Ok | QMessageBox.Cancel, QMessageBox.Cancel)
-                    if mbox == QMessageBox.Cancel:
-                        pass
-                    else:
-                        self.spotlight = Spotlight()
-                        print(self.spotlight.selected_new_win_files)
-
-                        if self.spotlight.selected_new_win_files == []:
-                            QMessageBox.critical(self, 'Spotlight Photos', 'No New Spotlight Photos Found!')
-                            return
-                        else:
-                            self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)) + ' items')
-                            # self.lbl_counter.setToolTip('Number of <b>selected</b> img')
-                            self.images = self.spotlight.selected_new_win_files
-                            self.lbl_image.close()
-                            self.lbl_image = Label()
-                            self.top_layout.addWidget(self.lbl_image)
-                            self.lbl_image.setPixmap(
-                                QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
-                            self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
-
-                            # Enable buttons
-                            self.btn_delete.setEnabled(True)
-                            self.btn_next.setEnabled(True)
-                            self.btn_previous.setEnabled(False)
-                            self.btn_save.setEnabled(True)
-                            self.btn_export.setEnabled(True)
-                            self.load_in_button_clicked += 1
-
-                if self.setts.value('default prefix') in self.images[self.image_index]:
-                    self.lbl_fav_icon.setPixmap(
-                        QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
-                    self.left_bottom_layout.addWidget(self.lbl_fav_icon)
-                else:
-                    self.lbl_fav_icon.clear()
+            if self.setts.value('default prefix') in self.images[self.image_index]:
+                self.lbl_fav_icon.setPixmap(
+                    QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
+                self.left_bottom_layout.addWidget(self.lbl_fav_icon)
+            else:
+                self.lbl_fav_icon.clear()
 
     def nextImage(self):
         if self.image_index == (len(self.images) - 1):
@@ -757,12 +765,14 @@ class MainApp(MainWindow, QWidget):
                 self.conditionsForWhatToDoAfterExport()
 
         else:
-            QMessageBox.critical(self, 'Export Choice', 'No <b>Export Option</b> was selected!')
+            QMessageBox.critical(self, 'Export Choice', 'No <b>Export Option</b> was selected in Settings!')
             # TODO: Add informative text here to: 'go to settings'
 
     def openSettings(self):
         self.settings_dialog = SettingsDialog()
         self.settings_dialog.show()
+        if self.first_time_settings_opened is True:
+            self.timer.stop()
 
 
     # CLASS HELPER FUNCTIONS (to reduce repetition) ------------------------------------------------------
