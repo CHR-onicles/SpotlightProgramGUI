@@ -32,6 +32,7 @@ class Spotlight:
             if prefix not in def_file:
                 send2trash.send2trash(def_file)
         print('All previous files cleared!')
+        # TODO: Remove this upon release
 
 
         # changing OS directory to location of spotlight photos files
@@ -86,16 +87,16 @@ class Spotlight:
             os.rename(pics, ''.join(choices(string.ascii_letters + string.digits, k=7)) + '.png')
 
         self.selected_new_win_files = os.listdir()
-        print('from Spotlight, selected images: ', self.selected_new_win_files)
+        print('from Spotlight class, selected images: ', self.selected_new_win_files)
 
 
-    def moveToSpecificFolder(self, prefix='', target_folder=''):
-        # Transferring remaining pictures to target folder
+    def moveFavoritesToSpecificFolder(self, prefix='', target_folder=''):
         pics = os.listdir()
         print('listing target dir: ', os.listdir(target_folder))
         fav_pics = []
         print('Target folder valid: ', os.path.isdir(target_folder))
 
+        # Selecting pics with prefix in them (favorited pics)
         for pic in pics:
             if prefix in pic:
                 fav_pics.append(pic)
@@ -108,7 +109,7 @@ class Spotlight:
         else:
             wallpapers_path = target_folder
 
-            # transfer pics to new wallpaper folder
+            # Transfer selected pics to new wallpaper folder
             for file in fav_pics:
                 try:
                     shutil.move(os.path.join(os.getcwd(), file), wallpapers_path)
@@ -116,8 +117,40 @@ class Spotlight:
                     print('File Exits Already')
                     return ['FileExistsError', file]
 
-            print('Files moved successfully! \n')
+            print('Favorite Files moved successfully! \n')
             return fav_pics
 
+    def moveAllToSpecificFolder(self, target_folder=''):
+        pics = os.listdir()
+        print('listing target dir: ', os.listdir(target_folder))
+        print('Target folder valid: ', os.path.isdir(target_folder))
 
-# s = Spotlight()
+        wallpapers_path = target_folder
+
+        # Transfer all pics to new wallpaper folder
+        for file in pics:
+            try:
+                shutil.move(os.path.join(os.getcwd(), file), wallpapers_path)
+            except:
+                print('File Exits Already')
+                return ['FileExistsError', file]
+
+        print('All Files moved successfully! \n')
+        return pics
+
+    def moveOneToSpecificFolder(self, single_pic='', target_folder=''):
+        pic = single_pic
+        print('listing target dir: ', os.listdir(target_folder))
+        print('Target folder valid: ', os.path.isdir(target_folder))
+
+        wallpapers_path = target_folder
+
+        # Transfer selected pic to new wallpaper folder
+        try:
+            shutil.move(os.path.join(os.getcwd(), pic), wallpapers_path)
+        except:
+            print('File Exits Already')
+            return ['FileExistsError', pic]
+
+        print('All Files moved successfully! \n')
+        return pic

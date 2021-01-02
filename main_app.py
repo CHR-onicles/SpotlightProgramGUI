@@ -45,7 +45,6 @@ class RenameDialogBox(QDialog):
         except:
             pass
 
-
         self.UI()
 
     def closeEvent(self, event):
@@ -98,7 +97,6 @@ class RenameDialogBox(QDialog):
         self.section_layout.addWidget(self.lbl_prefix_options)
         self.section_layout.addWidget(self.hline)
 
-
         # Adding Widgets to Top Layout -----------------------------------------------------------------
         self.top_layout.addWidget(self.lbl_rename)
 
@@ -115,7 +113,6 @@ class RenameDialogBox(QDialog):
         self.bottom_main_layout.setContentsMargins(0, 7, 0, 0)
         self.bottom_main_layout.addLayout(self.section_layout, 2)
         self.bottom_main_layout.addLayout(self.bottom_layout, 98)
-
 
         # Adding Layouts and Widgets to Main Layout ----------------------------------------------------
         self.main_layout.addLayout(self.top_layout, 10)
@@ -222,7 +219,6 @@ class SettingsDialog(QDialog):
         self.lbl_custom_prefix_hint = QLabel('')  # change to all time later
         self.lbl_custom_prefix_hint.setWordWrap(True)
 
-
         # MIDDLE LAYOUT WIDGETS ----------------------------------------------------------------------------
         self.lbl_dir_options = QLabel('Folder options')
         self.lbl_dir_options.setObjectName('lbl_options')
@@ -249,7 +245,6 @@ class SettingsDialog(QDialog):
         self.btn_target_dir_browse.setObjectName('btn_browse')
         self.btn_target_dir_browse.setToolTip('Select folder to <b>export</b> favorite/all images to')
         self.btn_target_dir_browse.clicked.connect(self.browseTargetDirectory)
-
 
         # BOTTOM LAYOUT WIDGETS ----------------------------------------------------------------------------
         self.lbl_export_options = QLabel('Export options')
@@ -336,7 +331,8 @@ class SettingsDialog(QDialog):
     def showHint(self):
         if self.entry_custom_prefix.text() != '':
             # print('Typed something in custom prefix')
-            self.lbl_custom_prefix_hint.setText('This prefix will be used as the default prefix for all images from now on.')
+            self.lbl_custom_prefix_hint.setText(
+                'This prefix will be used as the default prefix for all images from now on.')
             self.lbl_custom_prefix_hint.setStyleSheet('font: 8pt segoe UI; color: #3db7ff;')
             self.top_form_layout.addRow('', self.lbl_custom_prefix_hint)
         else:
@@ -420,7 +416,6 @@ class MainApp(MainWindow, QWidget):
         self.image_index = 0
         self.app_dir = os.getcwd()
 
-
         # APP SETTINGS -------------------------------------------------------------------------------
         self.setts = QSettings('CHR-onicles', 'SpottyApp')
         print('App data already exists:', self.setts.contains('default prefix'))
@@ -484,7 +479,8 @@ class MainApp(MainWindow, QWidget):
                     self.lbl_image.close()
                     self.lbl_image = Label()
                     self.top_layout.addWidget(self.lbl_image)
-                    self.lbl_image.setPixmap(QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
+                    self.lbl_image.setPixmap(
+                        QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
                     self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
 
                     # Enable buttons
@@ -594,8 +590,7 @@ class MainApp(MainWindow, QWidget):
             self.lbl_fav_icon.clear()
             return
 
-
-        if self.image_index == len(self.images)-1:
+        if self.image_index == len(self.images) - 1:
             if len(self.images) == 2:
                 self.btn_next.setEnabled(False)  # Don't know whether this works or not
             print('deleting last image in list')
@@ -625,7 +620,7 @@ class MainApp(MainWindow, QWidget):
             self.image_index -= 1
             if self.image_index == 0:
                 self.btn_previous.setEnabled(False)
-            elif len(self.images) == 2 and self.image_index  == 1:
+            elif len(self.images) == 2 and self.image_index == 1:
                 self.btn_next.setEnabled(False)
             print('remaining images:', self.images)
 
@@ -655,7 +650,7 @@ class MainApp(MainWindow, QWidget):
         print(self.new_prefix + self.new_name)
 
         old_file = self.images[self.image_index]
-        os.rename(old_file, self.new_prefix+self.new_name+'.png')
+        os.rename(old_file, self.new_prefix + self.new_name + '.png')
         self.images.remove(old_file)
         self.images = os.listdir()
         # print(self.images.index('.png'))  # Doesn't work...have no idea why
@@ -679,7 +674,7 @@ class MainApp(MainWindow, QWidget):
             self.btn_previous.setEnabled(False)
             self.btn_next.setEnabled(True)
 
-        self.setWindowTitle(self.title + ' - ' + self.new_prefix+self.new_name+'.png')
+        self.setWindowTitle(self.title + ' - ' + self.new_prefix + self.new_name + '.png')
         if self.setts.value('default prefix') in self.images[self.image_index]:
             self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
             self.left_bottom_layout.addWidget(self.lbl_fav_icon)
@@ -691,62 +686,98 @@ class MainApp(MainWindow, QWidget):
         print('cur directory: ', os.getcwd())
         print('Dir chosen:', self.setts.value('target directory'))
 
-        selected_pics = self.spotlight.moveToSpecificFolder(prefix=self.setts.value('default prefix'),
-                                                            target_folder=self.setts.value('target directory'))
-        print('from main app, selected pics: ', selected_pics)
-        if selected_pics is None:
-            QMessageBox.critical(self, 'Export Failed', '<b>NO</b> Favorite images to Export!')
+        if self.setts.value('fav button checked') == 'true':
+            print('fav button checked:', self.setts.value('fav button checked'))
+            selected_pics = self.spotlight.moveFavoritesToSpecificFolder(prefix=self.setts.value('default prefix'),
+                                                                         target_folder=self.setts.value('target directory'))
+            print('from main app, selected pics:', selected_pics)
+            if selected_pics is None:
+                QMessageBox.critical(self, 'Export Failed', '<b>NO</b> Favorite images to Export!')
 
-        elif selected_pics[0] == 'FileExistsError':
-            QMessageBox.critical(self, 'Image already exists', f'Image with the name \'<i>{selected_pics[1]}</i>\''
-                                 f' already exists at <b>target folder</b>!')
-
-        else:
-            for item in selected_pics:
-                self.images.remove(item)
-            self.images = os.listdir()
-            print(self.images, len(self.images))
-            self.image_index = 0
-            if len(self.images) != 0:
-                self.lbl_image.setPixmap(QPixmap(self.images[self.image_index]))
-                if len(self.images) == 1:
-                    self.lbl_counter.setText(str(len(self.images)) + ' item')
-                    self.btn_next.setEnabled(False)
-                    self.btn_previous.setEnabled(False)
-                elif len(self.images) > 1:
-                    self.lbl_counter.setText(str(len(self.images)) + ' items')
-                    self.btn_previous.setEnabled(False)
-                    self.btn_next.setEnabled(True)
-                self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
-                QMessageBox.information(self, 'Export Success', 'Favorite image(s) exported.')
-                if self.setts.value('default prefix') in self.images[self.image_index]:
-                    self.lbl_fav_icon.setPixmap(
-                        QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
-                    self.left_bottom_layout.addWidget(self.lbl_fav_icon)
-                else:
-                    self.lbl_fav_icon.clear()
+            elif selected_pics[0] == 'FileExistsError':
+                QMessageBox.critical(self, 'Image already exists', f'Image with the name \'<i>{selected_pics[1]}</i>\''
+                                                                   f' already exists at <b>target folder</b>!')
+                return
 
             else:
-                self.lbl_fav_icon.clear()
-                self.lbl_image.close()
-                self.lbl_image = QLabel()
-                self.lbl_image.setPixmap(QPixmap(':/icons/no_image'))
-                self.lbl_image.setAlignment(Qt.AlignCenter)
-                self.top_layout.addWidget(self.lbl_image)
-                self.lbl_counter.setText('')
-                self.setWindowTitle(self.title)
+                for item in selected_pics:
+                    self.images.remove(item)
+                self.conditionsForWhatToDoAfterExport()
 
-                # Disable buttons to prevent crash
-                self.btn_next.setEnabled(False)
-                self.btn_previous.setEnabled(False)
-                self.btn_save.setEnabled(False)
-                self.btn_delete.setEnabled(False)
-                self.btn_export.setEnabled(False)
-                QMessageBox.information(self, 'Export Success', 'Favorite image(s) exported.')
+        elif self.setts.value('all button checked') == 'true':
+            print('all button checked:', self.setts.value('all button checked'))
+            all_pics = self.spotlight.moveAllToSpecificFolder(target_folder=self.setts.value('target directory'))
+
+            print('from main app, all pics:', all_pics)
+            if all_pics[0] == 'FileExistsError':
+                QMessageBox.critical(self, 'Image already exists', f'Image with the name \'<i>{all_pics[1]}</i>\''
+                                                                   f' already exists at <b>target folder</b>!')
+                return
+            else:
+                self.images.clear()
+                self.conditionsForWhatToDoAfterExport()
+
+        elif self.setts.value('one button checked') == 'true':
+            print('one button checked:', self.setts.value('one button checked'))
+            single_pic = self.spotlight.moveOneToSpecificFolder(single_pic=self.images[self.image_index],
+                                                                target_folder=self.setts.value('target directory'))
+
+            print('from main app, single pic:', single_pic)
+            if single_pic[0] == 'FileExistsError':
+                QMessageBox.critical(self, 'Image already exists', f'Image with the name \'<i>{single_pic[1]}</i>\''
+                                                                   f' already exists at <b>target folder</b>!')
+                return
+            else:
+                self.images.remove(single_pic)
+                self.conditionsForWhatToDoAfterExport()
 
     def openSettings(self):
         self.settings_dialog = SettingsDialog()
         self.settings_dialog.show()
+
+
+    # CLASS HELPER FUNCTIONS (to reduce repetition) ------------------------------------------------------
+    def conditionsForWhatToDoAfterExport(self):
+        self.images = os.listdir()
+        print(self.images, len(self.images))
+        self.image_index = 0
+        if len(self.images) != 0:
+            self.lbl_image.setPixmap(QPixmap(self.images[self.image_index]))
+            if len(self.images) == 1:
+                self.lbl_counter.setText(str(len(self.images)) + ' item')
+                self.btn_next.setEnabled(False)
+                self.btn_previous.setEnabled(False)
+            elif len(self.images) > 1:
+                self.lbl_counter.setText(str(len(self.images)) + ' items')
+                self.btn_previous.setEnabled(False)
+                self.btn_next.setEnabled(True)
+            self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
+            QMessageBox.information(self, 'Export Success', 'Image(s) exported successfully.')
+            if self.setts.value('default prefix') in self.images[self.image_index]:
+                self.lbl_fav_icon.setPixmap(
+                    QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
+                self.left_bottom_layout.addWidget(self.lbl_fav_icon)
+            else:
+                self.lbl_fav_icon.clear()
+
+        else:
+            self.lbl_fav_icon.clear()
+            self.lbl_image.close()
+            self.lbl_image = QLabel()
+            self.lbl_image.setPixmap(QPixmap(':/icons/no_image'))
+            self.lbl_image.setAlignment(Qt.AlignCenter)
+            self.top_layout.addWidget(self.lbl_image)
+            self.lbl_counter.setText('')
+            self.setWindowTitle(self.title)
+
+            # Disable buttons to prevent crash
+            self.btn_next.setEnabled(False)
+            self.btn_previous.setEnabled(False)
+            self.btn_save.setEnabled(False)
+            self.btn_delete.setEnabled(False)
+            self.btn_export.setEnabled(False)
+            QMessageBox.information(self, 'Export Success', 'Image(s) exported successfully.')
+
 
 
 
@@ -760,14 +791,14 @@ if __name__ == '__main__':
 
 
     # TODO:
-    #   2. Add more vivid description to README
-    #   3. Edit the no_image icon to show the text more and reduce opacity of the circle
-    #   4. Check if spotlight images is enabled
-    #   5. Option to open previous pics or load new ones (Use 'more icon' and put some buttons there)
-    #   6. Lookup context menus
-    #   7. Informative text with Messagebox for 'No fav image selected'
-    #   8. Animating loading in of pictures with a progress bar kinda style
+    #   1. Add more vivid description to README
+    #   2. Edit the no_image icon to show the text more and reduce opacity of the circle
+    #   3. Check if spotlight images is enabled
+    #   4. Option to open previous pics or load new ones (Use 'more icon' and put some buttons there)
+    #   5. Lookup context menus
+    #   6. Informative text with Messagebox for 'No fav image selected'
+    #   7. Animating loading in of pictures with a progress bar kinda style
+    #   8. Refactor repeating code into helper functions across board
 
     # TODO: FOR SETTINGS OPTIONS
-    #   3. Option for user to delete temp storage when done
-    #   4. Implement option to export all, export only selected images, or export one at a time
+    #   1. Option for user to delete temp storage when done
