@@ -168,9 +168,12 @@ class SettingsDialog(QDialog):
         self.setStyleSheet(style.SettingsDialogStyle())
 
         # SETTINGS DIALOG SETTINGS lol --------------------------------------------------------------------
-        self.default_prefix_text = 'sp'
+        self.default_prefix_text = 'sp_'
         self.temp_dir = ''
         self.target_dir = ''
+        self.rbtn_fav_state = False
+        self.rbtn_all_state = False
+        self.rbtn_one_state = False
 
         self.settings = QSettings('CHR-onicles', 'SpottyApp')
         try:
@@ -455,10 +458,11 @@ class MainApp(MainWindow, QWidget):
 
 
     def retrieveSpotlightPhotos(self):
+        self.image_index = 0
         if self.setts.contains('default prefix') is False:
             self.openSettings()
         else:
-            self.image_index = 0
+
 
             if self.load_in_button_clicked == 0 or (self.load_in_button_clicked != 0 and self.images == []):
                 # First time its clicked or Clicked when user deletes all pictures
@@ -519,11 +523,11 @@ class MainApp(MainWindow, QWidget):
                         self.btn_export.setEnabled(True)
                         self.load_in_button_clicked += 1
 
-        if self.setts.value('default prefix') in self.images[self.image_index]:
-            self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
-            self.left_bottom_layout.addWidget(self.lbl_fav_icon)
-        else:
-            self.lbl_fav_icon.clear()
+            if self.setts.value('default prefix') in self.images[self.image_index]:
+                self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
+                self.left_bottom_layout.addWidget(self.lbl_fav_icon)
+            else:
+                self.lbl_fav_icon.clear()
 
     def nextImage(self):
         if self.image_index == (len(self.images) - 1):
