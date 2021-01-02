@@ -2,7 +2,7 @@ import os, sys, send2trash
 from PyQt5.QtWidgets import QApplication, QDialog, QWidget, QLabel, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, \
     QFormLayout, QMessageBox, QRadioButton, QFileDialog, QSizePolicy, QDesktopWidget
 from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot, QSettings
+from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot, QSettings, QPropertyAnimation, QSize, QEasingCurve, QTimer
 
 # Local Imports
 from UI_main_window import MainWindow
@@ -157,15 +157,16 @@ class SettingsDialog(QDialog):
         self.setStyleSheet(style.SettingsDialogStyle())
         self.setModal(True)  # deactivates other windows till this window is interacted with
 
-        self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 450, 400
+        self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 450, 100
         self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT
         self.xpos = (self.D_WIDTH / 2) - (self.DIALOG_WIDTH / 2)
         self.ypos = (self.D_HEIGHT / 2) - (self.DIALOG_HEIGHT / 2)
 
         # Positioning at center of screen
         self.setGeometry(int(self.xpos), int(self.ypos), self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
-        self.setFixedSize(self.size())
+        # self.setFixedSize(self.size())
         self.setStyleSheet(style.SettingsDialogStyle())
+
 
         # SETTINGS DIALOG SETTINGS lol --------------------------------------------------------------------
         self.default_prefix_text = 'sp_'
@@ -189,6 +190,12 @@ class SettingsDialog(QDialog):
             self.rbtn_one_state = self.toBool(self.settings.value('one button checked'))
         except:
             pass
+
+        #  DIALOG ANIMATION SETTINGS ----------------------------------------------------------------------
+        self.openingAnimation(self.DIALOG_WIDTH, self.DIALOG_HEIGHT+300)
+        # self.timer_set_fixed_size = QTimer()
+        # self.timer_set_fixed_size.setInterval(2000)
+        # self.timer_set_fixed_size.timeout.connect(self.setDialogFixedSize)
 
         self.UI()
 
@@ -383,6 +390,17 @@ class SettingsDialog(QDialog):
         if self.target_dir != '':
             print('target dir: ', self.target_dir)
             self.entry_target_dir.setText(self.target_dir)
+
+    def openingAnimation(self, width, height):
+        self.open_animation = QPropertyAnimation(self, b'size')
+        self.open_animation.setDuration(1000)
+        self.open_animation.setEndValue(QSize(width, height))
+        self.open_animation.setEasingCurve(QEasingCurve.Linear)
+        self.open_animation.start()
+
+    # def setDialogFixedSize(self):
+    #     self.setFixedSize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT+300)  # hard-coded because this will not change
+
 
     # CLASS HELPER FUNCTIONS ----------------------------------------------------------------------------
     def toBool(self, text):
