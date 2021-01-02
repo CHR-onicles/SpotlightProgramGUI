@@ -1,6 +1,6 @@
 import os, sys, send2trash
 from PyQt5.QtWidgets import QApplication, QDialog, QWidget, QLabel, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, \
-     QFormLayout, QMessageBox, QRadioButton, QFileDialog, QSizePolicy, QDesktopWidget
+    QFormLayout, QMessageBox, QRadioButton, QFileDialog, QSizePolicy, QDesktopWidget
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot, QSettings
 
@@ -462,8 +462,6 @@ class MainApp(MainWindow, QWidget):
         if self.setts.contains('default prefix') is False:
             self.openSettings()
         else:
-
-
             if self.load_in_button_clicked == 0 or (self.load_in_button_clicked != 0 and self.images == []):
                 # First time its clicked or Clicked when user deletes all pictures
                 self.spotlight = Spotlight(prefix=self.setts.value('default prefix'),
@@ -484,7 +482,7 @@ class MainApp(MainWindow, QWidget):
                         QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
                     self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
 
-                    # Enable buttons
+                    # Enable buttons except previous button since we'll be at first image
                     self.btn_delete.setEnabled(True)
                     self.btn_next.setEnabled(True)
                     self.btn_previous.setEnabled(False)
@@ -524,7 +522,8 @@ class MainApp(MainWindow, QWidget):
                         self.load_in_button_clicked += 1
 
             if self.setts.value('default prefix') in self.images[self.image_index]:
-                self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
+                self.lbl_fav_icon.setPixmap(
+                    QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
                 self.left_bottom_layout.addWidget(self.lbl_fav_icon)
             else:
                 self.lbl_fav_icon.clear()
@@ -690,7 +689,8 @@ class MainApp(MainWindow, QWidget):
         if self.setts.value('fav button checked') == 'true':
             print('fav button checked:', self.setts.value('fav button checked'))
             selected_pics = self.spotlight.moveFavoritesToSpecificFolder(prefix=self.setts.value('default prefix'),
-                                                                         target_folder=self.setts.value('target directory'))
+                                                                         target_folder=self.setts.value(
+                                                                             'target directory'))
             print('from main app, selected pics:', selected_pics)
             if selected_pics is None:
                 QMessageBox.critical(self, 'Export Failed', '<b>NO</b> Favorite images to Export!')
@@ -731,6 +731,10 @@ class MainApp(MainWindow, QWidget):
             else:
                 self.images.remove(single_pic)
                 self.conditionsForWhatToDoAfterExport()
+
+        else:
+            QMessageBox.critical(self, 'Export Choice', 'No <b>Export Option</b> was selected!')
+            # TODO: Add informative text here to 'go to settings'
 
     def openSettings(self):
         self.settings_dialog = SettingsDialog()
@@ -797,7 +801,7 @@ if __name__ == '__main__':
     #   3. Check if spotlight images is enabled
     #   4. Option to open previous pics or load new ones (Use 'more icon' and put some buttons there)
     #   5. Lookup context menus [for the 'More' icon]
-    #   6. Informative text with Messagebox for 'No fav image selected'
+    #   6. Informative text with Messagebox for 'No fav image selected', and possibly all messageboxes
     #   7. Animating loading in of pictures with a progress bar kinda style
     #   8. Refactor repeating code into helper functions across board
 
