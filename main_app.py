@@ -734,7 +734,7 @@ class MainApp(MainWindow, QWidget):
 
         else:
             QMessageBox.critical(self, 'Export Choice', 'No <b>Export Option</b> was selected!')
-            # TODO: Add informative text here to 'go to settings'
+            # TODO: Add informative text here to: 'go to settings'
 
     def openSettings(self):
         self.settings_dialog = SettingsDialog()
@@ -807,3 +807,4 @@ if __name__ == '__main__':
 
     # TODO: FOR SETTINGS OPTIONS
     #   1. Option for user to delete temp storage when done
+    #   2. Settings dialog should appear instantly upon first use of app
