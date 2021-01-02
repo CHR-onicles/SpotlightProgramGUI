@@ -164,7 +164,6 @@ class SettingsDialog(QDialog):
 
         # Positioning at center of screen
         self.setGeometry(int(self.xpos), int(self.ypos), self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
-        # self.setFixedSize(self.size())
         self.setStyleSheet(style.SettingsDialogStyle())
 
 
@@ -192,10 +191,11 @@ class SettingsDialog(QDialog):
             pass
 
         #  DIALOG ANIMATION SETTINGS ----------------------------------------------------------------------
+        self.timer_set_fixed_size = QTimer()
+        self.timer_set_fixed_size.setInterval(2000)
+        self.timer_set_fixed_size.timeout.connect(self.setDialogFixedSize)
         self.openingAnimation(self.DIALOG_WIDTH, self.DIALOG_HEIGHT+300)
-        # self.timer_set_fixed_size = QTimer()
-        # self.timer_set_fixed_size.setInterval(2000)
-        # self.timer_set_fixed_size.timeout.connect(self.setDialogFixedSize)
+
 
         self.UI()
 
@@ -397,9 +397,11 @@ class SettingsDialog(QDialog):
         self.open_animation.setEndValue(QSize(width, height))
         self.open_animation.setEasingCurve(QEasingCurve.Linear)
         self.open_animation.start()
+        self.timer_set_fixed_size.start()
 
-    # def setDialogFixedSize(self):
-    #     self.setFixedSize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT+300)  # hard-coded because this will not change
+    def setDialogFixedSize(self):
+        self.setFixedSize(self.DIALOG_WIDTH+2, self.DIALOG_HEIGHT+300)  # hard-coded because this will not change
+        self.timer_set_fixed_size.stop()
 
 
     # CLASS HELPER FUNCTIONS ----------------------------------------------------------------------------
@@ -826,3 +828,5 @@ if __name__ == '__main__':
     # TODO: FOR SETTINGS OPTIONS
     #   1. Option for user to delete temp storage when done
     #   2. Settings dialog should appear instantly upon first use of app
+    #   3. Bug where if user opens for first time and doesnt choose anything and closes... when opened again
+    #       fills entries with none
