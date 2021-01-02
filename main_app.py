@@ -60,7 +60,7 @@ class RenameDialogBox(QDialog):
         self.btn_submit.clicked.connect(self.submitNewName)
         self.btn_submit.setObjectName('btn_submit')
         self.btn_cancel = QPushButton('Cancel')
-        self.btn_cancel.clicked.connect(self.closeWindow)
+        self.btn_cancel.clicked.connect(self.close)
 
         # LABELS -----------------------------------------------------------------------------------------
         self.lbl_rename = QLabel('')
@@ -129,9 +129,6 @@ class RenameDialogBox(QDialog):
             self.lbl_rename.setText(f'Renaming photo \'<i>{new_photoname}</i>\' to: ')
         else:
             self.lbl_rename.setText(f'Renaming photo \'<i>{self.photoname}</i>\' to: ')
-
-    def closeWindow(self):
-        self.close()
 
     def submitNewName(self):
         prefix = self.entry_prefix.text()
@@ -360,7 +357,6 @@ class SettingsDialog(QDialog):
         else:
             QMessageBox.warning(self, 'Settings Warning', 'Please fill <b>all</b> required fields!')
 
-
     def browseTempDirectory(self):
         self.temp_dir = QFileDialog.getExistingDirectory(self, 'Select Temporary Folder for Images')
         if self.temp_dir != '' and self.temp_dir == self.target_dir:
@@ -385,6 +381,7 @@ class SettingsDialog(QDialog):
             print('target dir: ', self.target_dir)
             self.entry_target_dir.setText(self.target_dir)
 
+    # CLASS HELPER FUNCTIONS ----------------------------------------------------------------------------
     def toBool(self, text):
         return text.lower() in ['true', 'True', 1]
 
@@ -791,11 +788,11 @@ if __name__ == '__main__':
 
 
     # TODO:
-    #   1. Add more vivid description to README
+    #   1. Add more vivid description to README [Update old spotlight project with link to this one]
     #   2. Edit the no_image icon to show the text more and reduce opacity of the circle
     #   3. Check if spotlight images is enabled
     #   4. Option to open previous pics or load new ones (Use 'more icon' and put some buttons there)
-    #   5. Lookup context menus
+    #   5. Lookup context menus [for the 'More' icon]
     #   6. Informative text with Messagebox for 'No fav image selected'
     #   7. Animating loading in of pictures with a progress bar kinda style
     #   8. Refactor repeating code into helper functions across board
