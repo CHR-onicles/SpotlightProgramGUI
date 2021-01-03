@@ -32,7 +32,7 @@ class Spotlight:
             if prefix not in def_file:
                 send2trash.send2trash(def_file)
         print('All previous files cleared!')
-        # TODO: Remove this upon release
+        # TODO: Remove this at release
 
 
         # changing OS directory to location of spotlight photos files

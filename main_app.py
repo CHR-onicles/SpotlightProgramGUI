@@ -842,5 +842,3 @@ if __name__ == '__main__':
     # TODO: FOR SETTINGS OPTIONS
     #   1. Option for user to delete temp storage when done
     #   2. Settings dialog should appear instantly upon first use of app
-    #   3. Bug where if user opens for first time and doesnt choose anything and closes... when opened again
-    #       fills entries with none
