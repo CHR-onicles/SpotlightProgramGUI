@@ -1,6 +1,6 @@
 import os, sys, send2trash
 from PyQt5.QtWidgets import QApplication, QDialog, QWidget, QLabel, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, \
-     QFormLayout, QMessageBox, QRadioButton, QFileDialog, QSizePolicy, QDesktopWidget
+    QFormLayout, QMessageBox, QRadioButton, QFileDialog, QSizePolicy, QDesktopWidget
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot, QSettings, QPropertyAnimation, QSize, QEasingCurve, QTimer
 
@@ -165,7 +165,6 @@ class SettingsDialog(QDialog):
         # self.setGeometry(int(self.xpos), int(self.ypos), self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
         self.setStyleSheet(style.SettingsDialogStyle())
 
-
         # SETTINGS DIALOG SETTINGS lol --------------------------------------------------------------------
         self.default_prefix_text = 'sp_'
         self.temp_dir = ''
@@ -191,8 +190,7 @@ class SettingsDialog(QDialog):
 
         #  DIALOG ANIMATION SETTINGS ----------------------------------------------------------------------
         self.timer_set_fixed_size = QTimer()
-        self.openingAnimation(self.DIALOG_WIDTH, self.DIALOG_HEIGHT+300)
-
+        self.openingAnimation(self.DIALOG_WIDTH, self.DIALOG_HEIGHT + 300)
 
         self.UI()
 
@@ -397,7 +395,7 @@ class SettingsDialog(QDialog):
         self.timer_set_fixed_size.singleShot(2000, self.setDialogFixedSize)
 
     def setDialogFixedSize(self):
-        self.setFixedSize(self.DIALOG_WIDTH+2, self.DIALOG_HEIGHT+300)  # hard-coded because this will not change
+        self.setFixedSize(self.DIALOG_WIDTH + 2, self.DIALOG_HEIGHT + 300)  # hard-coded because this will not change
 
 
     # CLASS HELPER FUNCTIONS ----------------------------------------------------------------------------
@@ -447,7 +445,6 @@ class MainApp(MainWindow, QWidget):
             self.timer = QTimer()
             self.timer.singleShot(500, self.openSettings)
 
-
         self.UI()
 
 
@@ -484,7 +481,8 @@ class MainApp(MainWindow, QWidget):
         self.image_index = 0
         temp_dir = self.setts.value('temporary directory')
         target_dir = self.setts.value('target directory')
-        if ((temp_dir is None or target_dir is None) or (temp_dir in ['none', 'None'] or target_dir in ['none', 'None'])):
+        if ((temp_dir is None or target_dir is None) or (
+                temp_dir in ['none', 'None'] or target_dir in ['none', 'None'])):
             QMessageBox.critical(self, 'Directory Error', 'Folder(s) NOT chosen in <b>Settings</b>')
         else:
             if self.load_in_button_clicked == 0 or (self.load_in_button_clicked != 0 and self.images == []):
@@ -832,4 +830,3 @@ if __name__ == '__main__':
 
     # TODO: FOR SETTINGS OPTIONS
     #   1. Option for user to delete temp storage when done
-    #   2. Settings dialog should appear instantly upon first use of app
