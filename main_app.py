@@ -191,8 +191,6 @@ class SettingsDialog(QDialog):
 
         #  DIALOG ANIMATION SETTINGS ----------------------------------------------------------------------
         self.timer_set_fixed_size = QTimer()
-        self.timer_set_fixed_size.setInterval(2000)
-        self.timer_set_fixed_size.timeout.connect(self.setDialogFixedSize)
         self.openingAnimation(self.DIALOG_WIDTH, self.DIALOG_HEIGHT+300)
 
 
@@ -396,11 +394,10 @@ class SettingsDialog(QDialog):
         self.open_animation.setEndValue(QSize(width, height))
         self.open_animation.setEasingCurve(QEasingCurve.Linear)
         self.open_animation.start()
-        self.timer_set_fixed_size.start()
+        self.timer_set_fixed_size.singleShot(2000, self.setDialogFixedSize)
 
     def setDialogFixedSize(self):
         self.setFixedSize(self.DIALOG_WIDTH+2, self.DIALOG_HEIGHT+300)  # hard-coded because this will not change
-        self.timer_set_fixed_size.stop()
 
 
     # CLASS HELPER FUNCTIONS ----------------------------------------------------------------------------
@@ -446,13 +443,9 @@ class MainApp(MainWindow, QWidget):
         except:
             pass
 
-        self.first_time_settings_opened = False
         if self.setts.contains('default prefix') is False:
             self.timer = QTimer()
-            self.timer.setInterval(500)
-            self.timer.start()
-            self.timer.timeout.connect(self.openSettings)
-            self.first_time_settings_opened = True
+            self.timer.singleShot(500, self.openSettings)
 
 
         self.UI()
@@ -771,8 +764,6 @@ class MainApp(MainWindow, QWidget):
     def openSettings(self):
         self.settings_dialog = SettingsDialog()
         self.settings_dialog.show()
-        if self.first_time_settings_opened is True:
-            self.timer.stop()
 
 
     # CLASS HELPER FUNCTIONS (to reduce repetition) ------------------------------------------------------
