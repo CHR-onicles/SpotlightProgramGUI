@@ -11,6 +11,24 @@ from spotlight import Spotlight
 import style
 
 
+# Pyinstaller function to help create exe file
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+resource_path('UI_main_window.py')
+resource_path('custom_widgets.py')
+resource_path('spotlight.py')
+resource_path('style.py')
+resource_path('icons_rc.py')
+
+
 
 
 class RenameDialogBox(QDialog):
