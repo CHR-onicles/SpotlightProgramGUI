@@ -745,7 +745,8 @@ class MainApp(MainWindow, QWidget):
             elif selected_pics[0] == 'FileExistsError':
                 QMessageBox.critical(self, 'Image already exists', f'Image with the name \'<i>{selected_pics[1]}</i>\''
                                                                    f' already exists at <b>target folder</b>!')
-                return
+
+                self.conditionsForWhatToDoAfterExport(extra_condition='FileExistsError')
 
             else:
                 for item in selected_pics:
@@ -789,7 +790,7 @@ class MainApp(MainWindow, QWidget):
 
 
     # CLASS HELPER FUNCTIONS (to reduce repetition) ------------------------------------------------------
-    def conditionsForWhatToDoAfterExport(self):
+    def conditionsForWhatToDoAfterExport(self, extra_condition=None):
         self.images = os.listdir()
         print(self.images, len(self.images))
         self.image_index = 0
@@ -803,8 +804,11 @@ class MainApp(MainWindow, QWidget):
                 self.lbl_counter.setText(str(len(self.images)) + ' items')
                 self.btn_previous.setEnabled(False)
                 self.btn_next.setEnabled(True)
-            self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
-            QMessageBox.information(self, 'Export Success', 'Image(s) exported successfully.')
+            if extra_condition is None:
+                QMessageBox.information(self, 'Export Success', 'Image(s) exported successfully.')
+                self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
+            else:
+                self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
             if self.setts.value('default prefix') in self.images[self.image_index]:
                 self.setFavIconVisible()
             else:
