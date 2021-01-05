@@ -20,6 +20,8 @@ features and has good amount of tooltips to describe the functions of buttons wh
 ## Main Window
 Empty
 <img src="screenshots/1.png" width = 500>
+
+
 With spotlight Photo
 <img src="screenshots/2.png" width = 500>
 
