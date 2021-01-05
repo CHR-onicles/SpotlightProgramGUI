@@ -19,7 +19,7 @@ class MainWindow(QWidget):
         self.setObjectName('MainWindow')
         self.setStyleSheet(style.mainWindowStyle())
         self.button_icon_size_x, self.button_icon_size_y = 30, 30
-        self.fav_icon_size_x, self.fav_icon_size_y = 30, 30
+        self.fav_icon_size_x, self.fav_icon_size_y = 25, 25
 
         self.UIComponents()
         self.show()
@@ -172,20 +172,15 @@ class MainWindow(QWidget):
 
     def changeEvent(self, event):
         if event.type() == QEvent.WindowStateChange:
-            # e = QWindowStateChangeEvent()
-            # if e.oldState() & Qt.WindowMinimized:
-            #     print("Window restored (to normal or maximized state)!")
-            # elif e.oldState() == Qt.WindowNoState and self.windowState() == Qt.WindowMaximized:
-            #     print('Window maximized')
             if self.isMaximized():
                 print('Window maximized')
-                # CONFIGURING BOTTOM LAYOUT MAXIMIZED WINDOW --------------------------------------------------
+                # CONFIGURING BOTTOM LAYOUT MAXIMIZED WINDOW -------------------------------------------
                 self.main_bottom_layout.addWidget(self.left_bottom_box, 35)
                 self.main_bottom_layout.addWidget(self.button_group_box, 30)
                 self.main_bottom_layout.addWidget(self.right_bottom_box, 35)
             else:
-                print('Window is restored down')
-                # CONFIGURING BOTTOM LAYOUT IN RESTORED WINDOW ------------------------------------------------
+                print('Window restored down')
+                # CONFIGURING BOTTOM LAYOUT IN RESTORED WINDOW -----------------------------------------
                 self.main_bottom_layout.addWidget(self.left_bottom_box, 30)
                 self.main_bottom_layout.addWidget(self.button_group_box, 40)
                 self.main_bottom_layout.addWidget(self.right_bottom_box, 30)

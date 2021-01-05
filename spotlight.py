@@ -11,7 +11,7 @@ class Spotlight:
     """
     Class for handling retrieval and filtering of spotlight photos for further processing.
     """
-    def __init__(self, prefix='', temp_storage=''):  # C:/Users/ADMIN/Desktop/win
+    def __init__(self, prefix='', temp_storage=''):
         self.spotlight_path = (
             f'C:/Users/{getuser()}/AppData/Local/Packages/Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy'
             f'/LocalState/Assets')
@@ -32,7 +32,7 @@ class Spotlight:
             if prefix not in def_file:
                 send2trash.send2trash(def_file)
         print('All previous files cleared!')
-        # TODO: Remove this at release
+        # TODO: Remove this at release, and prefix and prefix arg in class call
 
 
         # changing OS directory to location of spotlight photos files

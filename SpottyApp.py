@@ -10,7 +10,7 @@ from custom_widgets import Label, QHSeparationLine
 from spotlight import Spotlight
 import style
 
-print(platform.system(), platform.release())
+print('System: ', platform.system(), platform.release())
 
 # PyInstaller function to help create exe file
 def resource_path(relative_path):
