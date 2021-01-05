@@ -99,7 +99,6 @@ class RenameDialogBox(QDialog):
         # LABELS -----------------------------------------------------------------------------------------
         self.lbl_rename = QLabel('')
         self.lbl_rename.setObjectName('lbl_rename')
-        # self.lbl_rename.setAlignment(Qt.AlignCenter)
 
         self.lbl_prefix_options = QLabel('Name options')
         self.lbl_prefix_options.setStyleSheet('font: 9pt segoe UI; color: #3db7ff;')
@@ -193,11 +192,7 @@ class SettingsDialog(QDialog):
         self.setModal(True)  # deactivates other windows till this window is interacted with
 
         self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 450, 100
-        # self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT
-        # self.xpos = (self.D_WIDTH / 2) - (self.DIALOG_WIDTH / 2)
-        # self.ypos = (self.D_HEIGHT / 2) - (self.DIALOG_HEIGHT / 2)
         self.resize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
-        # self.setGeometry(int(self.xpos), int(self.ypos), self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
         self.setStyleSheet(style.SettingsDialogStyle())
 
         # SETTINGS DIALOG SETTINGS lol --------------------------------------------------------------------
@@ -372,7 +367,6 @@ class SettingsDialog(QDialog):
             self.lbl_custom_prefix_hint.setStyleSheet('font: 8pt segoe UI; color: #3db7ff;')
             self.top_form_layout.addRow('', self.lbl_custom_prefix_hint)
         else:
-            # print('removed all text from custom prefix')
             self.lbl_custom_prefix_hint.clear()
 
     def submitSettings(self):
@@ -407,7 +401,7 @@ class SettingsDialog(QDialog):
             # if len(self.temp_dir) > 26:
             #     new_temp_dir = self.temp_dir[0:4] + '...' + self.temp_dir[-20:]
             #     self.entry_temp_dir.setText(new_temp_dir)
-            # else:
+            # else:  # need to introduce new var to prevent this from affecting the real path used for processing
             self.entry_temp_dir.setText(self.temp_dir)
 
     def browseTargetDirectory(self):
@@ -474,7 +468,6 @@ class MainApp(MainWindow, QWidget):
         try:
             self.resize(self.setts.value('window size'))
             self.move(self.setts.value('window position'))
-
         except:
             pass
 
@@ -494,7 +487,8 @@ class MainApp(MainWindow, QWidget):
 
     def app_widgets(self):
         # BUTTONS ---------------------------------------------------------------------------
-        self.btn_load_in.clicked.connect(self.retrieveSpotlightPhotos)  # add shortcut Ctrl+D
+        self.btn_load_in.clicked.connect(self.retrieveSpotlightPhotos)
+        self.btn_load_in.setShortcut('Ctrl+D')
 
         self.btn_next.clicked.connect(self.nextImage)
         self.btn_next.setShortcut('Right')
@@ -508,7 +502,8 @@ class MainApp(MainWindow, QWidget):
         self.btn_save.clicked.connect(self.saveImage)
         self.btn_save.setShortcut('Return')
 
-        self.btn_export.clicked.connect(self.exportImages)  # add shortcut Ctrl+Shift+E / W
+        self.btn_export.clicked.connect(self.exportImages)
+        self.btn_export.setShortcut('Ctrl+E')
 
         self.btn_settings.clicked.connect(self.openSettings)
 
