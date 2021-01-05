@@ -109,7 +109,7 @@ class MainWindow(QWidget):
         self.lbl_counter.setAlignment(Qt.AlignBottom | Qt.AlignRight)
 
         # FAVORITED ICON LABEL --------------------------------------------------------------------
-        self.lbl_fav_icon = QLabel()
+        self.lbl_fav_icon = QLabel()  # todo: change to flat button for smoother edges when scaled
         self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
         self.lbl_fav_icon.setAlignment(Qt.AlignBottom | Qt.AlignLeft)
 

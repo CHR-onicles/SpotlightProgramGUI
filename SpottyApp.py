@@ -151,9 +151,10 @@ class RenameDialogBox(QDialog):
     def submitNewName(self):
         prefix = self.entry_prefix.text()
         name = self.entry_new_name.text()
-
-        if name == '':
-            QMessageBox.critical(self, 'Rename Failed', 'New Name has <b>NOT</b> been provided!')
+        if name in ['', ' ']:
+            QMessageBox.critical(self, 'Rename Failed', 'Name provided is invalid!')
+        elif (prefix + name + '.png') in main_.images:
+            QMessageBox.critical(self, 'Rename Failed', 'Name provided already exists!')
         else:
             self.signal_new_name.emit(prefix, name)
             QMessageBox.information(self, 'Rename success', 'Image renamed successfully.')
@@ -468,7 +469,6 @@ class MainApp(MainWindow, QWidget):
 
     def UI(self):
         self.app_widgets()
-
 
     def app_widgets(self):
         # BUTTONS ---------------------------------------------------------------------------
