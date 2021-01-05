@@ -1,5 +1,24 @@
 # SpottyApp (SpotlightProgramGUI)
  Completely rewrote [Spotlight Program](https://github.com/CHR-onicles/SpotlightProgram) with GUI using PyQt5.
-It retrieves the windows spotlight photos (which are raw files deep in root directory)
+It retrieves the windows spotlight photos (These are the nature-filled wallpapers on your lockscreen on Win 10)
 and allows the user to preview, favorite, delete or export on-the-go.
+
+## Description
+This a GUI app similar to a photo viewer but tailored specifically for Windows Spotlight Photos. These photos are usually
+set by default as your lockscreen, but it is worth mentioning that you should at least check to be sure. App has simple
+features and has good amount of tooltips to describe the functions of buttons when you hover over them.
+
+## Requirements
+* Windows 10
+* [PyQt5/PySide2](https://pypi.org/project/PyQt5/)
+* [send2trash](https://pypi.org/project/Send2Trash/)
+* [Pillow](https://pypi.org/project/Pillow/)
+
+## Run File
+`SpottyApp.py`
+
+## Main Window
+<img src="screenshots/1.png" width = 500>
+
+
 
