@@ -413,7 +413,8 @@ class SettingsDialog(QDialog):
         self.timer_set_fixed_size.singleShot(2000, self.setDialogFixedSize)
 
     def setDialogFixedSize(self):
-        self.setFixedSize(self.DIALOG_WIDTH + 2, self.DIALOG_HEIGHT + 300)  # hard-coded because this will not change
+        # self.setFixedSize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT + 300)  # hard-coded because this will not change
+        self.setMaximumSize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT + 300)
 
 
     # CLASS HELPER FUNCTIONS ----------------------------------------------------------------------------
