@@ -26,7 +26,7 @@ class Spotlight:
     """
     Class for handling retrieval and filtering of spotlight photos for further processing.
     """
-    def __init__(self, prefix='', temp_storage=''):
+    def __init__(self, prefix=None, temp_storage=None):
         self.spotlight_path = (
             f'C:/Users/{getuser()}/AppData/Local/Packages/Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy'
             f'/LocalState/Assets')
@@ -48,6 +48,7 @@ class Spotlight:
                 send2trash.send2trash(def_file)
         print('All previous files cleared!')
         # TODO: Remove this at release, and prefix and prefix arg in class call
+        #   also implement option to see previous images (with 'more' button and context menu)
 
 
         # changing OS directory to location of spotlight photos files
@@ -108,7 +109,7 @@ class Spotlight:
         print('from Spotlight class, selected images: ', self.selected_new_win_files)
 
 
-    def moveFavoritesToSpecificFolder(self, prefix='', target_folder=''):
+    def moveFavoritesToSpecificFolder(self, prefix=None, target_folder=None):
         pics = os.listdir()
         print('listing target dir: ', os.listdir(target_folder))
         fav_pics = []
@@ -138,7 +139,7 @@ class Spotlight:
             print('Favorite Files moved successfully! \n')
             return fav_pics
 
-    def moveAllToSpecificFolder(self, target_folder=''):
+    def moveAllToSpecificFolder(self, target_folder=None):
         pics = os.listdir()
         print('listing target dir: ', os.listdir(target_folder))
         print('Target folder valid: ', os.path.isdir(target_folder))
@@ -156,7 +157,7 @@ class Spotlight:
         print('All Files moved successfully! \n')
         return pics
 
-    def moveOneToSpecificFolder(self, single_pic='', target_folder=''):
+    def moveOneToSpecificFolder(self, single_pic=None, target_folder=None):
         pic = single_pic
         print('listing target dir: ', os.listdir(target_folder))
         print('Target folder valid: ', os.path.isdir(target_folder))

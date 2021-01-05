@@ -510,6 +510,7 @@ class MainApp(MainWindow, QWidget):
 
     def retrieveSpotlightPhotos(self):
         self.image_index = 0
+        prefix = self.setts.value('default prefix')
         temp_dir = self.setts.value('temporary directory')
         target_dir = self.setts.value('target directory')
         if ((temp_dir is None or target_dir is None) or (
@@ -545,12 +546,12 @@ class MainApp(MainWindow, QWidget):
                     self.load_in_button_clicked += 1
 
             else:  # Clicked while user is still viewing pictures.
-                mbox = QMessageBox.warning(self, 'Spotlight Photos', 'Previous images could be lost!',
+                mbox = QMessageBox.warning(self, 'Spotlight Photos', 'Previous images could be lost!',  # todo: change message here to something about having duplicate images
                                            QMessageBox.Ok | QMessageBox.Cancel, QMessageBox.Cancel)
                 if mbox == QMessageBox.Cancel:
                     pass
                 else:
-                    self.spotlight = Spotlight()
+                    self.spotlight = Spotlight(prefix=prefix, temp_storage=temp_dir)
                     print(self.spotlight.selected_new_win_files)
 
                     if self.spotlight.selected_new_win_files == []:

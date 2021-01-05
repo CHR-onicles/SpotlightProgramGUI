@@ -93,7 +93,7 @@ class MainWindow(QWidget):
         self.btn_load_in.setIcon(QIcon(load_in_icon))
         self.btn_load_in.setIconSize(QSize(self.button_icon_size_x, self.button_icon_size_y))
         self.btn_load_in.setStyleSheet(style.toolButtonStyle())
-        self.btn_load_in.setToolTip('<b>Retrieve</b> Spotlight Images (Ctrl+D)')
+        self.btn_load_in.setToolTip('<b>Retrieve</b> new Spotlight Images (Ctrl+D)')
 
         self.btn_export = QToolButton()
         export_icon = QIcon()
