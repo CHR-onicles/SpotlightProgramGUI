@@ -2,7 +2,7 @@
 #
 # AUTHOR: CHR-onicles (GitHub)
 # PROJECT MADE WITH: PyQt5
-# Version: 1.0
+# Version: 1.0.0
 #
 # This project can be used freely for all uses, as long as they maintain the
 # respective credits only in the Python scripts.
@@ -99,7 +99,10 @@ class Spotlight:
         self.selected_new_win_files = os.listdir()
 
         for pics in self.selected_new_win_files:
-            os.rename(pics, ''.join(choices(string.ascii_letters + string.digits, k=7)) + '.png')
+            if prefix not in pics:
+                os.rename(pics, ''.join(choices(string.ascii_letters + string.digits, k=7)) + '.png')
+            else:
+                continue
 
         self.selected_new_win_files = os.listdir()
         print('from Spotlight class, selected images: ', self.selected_new_win_files)

@@ -2,7 +2,7 @@
 #
 # AUTHOR: CHR-onicles (GitHub)
 # PROJECT MADE WITH: PyQt5
-# Version: 1.0
+# Version: 1.0.0
 #
 # This project can be used freely for all uses, as long as they maintain the
 # respective credits only in the Python scripts.
@@ -34,7 +34,7 @@ class MainWindow(QWidget):
         self.setObjectName('MainWindow')
         self.setStyleSheet(style.mainWindowStyle())
         self.button_icon_size_x, self.button_icon_size_y = 30, 30
-        self.fav_icon_size_x, self.fav_icon_size_y = 25, 25
+        self.fav_icon_size_x, self.fav_icon_size_y = 28, 28
 
         self.UIComponents()
         self.show()
@@ -124,7 +124,7 @@ class MainWindow(QWidget):
         self.lbl_counter.setAlignment(Qt.AlignBottom | Qt.AlignRight)
 
         # FAVORITED ICON LABEL --------------------------------------------------------------------
-        self.lbl_fav_icon = QLabel()  # changed to flat button for smoother edges when scaled
+        self.lbl_fav_icon = QLabel()  # change to something else for smoother edges when scaled
         self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
         self.lbl_fav_icon.setAlignment(Qt.AlignLeft | Qt.AlignBottom)
 

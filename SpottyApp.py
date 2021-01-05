@@ -2,7 +2,7 @@
 #
 # AUTHOR: CHR-onicles (GitHub)
 # PROJECT MADE WITH: PyQt5
-# Version: 1.0
+# Version: 1.0.0
 #
 # This project can be used freely for all uses, as long as they maintain the
 # respective credits only in the Python scripts.
