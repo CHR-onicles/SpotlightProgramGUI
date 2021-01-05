@@ -430,8 +430,9 @@ class MainApp(MainWindow, QWidget):
 
     def __init__(self):
         super().__init__()
-        if (platform.system() != 'Windows') or (platform.release() != '8'):
+        if (platform.system() != 'Windows') or (platform.release() != '10'):
             mbox = QMessageBox(QMessageBox.Critical, 'App Error', 'Your platform does not support Windows Spotlight!')
+            mbox.setWindowIcon(QIcon(':/icons/cat'))
             mbox.setInformativeText('Windows Spotlight Photos is only supported on Windows 10.')
             mbox.exec_()
             sys.exit()
