@@ -1,4 +1,4 @@
-import os, sys, send2trash
+import os, sys, send2trash, platform
 from PyQt5.QtWidgets import QApplication, QDialog, QWidget, QLabel, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, \
     QFormLayout, QMessageBox, QRadioButton, QFileDialog, QSizePolicy, QDesktopWidget
 from PyQt5.QtGui import QPixmap, QIcon
@@ -10,8 +10,9 @@ from custom_widgets import Label, QHSeparationLine
 from spotlight import Spotlight
 import style
 
+print(platform.system(), platform.release())
 
-# Pyinstaller function to help create exe file
+# PyInstaller function to help create exe file
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
@@ -429,6 +430,11 @@ class MainApp(MainWindow, QWidget):
 
     def __init__(self):
         super().__init__()
+        if (platform.system() != 'Windows') or (platform.release() != '8'):
+            mbox = QMessageBox(QMessageBox.Critical, 'App Error', 'Your platform does not support Windows Spotlight!')
+            mbox.setInformativeText('Windows Spotlight Photos is only supported on Windows 10.')
+            mbox.exec_()
+            sys.exit()
 
         # Positioning window at center of screen
         d = QDesktopWidget().screenGeometry()
