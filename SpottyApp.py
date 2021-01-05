@@ -465,7 +465,7 @@ class MainApp(MainWindow, QWidget):
         # Object Attributes
         self.images = []
         self.image_index = 0
-        self.app_dir = os.getcwd()
+        # self.app_dir = os.getcwd()
 
         # APP SETTINGS -------------------------------------------------------------------------------
         self.setts = QSettings('CHR-onicles', 'SpottyApp')
@@ -581,9 +581,7 @@ class MainApp(MainWindow, QWidget):
                         self.load_in_button_clicked += 1
 
             if self.setts.value('default prefix') in self.images[self.image_index]:
-                self.lbl_fav_icon.setPixmap(
-                    QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
-                self.left_bottom_layout.addWidget(self.lbl_fav_icon)
+                self.setFavIconVisible()
             else:
                 self.lbl_fav_icon.clear()
 
@@ -601,8 +599,7 @@ class MainApp(MainWindow, QWidget):
             self.btn_next.setEnabled(False)
 
         if self.setts.value('default prefix') in self.images[self.image_index]:
-            self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
-            self.left_bottom_layout.addWidget(self.lbl_fav_icon)
+            self.setFavIconVisible()
         else:
             self.lbl_fav_icon.clear()
 
@@ -622,8 +619,7 @@ class MainApp(MainWindow, QWidget):
             self.btn_previous.setEnabled(False)
 
         if self.setts.value('default prefix') in self.images[self.image_index]:
-            self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
-            self.left_bottom_layout.addWidget(self.lbl_fav_icon)
+            self.setFavIconVisible()
         else:
             self.lbl_fav_icon.clear()
 
@@ -686,8 +682,7 @@ class MainApp(MainWindow, QWidget):
         self.lbl_image.setPixmap(QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
         self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
         if self.setts.value('default prefix') in self.images[self.image_index]:
-            self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
-            self.left_bottom_layout.addWidget(self.lbl_fav_icon)
+            self.setFavIconVisible()
         else:
             self.lbl_fav_icon.clear()
         if len(self.images) > 1:
@@ -735,8 +730,7 @@ class MainApp(MainWindow, QWidget):
 
         self.setWindowTitle(self.title + ' - ' + self.new_prefix + self.new_name + '.png')
         if self.setts.value('default prefix') in self.images[self.image_index]:
-            self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
-            self.left_bottom_layout.addWidget(self.lbl_fav_icon)
+            self.setFavIconVisible()
         else:
             self.lbl_fav_icon.clear()
         print('New Images:', self.images)
@@ -748,8 +742,7 @@ class MainApp(MainWindow, QWidget):
         if self.setts.value('fav button checked') == 'true':
             print('fav button checked:', self.setts.value('fav button checked'))
             selected_pics = self.spotlight.moveFavoritesToSpecificFolder(prefix=self.setts.value('default prefix'),
-                                                                         target_folder=self.setts.value(
-                                                                             'target directory'))
+                                                                         target_folder=self.setts.value('target directory'))
             print('from main app, selected pics:', selected_pics)
             if selected_pics is None:
                 QMessageBox.critical(self, 'Export Failed', '<b>NO</b> Favorite images to Export!')
@@ -818,9 +811,7 @@ class MainApp(MainWindow, QWidget):
             self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
             QMessageBox.information(self, 'Export Success', 'Image(s) exported successfully.')
             if self.setts.value('default prefix') in self.images[self.image_index]:
-                self.lbl_fav_icon.setPixmap(
-                    QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
-                self.left_bottom_layout.addWidget(self.lbl_fav_icon)
+                self.setFavIconVisible()
             else:
                 self.lbl_fav_icon.clear()
 
@@ -842,6 +833,10 @@ class MainApp(MainWindow, QWidget):
             self.btn_export.setEnabled(False)
             QMessageBox.information(self, 'Export Success', 'Image(s) exported successfully.')
 
+    def setFavIconVisible(self):
+        self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaledToHeight(self.fav_icon_size_y, Qt.SmoothTransformation))
+        self.left_bottom_layout.addWidget(self.lbl_fav_icon)
+
 
 
 
@@ -854,15 +849,20 @@ if __name__ == '__main__':
 
 
 
-    # TODO:
-    #   1. Add more vivid description to README [Update old spotlight project with link to this one]
-    #   2. Edit the no_image icon to show the text more and reduce opacity of the circle
-    #   3. Check if spotlight images is enabled
-    #   4. Option to open previous pics or load new ones (Use 'more icon' and put some buttons there)
-    #   5. Lookup context menus [for the 'More' icon]
-    #   6. Informative text with Messagebox for 'No fav image selected', and possibly all messageboxes
-    #   7. Animating loading in of pictures with a round progress bar kinda style
-    #   8. Refactor repeating code into helper functions across board
+    #   TODO: A[High Priority]:
+    #       - Add more vivid description to README [Update old spotlight project with link to this one]
+    #
+    #   TODO: [Moderate Priority]:
+    #       - Check if spotlight images is enabled
+    #       - Option to open previous pics or load new ones (Use 'more icon' and put some buttons there)
+    #       - Lookup context menus [for the 'More' icon]
+    #       - Refactor repeating code into helper functions across board
+    #       - Informative text with Messagebox for 'No fav image selected', and possibly all messageboxes
+    #
+    #   TODO: [Optional]:
+    #       - Edit the no_image icon to show the text more and reduce opacity of the circle
+    #       - Animating loading in of pictures with a round progress bar kinda style
+
 
     # TODO: FOR SETTINGS OPTIONS
-    #   1. Option for user to delete temp storage when done
+    #   1. Option for user to delete temp storage when done [optional]

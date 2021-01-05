@@ -34,7 +34,7 @@ class MainWindow(QWidget):
         self.setObjectName('MainWindow')
         self.setStyleSheet(style.mainWindowStyle())
         self.button_icon_size_x, self.button_icon_size_y = 30, 30
-        self.fav_icon_size_x, self.fav_icon_size_y = 28, 28
+        self.fav_icon_size_x, self.fav_icon_size_y = 25, 25
 
         self.UIComponents()
         self.show()
@@ -124,8 +124,8 @@ class MainWindow(QWidget):
         self.lbl_counter.setAlignment(Qt.AlignBottom | Qt.AlignRight)
 
         # FAVORITED ICON LABEL --------------------------------------------------------------------
-        self.lbl_fav_icon = QLabel()  # change to something else for smoother edges when scaled
-        self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
+        self.lbl_fav_icon = QLabel()
+        self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaledToHeight(self.fav_icon_size_y, Qt.SmoothTransformation))
         self.lbl_fav_icon.setAlignment(Qt.AlignLeft | Qt.AlignBottom)
 
         # SEPARATION LINES -------------------------------------------------------------------------
