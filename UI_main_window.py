@@ -87,7 +87,7 @@ class MainWindow(QWidget):
         self.btn_export.setIcon(export_icon)
         self.btn_export.setIconSize(QSize(self.button_icon_size_x, self.button_icon_size_y))
         self.btn_export.setStyleSheet(style.toolButtonStyle())
-        self.btn_export.setToolTip('<b>Export</b> favorites to specified destination')
+        self.btn_export.setToolTip('<b>Export</b> images to specified destination')
         self.btn_export.setEnabled(False)
 
         self.btn_settings = QToolButton()
