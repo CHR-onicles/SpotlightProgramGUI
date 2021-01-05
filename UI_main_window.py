@@ -1,3 +1,18 @@
+# ------------------------------------------------------------------------------
+#
+# AUTHOR: CHR-onicles (GitHub)
+# PROJECT MADE WITH: PyQt5
+# Version: 1.0
+#
+# This project can be used freely for all uses, as long as they maintain the
+# respective credits only in the Python scripts.
+#
+# There are limitations on Qt licenses if you want to use your products
+# commercially, I recommend reading them on the official website:
+# https://doc.qt.io/qtforpython/licenses.html
+#
+# ------------------------------------------------------------------------------
+
 from PyQt5.QtWidgets import QWidget, QToolButton, QHBoxLayout, QVBoxLayout, QFrame, QLabel, QGroupBox
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import QSize, Qt, QEvent
@@ -109,9 +124,10 @@ class MainWindow(QWidget):
         self.lbl_counter.setAlignment(Qt.AlignBottom | Qt.AlignRight)
 
         # FAVORITED ICON LABEL --------------------------------------------------------------------
-        self.lbl_fav_icon = QLabel()  # todo: change to flat button for smoother edges when scaled
-        self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaled(self.fav_icon_size_x, self.fav_icon_size_y))
-        self.lbl_fav_icon.setAlignment(Qt.AlignBottom | Qt.AlignLeft)
+        self.lbl_fav_icon = QToolButton()  # changed to flat button for smoother edges when scaled
+        self.lbl_fav_icon.setIcon(QIcon(':/icons/save_icon'))
+        self.lbl_fav_icon.setIconSize(QSize(self.fav_icon_size_x, self.fav_icon_size_y))
+        self.lbl_fav_icon.set
 
         # SEPARATION LINES -------------------------------------------------------------------------
         self.vline_1 = QVSeparationLine()
