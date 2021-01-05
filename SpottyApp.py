@@ -256,7 +256,7 @@ class SettingsDialog(QDialog):
         self.entry_target_dir = QLineEdit(self.target_dir)
         self.entry_target_dir.setReadOnly(True)
         self.entry_target_dir.setObjectName('entry_dir')
-        self.entry_target_dir.setToolTip('Folder path to <b>export</b> Favorite/All images to')
+        self.entry_target_dir.setToolTip('Folder path to <b>export</b> images to')
 
         self.btn_temp_dir_browse = QPushButton('Browse')
         self.btn_temp_dir_browse.setObjectName('btn_browse')
@@ -264,7 +264,7 @@ class SettingsDialog(QDialog):
         self.btn_temp_dir_browse.clicked.connect(self.browseTempDirectory)
         self.btn_target_dir_browse = QPushButton('Browse')
         self.btn_target_dir_browse.setObjectName('btn_browse')
-        self.btn_target_dir_browse.setToolTip('Select folder to <b>export</b> favorite/all images to')
+        self.btn_target_dir_browse.setToolTip('Select folder to <b>export</b> images to')
         self.btn_target_dir_browse.clicked.connect(self.browseTargetDirectory)
 
         # BOTTOM LAYOUT WIDGETS ----------------------------------------------------------------------------
