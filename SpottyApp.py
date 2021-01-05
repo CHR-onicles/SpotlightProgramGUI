@@ -207,7 +207,6 @@ class SettingsDialog(QDialog):
             pass
 
         #  DIALOG ANIMATION SETTINGS ----------------------------------------------------------------------
-        self.timer_set_fixed_size = QTimer()
         self.openingAnimation(self.DIALOG_WIDTH, self.DIALOG_HEIGHT + 300)
 
         self.UI()
@@ -410,10 +409,6 @@ class SettingsDialog(QDialog):
         self.open_animation.setEndValue(QSize(width, height))
         self.open_animation.setEasingCurve(QEasingCurve.Linear)
         self.open_animation.start()
-        self.timer_set_fixed_size.singleShot(2000, self.setDialogFixedSize)
-
-    def setDialogFixedSize(self):
-        # self.setFixedSize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT + 300)  # hard-coded because this will not change
         self.setMaximumSize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT + 300)
 
 
