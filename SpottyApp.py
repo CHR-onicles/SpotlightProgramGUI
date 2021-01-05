@@ -2,7 +2,7 @@
 #
 # AUTHOR: CHR-onicles (GitHub)
 # PROJECT MADE WITH: PyQt5
-# Version: 1.0.0
+# Version: 0.1.0
 #
 # This project can be used freely for all uses, as long as they maintain the
 # respective credits only in the Python scripts.
@@ -853,6 +853,7 @@ if __name__ == '__main__':
     #       - Add more vivid description to README [Update old spotlight project with link to this one]
     #
     #   TODO: [Moderate Priority]:
+    #       - Option to favorite without necessarily renaming
     #       - Check if spotlight images is enabled
     #       - Option to open previous pics or load new ones (Use 'more icon' and put some buttons there)
     #       - Lookup context menus [for the 'More' icon]
