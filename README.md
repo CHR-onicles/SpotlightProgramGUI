@@ -26,7 +26,7 @@ features and has good amount of tooltips to describe the functions of buttons wh
 <img src="screenshots/5.png" width = 600>
 
 ## Rename Dialog Box
-<img src="screenshots/4.png" width = 500>
+<img src="screenshots/4.png" width = 300>
 
 
 
