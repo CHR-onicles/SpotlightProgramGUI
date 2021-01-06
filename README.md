@@ -15,7 +15,9 @@ features and has good amount of tooltips to describe the functions of wdigets wh
 * [Pillow](https://pypi.org/project/Pillow/)
 
 ## Run File
-`SpottyApp.py`
+* `SpottyApp.py`
+* Executable provided at [*insert release version here *]()
+
 
 ## Main Window
 <img src="screenshots/1.png" width = 800>
