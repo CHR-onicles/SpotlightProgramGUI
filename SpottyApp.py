@@ -665,7 +665,7 @@ class MainApp(MainWindow, QWidget):
         old_file = self.images[self.image_index]
         os.rename(old_file, self.new_prefix + self.new_name + '.png')
         self.images.remove(old_file)
-        self.images = os.listdir()
+        self.images = [x for x in os.listdir() if '.png' in x]
         # print(self.images.index('.png'))  # Doesn't work...have no idea why
         for count, item in enumerate(self.images):
             if self.new_name in item:
@@ -755,7 +755,7 @@ class MainApp(MainWindow, QWidget):
 
     # CLASS HELPER FUNCTIONS (to reduce repetition) ------------------------------------------------------
     def conditionsForWhatToDoAfterExport(self, extra_condition=None):
-        self.images = os.listdir()
+        self.images = [x for x in os.listdir() if '.png' in x]
         print(self.images, len(self.images))
         self.image_index = 0
         if len(self.images) != 0:
