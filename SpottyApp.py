@@ -522,7 +522,7 @@ class MainApp(MainWindow, QWidget):
                 self.spotlight = Spotlight(prefix=prefix, temp_storage=temp_dir)
                 print(self.spotlight.selected_new_win_files)
 
-                self.setupFirstPic()
+                self.setupFirstPicAfterRetrieval()
 
             else:  # Clicked while user is still viewing pictures.
                 mbox = QMessageBox.warning(self, 'Spotlight Photos', 'Previous images could be lost!',  # todo: change message here to something about having duplicate images
@@ -533,7 +533,7 @@ class MainApp(MainWindow, QWidget):
                     self.spotlight = Spotlight(prefix=prefix, temp_storage=temp_dir)
                     print(self.spotlight.selected_new_win_files)
 
-                    self.setupFirstPic()
+                    self.setupFirstPicAfterRetrieval()
 
             if self.setts.value('default prefix') in self.images[self.image_index]:
                 self.setFavIconVisible()
@@ -796,7 +796,7 @@ class MainApp(MainWindow, QWidget):
         self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaledToHeight(self.fav_icon_size_y, Qt.SmoothTransformation))
         self.left_bottom_layout.addWidget(self.lbl_fav_icon)
 
-    def setupFirstPic(self):
+    def setupFirstPicAfterRetrieval(self):
         if self.spotlight.selected_new_win_files == []:
             QMessageBox.critical(self, 'Spotlight Photos', 'No New Spotlight Photos Found!')
             return
