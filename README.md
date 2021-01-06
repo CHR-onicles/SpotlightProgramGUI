@@ -1,4 +1,4 @@
-# SpottyApp (SpotlightProgramGUI)
+# SpottyApp (SpotlightProgramGUI) v0.1.0
 > Completely rewrote [Spotlight Program](https://github.com/CHR-onicles/SpotlightProgram) with GUI using PyQt5.
 
 ## Description

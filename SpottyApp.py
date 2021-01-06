@@ -850,16 +850,15 @@ if __name__ == '__main__':
 
 
     #   TODO: A[High Priority]:
-    #       - Add more vivid description to README [Update old spotlight project with link to this one]
-    #
-    #   TODO: [Moderate Priority]:
     #       - Option to favorite without necessarily renaming
-    #       - Check if spotlight images is enabled
+    #       - Add checkbox to allow user to remove prefix and deactivate it in the rename dialog box
     #       - Option to open previous pics or load new ones (Use 'more icon' and put some buttons there)
     #       - Lookup context menus [for the 'More' icon]
+
+    #   TODO: [Moderate Priority]:
+    #       - Check if spotlight images is enabled
     #       - Refactor repeating code into helper functions across board
     #       - Informative text with Messagebox for 'No fav image selected', and possibly all messageboxes
-    #       - Add checkbox to allow user to remove prefix and deactivate it in the rename dialog box
     #
     #   TODO: [Optional]:
     #       - Edit the no_image icon to show the text more and reduce opacity of the circle
