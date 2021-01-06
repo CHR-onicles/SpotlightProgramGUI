@@ -6,7 +6,7 @@
 It retrieves the windows spotlight photos (These are the nature-filled wallpapers on your lockscreen on Win 10)
 and allows the user to preview, favorite, delete or export on-the-go.
 These photos are usually set by default as your lockscreen, but it is worth mentioning that you should at least check to be sure. App has simple
-features and has good amount of tooltips to describe the functions of wdigets when you hover over them.
+features and has a good amount of tooltips to describe the functions of widgets when you hover over them.
 
 ## Requirements
 > * Windows 10
