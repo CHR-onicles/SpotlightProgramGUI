@@ -22,7 +22,8 @@ features and has good amount of tooltips to describe the functions of buttons wh
 <img src="screenshots/2.png" width = 500>
 
 ## Settings Dialog Box
-<img src="screenshots/3.png" width = 400> <img src="screenshots/3.png" width = 400>
+<img src="screenshots/3.png" width = 400>
+<img src="screenshots/5.png" width = 400>
 
 
 
