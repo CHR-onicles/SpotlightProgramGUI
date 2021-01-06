@@ -521,7 +521,6 @@ class MainApp(MainWindow, QWidget):
             if self.load_in_button_clicked == 0 or (self.load_in_button_clicked != 0 and self.images == []):
                 # First time its clicked or Clicked when user deletes all pictures
                 self.t1 = time()
-                print(self.t1)
                 self.spotlight = Spotlight(prefix=prefix, temp_storage=temp_dir)
 
                 print(self.spotlight.selected_new_win_files)
@@ -535,7 +534,6 @@ class MainApp(MainWindow, QWidget):
                     pass
                 else:
                     self.t1 = time()
-                    print('Time started: ', self.t1)
                     self.spotlight = Spotlight(prefix=prefix, temp_storage=temp_dir)
                     print(self.spotlight.selected_new_win_files)
 
@@ -805,6 +803,8 @@ class MainApp(MainWindow, QWidget):
     def setupFirstPicAfterRetrieval(self):
         if self.spotlight.selected_new_win_files == []:
             QMessageBox.critical(self, 'Spotlight Photos', 'No New Spotlight Photos Found!')
+
+            # For debugging
             self.t2 = time()
             print('Stopped abruptly - Time elapsed :', self.t2 - self.t1)
             with open('log.txt', 'a') as f:  # todo: release during release
@@ -829,6 +829,7 @@ class MainApp(MainWindow, QWidget):
             self.btn_export.setEnabled(True)
             self.load_in_button_clicked += 1
 
+            # For debugging
             self.t2 = time()
             print('Time elapsed :', self.t2 - self.t1)
             print(os.getcwd())
