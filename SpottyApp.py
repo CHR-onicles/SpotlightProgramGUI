@@ -519,31 +519,10 @@ class MainApp(MainWindow, QWidget):
         else:
             if self.load_in_button_clicked == 0 or (self.load_in_button_clicked != 0 and self.images == []):
                 # First time its clicked or Clicked when user deletes all pictures
-                self.spotlight = Spotlight(prefix=self.setts.value('default prefix'),
-                                           temp_storage=temp_dir)
+                self.spotlight = Spotlight(prefix=prefix, temp_storage=temp_dir)
                 print(self.spotlight.selected_new_win_files)
 
-                if self.spotlight.selected_new_win_files == []:
-                    QMessageBox.critical(self, 'Spotlight Photos', 'No New Spotlight Photos Found!')
-                    return
-                else:
-                    self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)) + ' items')
-                    # self.lbl_counter.setToolTip('Number of <b>selected</b> img')
-                    self.images = self.spotlight.selected_new_win_files
-                    self.lbl_image.close()
-                    self.lbl_image = Label()
-                    self.top_layout.addWidget(self.lbl_image)
-                    self.lbl_image.setPixmap(
-                        QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
-                    self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
-
-                    # Enable buttons except previous button since we'll be at first image
-                    self.btn_delete.setEnabled(True)
-                    self.btn_next.setEnabled(True)
-                    self.btn_previous.setEnabled(False)
-                    self.btn_save.setEnabled(True)
-                    self.btn_export.setEnabled(True)
-                    self.load_in_button_clicked += 1
+                self.setupFirstPic()
 
             else:  # Clicked while user is still viewing pictures.
                 mbox = QMessageBox.warning(self, 'Spotlight Photos', 'Previous images could be lost!',  # todo: change message here to something about having duplicate images
@@ -554,27 +533,7 @@ class MainApp(MainWindow, QWidget):
                     self.spotlight = Spotlight(prefix=prefix, temp_storage=temp_dir)
                     print(self.spotlight.selected_new_win_files)
 
-                    if self.spotlight.selected_new_win_files == []:
-                        QMessageBox.critical(self, 'Spotlight Photos', 'No New Spotlight Photos Found!')
-                        return
-                    else:
-                        self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)) + ' items')
-                        # self.lbl_counter.setToolTip('Number of <b>selected</b> img')
-                        self.images = self.spotlight.selected_new_win_files
-                        self.lbl_image.close()
-                        self.lbl_image = Label()
-                        self.top_layout.addWidget(self.lbl_image)
-                        self.lbl_image.setPixmap(
-                            QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
-                        self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
-
-                        # Enable buttons
-                        self.btn_delete.setEnabled(True)
-                        self.btn_next.setEnabled(True)
-                        self.btn_previous.setEnabled(False)
-                        self.btn_save.setEnabled(True)
-                        self.btn_export.setEnabled(True)
-                        self.load_in_button_clicked += 1
+                    self.setupFirstPic()
 
             if self.setts.value('default prefix') in self.images[self.image_index]:
                 self.setFavIconVisible()
@@ -836,6 +795,29 @@ class MainApp(MainWindow, QWidget):
     def setFavIconVisible(self):
         self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaledToHeight(self.fav_icon_size_y, Qt.SmoothTransformation))
         self.left_bottom_layout.addWidget(self.lbl_fav_icon)
+
+    def setupFirstPic(self):
+        if self.spotlight.selected_new_win_files == []:
+            QMessageBox.critical(self, 'Spotlight Photos', 'No New Spotlight Photos Found!')
+            return
+        else:
+            self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)) + ' items')
+            # self.lbl_counter.setToolTip('Number of <b>selected</b> img')
+            self.images = self.spotlight.selected_new_win_files
+            self.lbl_image.close()
+            self.lbl_image = Label()
+            self.top_layout.addWidget(self.lbl_image)
+            self.lbl_image.setPixmap(
+                QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
+            self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
+
+            # Enable buttons except previous button since we'll be at first image
+            self.btn_delete.setEnabled(True)
+            self.btn_next.setEnabled(True)
+            self.btn_previous.setEnabled(False)
+            self.btn_save.setEnabled(True)
+            self.btn_export.setEnabled(True)
+            self.load_in_button_clicked += 1
 
 
 
