@@ -859,6 +859,7 @@ if __name__ == '__main__':
     #       - Lookup context menus [for the 'More' icon]
     #       - Refactor repeating code into helper functions across board
     #       - Informative text with Messagebox for 'No fav image selected', and possibly all messageboxes
+    #       - Add checkbox to allow user to remove prefix and deactivate it in the rename dialog box
     #
     #   TODO: [Optional]:
     #       - Edit the no_image icon to show the text more and reduce opacity of the circle
