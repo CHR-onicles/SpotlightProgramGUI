@@ -519,12 +519,11 @@ class MainApp(MainWindow, QWidget):
         else:
             if self.load_in_button_clicked == 0 or (self.load_in_button_clicked != 0 and self.images == []):
                 # First time its clicked or Clicked when user deletes all pictures
-                time1 = QTime()
-                time1.start()
-                print('Time started: ', time1.elapsed())
+                self.time1 = QTime()
+                self.time1.start()
+                print('Time started: ', self.time1.elapsed())
                 self.spotlight = Spotlight(prefix=prefix, temp_storage=temp_dir)
-                print('Time elapsed :', round(time1.elapsed() / 1000, 2))
-                print('Time elapsed :', time1.elapsed())
+
                 print(self.spotlight.selected_new_win_files)
 
                 self.setupFirstPicAfterRetrieval()
@@ -809,6 +808,8 @@ class MainApp(MainWindow, QWidget):
     def setupFirstPicAfterRetrieval(self):
         if self.spotlight.selected_new_win_files == []:
             QMessageBox.critical(self, 'Spotlight Photos', 'No New Spotlight Photos Found!')
+            print('Time elapsed :', round(self.time1.elapsed() / 1000, 2))
+            print('Time elapsed :', self.time1.elapsed())
             return
         else:
             self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)) + ' items')
@@ -828,6 +829,9 @@ class MainApp(MainWindow, QWidget):
             self.btn_save.setEnabled(True)
             self.btn_export.setEnabled(True)
             self.load_in_button_clicked += 1
+
+            print('Time elapsed :', round(self.time1.elapsed() / 1000, 2))
+            print('Time elapsed :', self.time1.elapsed())
 
 
 
