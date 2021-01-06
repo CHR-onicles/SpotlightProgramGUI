@@ -41,7 +41,7 @@ class Spotlight:
         # (meaning User didn't actually rename it, hence it's not important)
         # even if it is, file would be located in recycle bin
         os.chdir(self.temp_storage)
-        default_files = os.listdir()
+        default_files = [x for x in os.listdir() if '.png' in x]
 
         for def_file in default_files:
             if prefix not in def_file:
@@ -70,10 +70,10 @@ class Spotlight:
         win_files = []
 
         for count, file in enumerate(os.listdir()):
-            if file[-4] != '.':
+            if (file[-4] != '.') and ('.' not in file):
                 win_files.append(os.path.join(self.temp_storage, os.listdir()[count]))
             else:
-                continue
+                continue  # It ignores any file with a '.' extension
 
 
         # changing all raw files to pictures using byte-form (using os.rename)
@@ -82,8 +82,8 @@ class Spotlight:
         print('All raw files converted to pictures!')
 
 
-        # Get new filenames
-        new_win_files = os.listdir()
+        # Get new image filenames
+        new_win_files = [x for x in os.listdir() if '.png' in x]
 
         # Loop through and delete unnecessary windows pictures (img, thumbnails etc.)
         # All spotlight_photos on all desktops are 1920x1080
@@ -97,7 +97,7 @@ class Spotlight:
         print('Unnecessary files deleted successfully')
 
         # Giving selected pics random non-repeating(hopefully) names
-        self.selected_new_win_files = os.listdir()
+        self.selected_new_win_files = [x for x in os.listdir() if '.png' in x]
 
         for pics in self.selected_new_win_files:
             if prefix not in pics:
@@ -105,12 +105,12 @@ class Spotlight:
             else:
                 continue
 
-        self.selected_new_win_files = os.listdir()
+        self.selected_new_win_files = [x for x in os.listdir() if '.png' in x]
         print('from Spotlight class, selected images: ', self.selected_new_win_files)
 
 
     def moveFavoritesToSpecificFolder(self, prefix=None, target_folder=None):
-        pics = os.listdir()
+        pics = [x for x in os.listdir() if '.png' in x]
         print('listing target dir: ', os.listdir(target_folder))
         fav_pics = []
         print('Target folder valid: ', os.path.isdir(target_folder))
@@ -140,7 +140,7 @@ class Spotlight:
             return fav_pics
 
     def moveAllToSpecificFolder(self, target_folder=None):
-        pics = os.listdir()
+        pics = [x for x in os.listdir() if '.png' in x]
         print('listing target dir: ', os.listdir(target_folder))
         print('Target folder valid: ', os.path.isdir(target_folder))
 

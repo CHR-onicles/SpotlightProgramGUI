@@ -807,6 +807,8 @@ class MainApp(MainWindow, QWidget):
             QMessageBox.critical(self, 'Spotlight Photos', 'No New Spotlight Photos Found!')
             self.t2 = time()
             print('Stopped abruptly - Time elapsed :', self.t2 - self.t1)
+            with open('log.txt', 'a') as f:
+                f.write('Stopped abruptly - Time elapsed :' + str(self.t2 - self.t1))
             return
         else:
             self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)) + ' items')
@@ -829,6 +831,9 @@ class MainApp(MainWindow, QWidget):
 
             self.t2 = time()
             print('Time elapsed :', self.t2 - self.t1)
+            print(os.getcwd())
+            with open('log.txt', 'a') as f:
+                f.write('Time elapsed :' + str(self.t2 - self.t1))
 
 
 
