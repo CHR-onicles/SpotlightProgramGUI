@@ -18,8 +18,8 @@ features and has good amount of tooltips to describe the functions of buttons wh
 `SpottyApp.py`
 
 ## Main Window
-<img src="screenshots/1.png" width = 500>
-<img src="screenshots/2.png" width = 500>
+<img src="screenshots/1.png" width = 600>
+<img src="screenshots/2.png" width = 600>
 
 ## Settings Dialog Box
 <img src="screenshots/3.png" width = 400>
