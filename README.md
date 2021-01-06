@@ -30,6 +30,11 @@ features and has a good amount of tooltips to describe the functions of widgets 
 ## Rename Dialog Box
 <img src="screenshots/4.png" width = 300>
 
+## PS:
+App is still in development and users may encounter some bugs, do reach out to me for clarity on anything.
+
+> Contact: tpandivine48@gmail.com, Chronicles#1292 (Discord)
+
 
 
 
