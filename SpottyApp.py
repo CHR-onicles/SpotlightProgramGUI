@@ -849,11 +849,12 @@ if __name__ == '__main__':
 
 
     #   TODO: A[High Priority]:
+    #       - Add to README or settings that 'temp storage' should not be used as 'permanent wallpaper folder' as it will affect performance of the app
     #       - Option to favorite without necessarily renaming
     #       - Add checkbox to allow user to remove prefix and deactivate it in the rename dialog box
-    #       - Option to open previous pics or load new ones (Use 'more icon' and put some buttons there)
+    #       - Option to open previous pics or load new ones (Use 'more icon' and put some buttons there) [Have to use new naming scheme: SP-210107-1319-abcde] where a-zA-Z0-9a for abcde
     #       - Lookup context menus [for the 'More' icon]
-
+    #
     #   TODO: [Moderate Priority]:
     #       - Check if spotlight images is enabled
     #       - Refactor repeating code into helper functions across board

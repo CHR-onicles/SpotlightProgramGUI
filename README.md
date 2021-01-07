@@ -10,7 +10,7 @@ features and has a good amount of tooltips to describe the functions of widgets 
 
 ## Requirements
 > * Windows 10
-> * [PyQt5/PySide2](https://pypi.org/project/PyQt5/)
+> * [PyQt5](https://pypi.org/project/PyQt5/)
 > * [send2trash](https://pypi.org/project/Send2Trash/)
 > * [Pillow](https://pypi.org/project/Pillow/)
 
