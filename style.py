@@ -140,13 +140,8 @@ def RenameDialogStyle():
         background-color: #444
     }
     
-    /* QHSeparationLine {
-        border-width: 1px;
-        border-style: solid;
-        border-color: #3d7eff;
-    } */
-    
     QGroupBox {
+    font: 9pt segoe UI;
     margin-top: 8px;
     border: 1px solid #3d7eff;
     border-right: none;
@@ -156,8 +151,7 @@ def RenameDialogStyle():
     
     QGroupBox::title {
     color: #3db7ff;
-    top: -8px;
-    font: 10pt segoe UI;
+    top: -10px;
     }
     """
 
@@ -227,11 +221,6 @@ def SettingsDialogStyle():
         border: 2px solid #3d7eff;
     }
     
-    QLabel#lbl_options {
-        font: 9pt segoe UI;
-        color: #3d7eff;
-    }
-    
     QLabel {
         font: 11pt segoe UI;
         color: white;
@@ -267,6 +256,20 @@ def SettingsDialogStyle():
     
     QMessageBox QPushButton:focus {
         border: 3px solid #3d7eff;
+    }
+    
+    QGroupBox {
+    font: 9pt segoe UI;
+    margin: 8px;
+    border: 1px solid #3d7eff;
+    border-right: none;
+    border-left: none;
+    border-bottom: none;
+    }
+    
+    QGroupBox:title {
+    color: #3d7eff;
+    top: -12px;
     }
     """
 

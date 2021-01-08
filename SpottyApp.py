@@ -62,7 +62,7 @@ class RenameDialogBox(QDialog):
         self.setStyleSheet(style.RenameDialogStyle())
         self.setModal(True)  # deactivates other windows till this window is interacted with
 
-        self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 400, 200
+        self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 400, 220
         self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT
         self.xpos = (self.D_WIDTH / 2) - (self.DIALOG_WIDTH / 2)
         self.ypos = (self.D_HEIGHT / 2) - (self.DIALOG_HEIGHT / 2)
@@ -101,21 +101,14 @@ class RenameDialogBox(QDialog):
         self.lbl_rename = QLabel('')
         self.lbl_rename.setObjectName('lbl_rename')
 
-        self.lbl_prefix_options = QLabel('Name options')
-        self.lbl_prefix_options.setStyleSheet('font: 9pt segoe UI; color: #3db7ff;')
-
         # ENTRIES ---------------------------------------------------------------------------------------
         self.entry_prefix = QLineEdit(self.default_prefix)
         self.entry_prefix.setToolTip('<b>Default</b> prefix for all photos')
         self.entry_prefix.setReadOnly(True)
         self.entry_new_name = QLineEdit(self)
         self.entry_new_name.setToolTip('<b>Short</b> description about photo')
-        self.entry_new_name.setFocus()
+        self.entry_new_name.setFocus()  # fixme: Still doesn't get first focus
 
-        # SEPARATION LINE ------------------------------------------------------------------------------
-        self.hline = QHSeparationLine()
-        self.hline.setObjectName('hline')
-        self.hline.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
 
         # SIGNALS --------------------------------------------------------------------------------------
         main_.signal_photo_name.connect(self.getPhotoName)
@@ -127,15 +120,12 @@ class RenameDialogBox(QDialog):
         self.bottom_layout = QFormLayout()
         self.button_layout = QHBoxLayout()
 
-        self.name_group_box = QGroupBox('Name Options')
+        self.name_group_box = QGroupBox('Name options')
         self.name_group_box.setLayout(self.bottom_layout)
-
-        self.section_layout = QHBoxLayout()
-        self.section_layout.addWidget(self.lbl_prefix_options)
-        self.section_layout.addWidget(self.hline)
 
         # Adding Widgets to Top Layout -----------------------------------------------------------------
         self.top_layout.addWidget(self.lbl_rename)
+        self.top_layout.setContentsMargins(0, 0, 0, 15)
 
         # Adding Buttons to Button Layout --------------------------------------------------------------
         self.button_layout.addWidget(self.btn_submit)
@@ -149,8 +139,8 @@ class RenameDialogBox(QDialog):
 
 
         # Adding Layouts and Widgets to Main Layout ----------------------------------------------------
-        self.main_layout.addLayout(self.top_layout, 10)
-        self.main_layout.addWidget(self.name_group_box, 80)
+        self.main_layout.addLayout(self.top_layout, 20)
+        self.main_layout.addWidget(self.name_group_box, 70)
         self.main_layout.addLayout(self.button_layout, 10)
         self.setLayout(self.main_layout)
 
@@ -221,7 +211,7 @@ class SettingsDialog(QDialog):
             pass
 
         #  DIALOG ANIMATION SETTINGS ----------------------------------------------------------------------
-        self.openingAnimation(self.DIALOG_WIDTH, self.DIALOG_HEIGHT + 300)
+        self.openingAnimation(self.DIALOG_WIDTH, self.DIALOG_HEIGHT + 308)
 
         self.UI()
 
@@ -234,11 +224,6 @@ class SettingsDialog(QDialog):
 
     def widgets(self):
         # TOP LAYOUT WIDGETS ------------------------------------------------------------------------------
-        self.lbl_prefix_options = QLabel('Prefix options')
-        self.lbl_prefix_options.setObjectName('lbl_options')
-        self.hline_1 = QHSeparationLine()
-        self.hline_1.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-
         self.lbl_default_prefix = QLabel('Default Prefix')
         self.lbl_custom_prefix = QLabel('Custom Prefix')
 
@@ -249,15 +234,10 @@ class SettingsDialog(QDialog):
         self.entry_custom_prefix.setFocus()
         self.entry_custom_prefix.textEdited.connect(self.showHint)
 
-        self.lbl_custom_prefix_hint = QLabel('')  # change to all time later
+        self.lbl_custom_prefix_hint = QLabel('')
         self.lbl_custom_prefix_hint.setWordWrap(True)
 
         # MIDDLE LAYOUT WIDGETS ----------------------------------------------------------------------------
-        self.lbl_dir_options = QLabel('Folder options')
-        self.lbl_dir_options.setObjectName('lbl_options')
-        self.hline_2 = QHSeparationLine()
-        self.hline_2.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-
         self.lbl_temp_dir = QLabel('Temp. Folder')
         self.lbl_target_dir = QLabel('Target Folder')
 
@@ -280,11 +260,6 @@ class SettingsDialog(QDialog):
         self.btn_target_dir_browse.clicked.connect(self.browseTargetDirectory)
 
         # BOTTOM LAYOUT WIDGETS ----------------------------------------------------------------------------
-        self.lbl_export_options = QLabel('Export options')
-        self.lbl_export_options.setObjectName('lbl_options')
-        self.hline_3 = QHSeparationLine()
-        self.hline_3.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-
         self.rbtn_fav = QRadioButton('Favorite images only')
         self.rbtn_fav.setChecked(self.rbtn_fav_state)
         self.rbtn_all = QRadioButton('All images')
@@ -303,33 +278,31 @@ class SettingsDialog(QDialog):
         self.main_layout = QVBoxLayout()
         self.top_layout = QVBoxLayout()
         self.middle_layout = QVBoxLayout()
-        self.bottom_layout = QVBoxLayout()
+        self.bottom_layout = QHBoxLayout()
+        self.btn_ok_cancel_layout = QHBoxLayout()
 
-        self.prefix_options_layout = QHBoxLayout()
-        self.dir_options_layout = QHBoxLayout()
-        self.export_options_layout = QHBoxLayout()
+        self.top_group_box = QGroupBox('Prefix options')
+        self.top_group_box.setLayout(self.top_layout)
+        self.middle_group_box = QGroupBox('Folder options')
+        self.middle_group_box.setLayout(self.middle_layout)
+        self.bottom_group_box = QGroupBox('Export options')
+        self.bottom_group_box.setLayout(self.bottom_layout)
 
         self.top_form_layout = QFormLayout()
         self.middle_form_layout = QFormLayout()
         self.bottom_rbtn_layout = QHBoxLayout()
         self.bottom_form_layout = QFormLayout()
-        self.btn_ok_cancel_layout = QHBoxLayout()
 
         self.temp_dir_row_layout = QHBoxLayout()
         self.target_dir_row_layout = QHBoxLayout()
 
         # TOP LAYOUT --------------------------------------------------------------------------------------
-        self.prefix_options_layout.addWidget(self.lbl_prefix_options)
-        self.prefix_options_layout.addWidget(self.hline_1)
         self.top_form_layout.addRow(self.lbl_default_prefix, self.entry_default_prefix)
         self.top_form_layout.addRow(self.lbl_custom_prefix, self.entry_custom_prefix)
         self.top_form_layout.setContentsMargins(10, 0, 0, 0)
-        self.top_layout.addLayout(self.prefix_options_layout)
         self.top_layout.addLayout(self.top_form_layout)
 
         # MIDDLE LAYOUT -----------------------------------------------------------------------------------
-        self.dir_options_layout.addWidget(self.lbl_dir_options)
-        self.dir_options_layout.addWidget(self.hline_2)
         self.temp_dir_row_layout.addWidget(self.entry_temp_dir)
         self.temp_dir_row_layout.addWidget(self.btn_temp_dir_browse)
         self.target_dir_row_layout.addWidget(self.entry_target_dir)
@@ -337,27 +310,24 @@ class SettingsDialog(QDialog):
         self.middle_form_layout.addRow(self.lbl_temp_dir, self.temp_dir_row_layout)
         self.middle_form_layout.addRow(self.lbl_target_dir, self.target_dir_row_layout)
         self.middle_form_layout.setContentsMargins(10, 0, 0, 0)
-        self.middle_layout.addLayout(self.dir_options_layout)
         self.middle_layout.addLayout(self.middle_form_layout)
 
         # BOTTOM LAYOUT -----------------------------------------------------------------------------------
-        self.export_options_layout.addWidget(self.lbl_export_options)
-        self.export_options_layout.addWidget(self.hline_3)
-        self.bottom_rbtn_layout.addWidget(self.rbtn_fav)
-        self.bottom_rbtn_layout.addWidget(self.rbtn_one)
-        self.bottom_form_layout.addRow(self.rbtn_all, self.bottom_rbtn_layout)
+        self.bottom_layout.addWidget(self.rbtn_all)
+        self.bottom_layout.addWidget(self.rbtn_fav)
+        self.bottom_layout.addWidget(self.rbtn_one)
+        self.bottom_group_box.setContentsMargins(10, 0, 0, 0)  # or use hlayout rather
+
+        # BUTTONS LAYOUT -----------------------------------------------------------------------------------
         self.btn_ok_cancel_layout.addWidget(self.btn_ok)
         self.btn_ok_cancel_layout.addWidget(self.btn_cancel)
-        self.btn_ok_cancel_layout.setContentsMargins(170, 0, 0, 0)
-        self.bottom_form_layout.setContentsMargins(10, 0, 0, 0)
-        self.bottom_layout.addLayout(self.export_options_layout)
-        self.bottom_layout.addLayout(self.bottom_form_layout)
+        self.btn_ok_cancel_layout.setContentsMargins(170, 0, 8, 0)
 
         # CONFIGURING MAIN LAYOUT ----------------------------------------------------------------------------
-        self.main_layout.addLayout(self.top_layout, 35)
-        self.main_layout.addLayout(self.middle_layout, 30)
-        self.main_layout.addLayout(self.bottom_layout, 20)
-        self.main_layout.addLayout(self.btn_ok_cancel_layout, 15)
+        self.main_layout.addWidget(self.top_group_box, 38)
+        self.main_layout.addWidget(self.middle_group_box, 30)
+        self.main_layout.addWidget(self.bottom_group_box, 20)
+        self.main_layout.addLayout(self.btn_ok_cancel_layout, 12)
         self.setLayout(self.main_layout)
 
 
@@ -422,7 +392,7 @@ class SettingsDialog(QDialog):
         self.open_animation.setEndValue(QSize(width, height))
         self.open_animation.setEasingCurve(QEasingCurve.Linear)
         self.open_animation.start()
-        self.setMaximumSize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT + 300)
+        self.setMaximumSize(QSize(width, height))
 
 
     # CLASS HELPER FUNCTIONS ----------------------------------------------------------------------------
