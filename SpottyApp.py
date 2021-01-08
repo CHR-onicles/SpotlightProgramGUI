@@ -15,7 +15,7 @@
 
 import os, sys, send2trash, platform
 from PyQt5.QtWidgets import QApplication, QDialog, QWidget, QLabel, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, \
-    QFormLayout, QMessageBox, QRadioButton, QFileDialog, QSizePolicy, QDesktopWidget
+    QFormLayout, QMessageBox, QRadioButton, QFileDialog, QSizePolicy, QDesktopWidget, QGroupBox
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot, QSettings, QPropertyAnimation, QSize, QEasingCurve, QTimer
 from time import time
@@ -107,6 +107,7 @@ class RenameDialogBox(QDialog):
         # ENTRIES ---------------------------------------------------------------------------------------
         self.entry_prefix = QLineEdit(self.default_prefix)
         self.entry_prefix.setToolTip('<b>Default</b> prefix for all photos')
+        self.entry_prefix.setReadOnly(True)
         self.entry_new_name = QLineEdit(self)
         self.entry_new_name.setToolTip('<b>Short</b> description about photo')
         self.entry_new_name.setFocus()
@@ -123,9 +124,12 @@ class RenameDialogBox(QDialog):
         # DEFINING LAYOUTS ------------------------------------------------------------------------------
         self.main_layout = QVBoxLayout()
         self.top_layout = QHBoxLayout()
-        self.bottom_main_layout = QVBoxLayout()
         self.bottom_layout = QFormLayout()
         self.button_layout = QHBoxLayout()
+
+        self.name_group_box = QGroupBox('Name Options')
+        self.name_group_box.setLayout(self.bottom_layout)
+        # self.name_group_box.setContentsMargins(0, 20, 0, 0)
 
         self.section_layout = QHBoxLayout()
         self.section_layout.addWidget(self.lbl_prefix_options)
@@ -137,20 +141,18 @@ class RenameDialogBox(QDialog):
         # Adding Buttons to Button Layout --------------------------------------------------------------
         self.button_layout.addWidget(self.btn_submit)
         self.button_layout.addWidget(self.btn_cancel)
+        self.button_layout.setContentsMargins(110, 0, 0, 0)
 
         # Adding Widgets to Bottom Layout ---------------------------------------------------------------
-        self.bottom_layout.setContentsMargins(10, 0, 0, 0)
+        self.bottom_layout.setContentsMargins(10, 10, 0, 0)
         self.bottom_layout.addRow(QLabel('Prefix:'), self.entry_prefix)
         self.bottom_layout.addRow(QLabel('New Name:'), self.entry_new_name)
-        self.bottom_layout.addRow('', self.button_layout)
 
-        self.bottom_main_layout.setContentsMargins(0, 7, 0, 0)
-        self.bottom_main_layout.addLayout(self.section_layout, 2)
-        self.bottom_main_layout.addLayout(self.bottom_layout, 98)
 
         # Adding Layouts and Widgets to Main Layout ----------------------------------------------------
         self.main_layout.addLayout(self.top_layout, 10)
-        self.main_layout.addLayout(self.bottom_main_layout, 90)
+        self.main_layout.addWidget(self.name_group_box, 80)
+        self.main_layout.addLayout(self.button_layout, 10)
         self.setLayout(self.main_layout)
 
 

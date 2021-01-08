@@ -140,10 +140,24 @@ def RenameDialogStyle():
         background-color: #444
     }
     
-    QHSeparationLine {
+    /* QHSeparationLine {
         border-width: 1px;
         border-style: solid;
         border-color: #3d7eff;
+    } */
+    
+    QGroupBox {
+    margin-top: 8px;
+    border: 1px solid #3d7eff;
+    border-right: none;
+    border-left: none;
+    border-bottom: none; 
+    }
+    
+    QGroupBox::title {
+    color: #3db7ff;
+    top: -8px;
+    font: 10pt segoe UI;
     }
     """
 
