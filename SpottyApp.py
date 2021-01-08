@@ -778,8 +778,8 @@ class MainApp(MainWindow, QWidget):
             # For debugging
             self.t2 = time()
             print('Stopped abruptly - Time elapsed :', self.t2 - self.t1)
-            with open('log.txt', 'a') as f:  # todo: release during release
-                f.write('Stopped abruptly - Time elapsed :' + str(self.t2 - self.t1) + '\n')
+            # with open('log.txt', 'a') as f:  # todo: remove during release
+            #     f.write('Stopped abruptly - Time elapsed :' + str(self.t2 - self.t1) + '\n')
             return
         else:
             self.lbl_counter.setText(str(len(self.spotlight.selected_new_win_files)) + ' items')
@@ -803,9 +803,9 @@ class MainApp(MainWindow, QWidget):
             # For debugging
             self.t2 = time()
             print('Time elapsed :', self.t2 - self.t1)
-            print(os.getcwd())
-            with open('log.txt', 'a') as f:  # todo: remove during release
-                f.write('Time elapsed :' + str(self.t2 - self.t1) + '\n')
+            # print(os.getcwd())
+            # with open('log.txt', 'a') as f:  # todo: remove during release
+            #     f.write('Time elapsed :' + str(self.t2 - self.t1) + '\n')
 
 
 
