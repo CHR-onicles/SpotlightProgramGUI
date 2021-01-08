@@ -129,7 +129,6 @@ class RenameDialogBox(QDialog):
 
         self.name_group_box = QGroupBox('Name Options')
         self.name_group_box.setLayout(self.bottom_layout)
-        # self.name_group_box.setContentsMargins(0, 20, 0, 0)
 
         self.section_layout = QHBoxLayout()
         self.section_layout.addWidget(self.lbl_prefix_options)
