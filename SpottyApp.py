@@ -827,6 +827,7 @@ if __name__ == '__main__':
     #       - Lookup context menus [for the 'More' icon]
     #
     #   TODO: [Moderate Priority]:
+    #       - Add validators to entries
     #       - Check if spotlight images is enabled
     #       - Refactor repeating code into helper functions across board
     #       - Informative text with Messagebox for 'No fav image selected', and possibly all messageboxes
