@@ -17,7 +17,7 @@ import os, sys, send2trash, platform
 from PyQt5.QtWidgets import QApplication, QDialog, QWidget, QLabel, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, \
     QFormLayout, QMessageBox, QRadioButton, QFileDialog, QSizePolicy, QDesktopWidget, QGroupBox
 from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot, QSettings, QPropertyAnimation, QSize, QEasingCurve, QTimer
+from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot, QSettings, QPropertyAnimation, QSize, QEasingCurve, QTimer, QPoint
 from time import time
 
 # Local Imports
@@ -63,12 +63,14 @@ class RenameDialogBox(QDialog):
         self.setModal(True)  # deactivates other windows till this window is interacted with
 
         self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 400, 220
+        self.resize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
+
+        # Positioning at center of screen
         self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT
         self.xpos = (self.D_WIDTH / 2) - (self.DIALOG_WIDTH / 2)
         self.ypos = (self.D_HEIGHT / 2) - (self.DIALOG_HEIGHT / 2)
 
-        # Positioning at center of screen
-        self.setGeometry(int(self.xpos), int(self.ypos), self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
+        # self.setGeometry(int(self.xpos), int(self.ypos), self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
         self.setFixedSize(self.size())
 
         # RENAME DIALOG SETTINGS ---------------------------------------------------------------
@@ -76,7 +78,7 @@ class RenameDialogBox(QDialog):
         self.settings = QSettings('CHR-onicles', 'SpottyApp')
         self.default_prefix = self.settings.value('default prefix')
         try:
-            self.move(self.settings.value('rename dialog position'))
+            self.move(self.settings.value('rename dialog position', QPoint(self.xpos, self.ypos), type=QPoint))
         except:
             pass
 
@@ -187,28 +189,23 @@ class SettingsDialog(QDialog):
         self.resize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
         self.setStyleSheet(style.SettingsDialogStyle())
 
-        # SETTINGS DIALOG SETTINGS lol --------------------------------------------------------------------
-        self.default_prefix_text = 'sp_'
-        self.temp_dir = ''
-        self.target_dir = ''
-        self.rbtn_fav_state = False
-        self.rbtn_all_state = False
-        self.rbtn_one_state = False
+        # Positioning at center of screen
+        self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT
+        self.xpos = int((self.D_WIDTH / 2) - (self.DIALOG_WIDTH / 2))
+        self.ypos = int((self.D_HEIGHT / 2) - ((self.DIALOG_HEIGHT + 308) / 2))
 
+        # SETTINGS DIALOG SETTINGS lol --------------------------------------------------------------------
         self.settings = QSettings('CHR-onicles', 'SpottyApp')
         try:
-            self.move(self.settings.value('settings dialog location'))
-            if self.settings.value('default prefix') is None:
-                pass
-            else:
-                self.default_prefix_text = self.settings.value('default prefix')
-            self.temp_dir = str(self.settings.value('temporary directory'))
-            self.target_dir = str(self.settings.value('target directory'))
-            self.rbtn_fav_state = self.toBool(self.settings.value('fav button checked'))
-            self.rbtn_all_state = self.toBool(self.settings.value('all button checked'))
-            self.rbtn_one_state = self.toBool(self.settings.value('one button checked'))
-        except:
-            pass
+            self.move(self.settings.value('settings dialog location', QPoint(self.xpos, self.ypos), type=QPoint))
+            self.default_prefix_text = self.settings.value('default prefix', 'sp_', type=str)
+            self.temp_dir = str(self.settings.value('temporary directory', '', type=str))
+            self.target_dir = str(self.settings.value('target directory', '', type=str))
+            self.rbtn_fav_state = (self.settings.value('fav button checked', False, type=bool))
+            self.rbtn_all_state = (self.settings.value('all button checked', False, type=bool))
+            self.rbtn_one_state = (self.settings.value('one button checked', False, type=bool))
+        except Exception as e:
+            print(f'There was an exception: \"{e}\" while trying to read from QSettings.')
 
         #  DIALOG ANIMATION SETTINGS ----------------------------------------------------------------------
         self.openingAnimation(self.DIALOG_WIDTH, self.DIALOG_HEIGHT + 308)
@@ -395,9 +392,7 @@ class SettingsDialog(QDialog):
         self.setMaximumSize(QSize(width, height))
 
 
-    # CLASS HELPER FUNCTIONS ----------------------------------------------------------------------------
-    def toBool(self, text):
-        return text.lower() in ['true', 'True', 1]
+
 
 
 
