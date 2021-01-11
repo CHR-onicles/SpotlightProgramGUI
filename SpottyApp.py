@@ -67,8 +67,8 @@ class RenameDialogBox(QDialog):
 
         # Positioning at center of screen
         self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT
-        self.xpos = (self.D_WIDTH / 2) - (self.DIALOG_WIDTH / 2)
-        self.ypos = (self.D_HEIGHT / 2) - (self.DIALOG_HEIGHT / 2)
+        self.xpos = int((self.D_WIDTH / 2) - (self.DIALOG_WIDTH / 2))
+        self.ypos = int((self.D_HEIGHT / 2) - (self.DIALOG_HEIGHT / 2))
 
         # self.setGeometry(int(self.xpos), int(self.ypos), self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
         self.setFixedSize(self.size())
@@ -417,24 +417,22 @@ class MainApp(MainWindow, QWidget):
         d = QDesktopWidget().screenGeometry()
         self.DESKTOP_WIDTH, self.DESKTOP_HEIGHT = d.width(), d.height()
         self.APP_WIDTH, self.APP_HEIGHT = 1200, 800
-        self.app_x_pos = (self.DESKTOP_WIDTH / 2) - (self.APP_WIDTH / 2)
-        self.app_y_pos = (self.DESKTOP_HEIGHT / 2) - (self.APP_HEIGHT / 2)
-        self.setGeometry(int(self.app_x_pos), int(self.app_y_pos), self.APP_WIDTH, self.APP_HEIGHT)
+        self.app_x_pos = int((self.DESKTOP_WIDTH / 2) - (self.APP_WIDTH / 2))
+        self.app_y_pos = int((self.DESKTOP_HEIGHT / 2) - (self.APP_HEIGHT / 2))
         self.setMinimumSize(600, 555)
         self.load_in_button_clicked = 0
 
         # Object Attributes
         self.images = []
         self.image_index = 0
-        # self.app_dir = os.getcwd()
 
         # APP SETTINGS -------------------------------------------------------------------------------
         self.setts = QSettings('CHR-onicles', 'SpottyApp')
         print('App data already exists:', self.setts.contains('default prefix'))
 
         try:
-            self.resize(self.setts.value('window size'))
-            self.move(self.setts.value('window position'))
+            self.resize(self.setts.value('window size', QSize(self.APP_WIDTH, self.APP_HEIGHT), type=QSize))
+            self.move(self.setts.value('window position', QPoint(self.app_x_pos, self.app_y_pos), type=QPoint))
         except:
             pass
 
@@ -664,10 +662,10 @@ class MainApp(MainWindow, QWidget):
         print('cur directory: ', os.getcwd())
         print('Dir chosen:', self.setts.value('target directory'))
 
-        if self.setts.value('fav button checked') == 'true':
+        if self.setts.value('fav button checked', False, type=bool) is True:
             print('fav button checked:', self.setts.value('fav button checked'))
-            selected_pics = self.spotlight.moveFavoritesToSpecificFolder(prefix=self.setts.value('default prefix'),
-                                                                         target_folder=self.setts.value('target directory'))
+            selected_pics = self.spotlight.moveFavoritesToSpecificFolder(
+                prefix=self.setts.value('default prefix'), target_folder=self.setts.value('target directory'))
             print('from main app, selected pics:', selected_pics)
             if selected_pics is None:
                 QMessageBox.critical(self, 'Export Failed', '<b>NO</b> Favorite images to Export!')
@@ -683,7 +681,7 @@ class MainApp(MainWindow, QWidget):
                     self.images.remove(item)
                 self.conditionsForWhatToDoAfterExport()
 
-        elif self.setts.value('all button checked') == 'true':
+        elif self.setts.value('all button checked', False, type=bool) is True:
             print('all button checked:', self.setts.value('all button checked'))
             all_pics = self.spotlight.moveAllToSpecificFolder(target_folder=self.setts.value('target directory'))
 
@@ -696,10 +694,10 @@ class MainApp(MainWindow, QWidget):
                 self.images.clear()
                 self.conditionsForWhatToDoAfterExport()
 
-        elif self.setts.value('one button checked') == 'true':
+        elif self.setts.value('one button checked', False, type=bool) is True:
             print('one button checked:', self.setts.value('one button checked'))
-            single_pic = self.spotlight.moveOneToSpecificFolder(single_pic=self.images[self.image_index],
-                                                                target_folder=self.setts.value('target directory'))
+            single_pic = self.spotlight.moveOneToSpecificFolder(
+                single_pic=self.images[self.image_index], target_folder=self.setts.value('target directory'))
 
             print('from main app, single pic:', single_pic)
             if single_pic[0] == 'FileExistsError':
