@@ -16,7 +16,7 @@ features and has a good amount of tooltips to describe the functions of widgets 
 
 ## Run File
 > * `SpottyApp.py`
-> * Executable provided at [*insert release version here *]()
+> * Executable provided at [*(release version will be published soon)*]()
 
 
 ## Main Window
@@ -32,10 +32,11 @@ features and has a good amount of tooltips to describe the functions of widgets 
 <img src="screenshots/4.png" width = 300>
 
 ## PS:
-App is still in development and still needs more features, also, users may encounter some bugs.
-Do reach out to me for clarity on anything.
+> * App is still in development and still needs more features, users may also encounter some bugs/glitches.
+> * A release version(.exe) is being worked on currently...
 
-> Contact: tpandivine48@gmail.com, Chronicles#1292 (Discord)
+> * Do reach out to me for clarity on anything.
+> * Contact: tpandivine48@gmail.com, Chronicles#1292 (Discord)
 
 
 
