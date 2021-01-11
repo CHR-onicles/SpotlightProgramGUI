@@ -812,7 +812,7 @@ if __name__ == '__main__':
 
 
 
-    #   TODO: A[High Priority]:
+    #   TODO: [High Priority]:
     #       - Add to README or settings that 'temp storage' should not be used as 'permanent wallpaper folder' as it will affect performance of the app
     #       - Option to favorite without necessarily renaming
     #       - Add checkbox to allow user to remove prefix and deactivate it in the rename dialog box
@@ -831,4 +831,5 @@ if __name__ == '__main__':
 
 
     # TODO: FOR SETTINGS OPTIONS
-    #   1. Option for user to delete temp storage when done [optional]
+    #   1. Option to disable prefix with checkbox
+    #   2. Option for user to delete temp storage when done [optional]
