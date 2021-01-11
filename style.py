@@ -72,8 +72,8 @@ def RenameDialogStyle():
         font: 10pt segoe UI;
         border: 2px solid #3d7eff;
         border-radius: 5px;
-        padding-top:5px;
-        padding-bottom:5px;
+        padding-top: 5px;
+        padding-bottom: 5px;
     }
     
     QPushButton:hover {
@@ -227,7 +227,7 @@ def SettingsDialogStyle():
     }
     
     QRadioButton {
-        font: 10pt segoei UI;
+        font: 10pt segoe UI;
         color: white;    
     }
     
