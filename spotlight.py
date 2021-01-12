@@ -40,7 +40,7 @@ class Spotlight:
         # First clear the folder of all default-named files/pics
         # (meaning User didn't actually rename it, hence it's not important)
         # even if it is, file would be located in recycle bin
-        os.chdir(self.temp_storage)
+        os.chdir(self.temp_storage)  # todo: add file not found error here and for target folder functions
         default_files = [x for x in os.listdir() if '.png' in x]
 
         for def_file in default_files:
@@ -122,7 +122,7 @@ class Spotlight:
             else:
                 continue
 
-        if fav_pics == []:
+        if not fav_pics:
             print('No image selected')
             return
         else:
@@ -138,6 +138,7 @@ class Spotlight:
 
             print('Favorite Files moved successfully! \n')
             return fav_pics
+
 
     def moveAllToSpecificFolder(self, target_folder=None):
         pics = [x for x in os.listdir() if '.png' in x]
