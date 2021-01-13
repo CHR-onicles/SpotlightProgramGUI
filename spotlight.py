@@ -132,8 +132,8 @@ class Spotlight:
             for file in fav_pics:
                 try:
                     shutil.move(os.path.join(os.getcwd(), file), wallpapers_path)
-                except:
-                    print('File Exits Already')
+                except Exception as e:  # todo: reformat to print Exception as e
+                    print(e)
                     return ['FileExistsError', file]
 
             print('Favorite Files moved successfully! \n')
@@ -151,8 +151,8 @@ class Spotlight:
         for file in pics:
             try:
                 shutil.move(os.path.join(os.getcwd(), file), wallpapers_path)
-            except:
-                print('File Exits Already')
+            except Exception as e:
+                print(e)
                 return ['FileExistsError', file]
 
         print('All Files moved successfully! \n')
@@ -168,8 +168,8 @@ class Spotlight:
         # Transfer selected pic to new wallpaper folder
         try:
             shutil.move(os.path.join(os.getcwd(), pic), wallpapers_path)
-        except:
-            print('File Exits Already')
+        except Exception as e:
+            print(e)
             return ['FileExistsError', pic]
 
         print('All Files moved successfully! \n')
