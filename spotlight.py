@@ -33,7 +33,7 @@ class Spotlight:
 
         print('Spotlight Path valid:', os.path.isdir(self.spotlight_path))
         self.temp_storage = temp_storage
-        print('Temp Storage valid: ', os.path.isdir(self.temp_storage))
+        print('Temp Storage valid:', os.path.isdir(self.temp_storage))
 
 
         # Change to temp storage and check if there are previous files
@@ -106,14 +106,14 @@ class Spotlight:
                 continue
 
         self.selected_new_win_files = [x for x in os.listdir() if '.png' in x]
-        print('from Spotlight class, selected images: ', self.selected_new_win_files)
+        print('from Spotlight class, selected images:', self.selected_new_win_files)
 
 
     def moveFavoritesToSpecificFolder(self, prefix=None, target_folder=None):
         pics = [x for x in os.listdir() if '.png' in x]
-        print('listing target dir: ', os.listdir(target_folder))
+        print('listing target dir:', os.listdir(target_folder))
         fav_pics = []
-        print('Target folder valid: ', os.path.isdir(target_folder))
+        print('Target folder valid:', os.path.isdir(target_folder))
 
         # Selecting pics with prefix in them (favorited pics)
         for pic in pics:
@@ -142,8 +142,8 @@ class Spotlight:
 
     def moveAllToSpecificFolder(self, target_folder=None):
         pics = [x for x in os.listdir() if '.png' in x]
-        print('listing target dir: ', os.listdir(target_folder))
-        print('Target folder valid: ', os.path.isdir(target_folder))
+        print('listing target dir:', os.listdir(target_folder))
+        print('Target folder valid:', os.path.isdir(target_folder))
 
         wallpapers_path = target_folder
 
@@ -160,8 +160,8 @@ class Spotlight:
 
     def moveOneToSpecificFolder(self, single_pic=None, target_folder=None):
         pic = single_pic
-        print('listing target dir: ', os.listdir(target_folder))
-        print('Target folder valid: ', os.path.isdir(target_folder))
+        print('listing target dir:', os.listdir(target_folder))
+        print('Target folder valid:', os.path.isdir(target_folder))
 
         wallpapers_path = target_folder
 
