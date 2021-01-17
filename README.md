@@ -36,7 +36,7 @@ features and has a good amount of tooltips to describe the functions of widgets 
 > * A release version(.exe) is being worked on currently...
 
 > * Do reach out to me for clarity on anything.
-> * Contact: tpandivine48@gmail.com, Chronicles#1292 (Discord)
+> * Contact: tpandivine48@gmail.com
 
 
 
