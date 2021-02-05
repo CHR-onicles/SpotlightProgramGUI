@@ -1,25 +1,11 @@
-# ------------------------------------------------------------------------------
-#
-# AUTHOR: CHR-onicles (GitHub)
-# PROJECT MADE WITH: PyQt5
-# Version: 0.1.0
-#
-# This project can be used freely for all uses, as long as they maintain the
-# respective credits only in the Python scripts.
-#
-# There are limitations on Qt licenses if you want to use your products
-# commercially, I recommend reading them on the official website:
-# https://doc.qt.io/qtforpython/licenses.html
-#
-# ------------------------------------------------------------------------------
-
 from PyQt5.QtWidgets import QWidget, QToolButton, QHBoxLayout, QVBoxLayout, QFrame, QLabel, QGroupBox
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import QSize, Qt, QEvent
 
 # Local Imports
-import style, icons_rc
 from custom_widgets import QVSeparationLine
+import icons_rc
+import style
 
 
 

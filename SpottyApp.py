@@ -1,30 +1,23 @@
-# ------------------------------------------------------------------------------
-#
-# AUTHOR: CHR-onicles (GitHub)
-# PROJECT MADE WITH: PyQt5
-# Version: 0.1.0
-#
-# This project can be used freely for all uses, as long as they maintain the
-# respective credits only in the Python scripts.
-#
-# There are limitations on Qt licenses if you want to use your products
-# commercially, I recommend reading them on the official website:
-# https://doc.qt.io/qtforpython/licenses.html
-#
-# ------------------------------------------------------------------------------
-
-import os, sys, send2trash, platform
-from PyQt5.QtWidgets import QApplication, QDialog, QWidget, QLabel, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, \
-    QFormLayout, QMessageBox, QRadioButton, QFileDialog, QSizePolicy, QDesktopWidget, QGroupBox
-from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot, QSettings, QPropertyAnimation, QSize, QEasingCurve, QTimer, QPoint
+import os
+import platform
+import sys
 from time import time
 
+from PyQt5.QtCore import pyqtSignal, pyqtSlot, QEasingCurve, QPoint, QPropertyAnimation, QSettings, QSize, Qt, QTimer
+from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtWidgets import QApplication, QDesktopWidget, QDialog, QFileDialog, QFormLayout, QGroupBox, QHBoxLayout, \
+    QLabel, QLineEdit, QMessageBox, QPushButton, QRadioButton, QVBoxLayout, QWidget
+import send2trash
+
 # Local Imports
-from UI_main_window import MainWindow
-from custom_widgets import Label, QHSeparationLine
-from spotlight import Spotlight
+from custom_widgets import Label
 import style
+from spotlight import Spotlight
+from UI_main_window import MainWindow
+
+
+
+
 
 print('System: ', platform.system(), platform.release())
 
