@@ -22,21 +22,21 @@ from UI_main_window import MainWindow
 print('System: ', platform.system(), platform.release())
 
 # PyInstaller function to help create exe file
-def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
-    try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
-
-resource_path('UI_main_window.py')
-resource_path('custom_widgets.py')
-resource_path('spotlight.py')
-resource_path('style.py')
-resource_path('icons_rc.py')
+# def resource_path(relative_path):
+#     """ Get absolute path to resource, works for dev and for PyInstaller """
+#     try:
+#         # PyInstaller creates a temp folder and stores path in _MEIPASS
+#         base_path = sys._MEIPASS
+#     except Exception:
+#         base_path = os.path.abspath(".")
+#
+#     return os.path.join(base_path, relative_path)
+#
+# resource_path('UI_main_window.py')
+# resource_path('custom_widgets.py')
+# resource_path('spotlight.py')
+# resource_path('style.py')
+# resource_path('icons_rc.py')
 
 
 
@@ -77,12 +77,15 @@ class RenameDialogBox(QDialog):
 
         self.UI()
 
+
     def closeEvent(self, event):
         self.settings.setValue('rename dialog position', self.pos())
+
 
     def UI(self):
         self.widgets()
         self.layouts()
+
 
     def widgets(self):
         # BUTTONS ----------------------------------------------------------------------------------------
@@ -107,6 +110,7 @@ class RenameDialogBox(QDialog):
 
         # SIGNALS --------------------------------------------------------------------------------------
         main_.signal_photo_name.connect(self.getPhotoName)
+
 
     def layouts(self):
         # DEFINING LAYOUTS ------------------------------------------------------------------------------
@@ -388,8 +392,6 @@ class SettingsDialog(QDialog):
 
 
 
-
-
 class MainApp(MainWindow, QWidget):
     """
     class for main app which makes use of main window UI
@@ -440,8 +442,10 @@ class MainApp(MainWindow, QWidget):
         self.setts.setValue('window size', self.size())
         self.setts.setValue('window position', self.pos())
 
+
     def UI(self):
         self.app_widgets()
+
 
     def app_widgets(self):
         # BUTTONS ---------------------------------------------------------------------------
@@ -501,6 +505,7 @@ class MainApp(MainWindow, QWidget):
             else:
                 self.lbl_fav_icon.clear()
 
+
     def nextImage(self):
         if self.image_index == (len(self.images) - 1):
             self.image_index -= 1
@@ -518,6 +523,7 @@ class MainApp(MainWindow, QWidget):
             self.setFavIconVisible()
         else:
             self.lbl_fav_icon.clear()
+
 
     def previousImage(self):
         # Check before executing button function
@@ -538,6 +544,7 @@ class MainApp(MainWindow, QWidget):
             self.setFavIconVisible()
         else:
             self.lbl_fav_icon.clear()
+
 
     def deleteImage(self):
         if len(self.images) == 1:  # Deleting the last image
@@ -606,11 +613,13 @@ class MainApp(MainWindow, QWidget):
         else:
             self.lbl_counter.setText(str(len(self.images)) + ' item')
 
+
     def saveImage(self):
         self.save_dialog = RenameDialogBox()
         self.signal_photo_name.emit(self.images[self.image_index])
         self.save_dialog.show()
         self.save_dialog.signal_new_name.connect(self.getNewName)
+
 
     @pyqtSlot(str, str)
     def getNewName(self, prefix, name):
@@ -650,6 +659,7 @@ class MainApp(MainWindow, QWidget):
         else:
             self.lbl_fav_icon.clear()
         print('New Images:', self.images)
+
 
     def exportImages(self):
         print('cur directory: ', os.getcwd())
@@ -704,6 +714,7 @@ class MainApp(MainWindow, QWidget):
         else:
             QMessageBox.critical(self, 'Export Choice', 'No <b>Export Option</b> was selected in Settings!')
             # TODO: Add informative text here to: 'go to settings'
+
 
     def openSettings(self):
         self.settings_dialog = SettingsDialog()
@@ -825,4 +836,5 @@ if __name__ == '__main__':
 
     # TODO: FOR SETTINGS OPTIONS
     #   1. Option to disable prefix with checkbox
-    #   2. Option for user to delete temp storage when done [optional]
+    #   2. Remove animation [HIGH PRIORITY]
+    #   3. Option for user to delete temp storage when done [optional]

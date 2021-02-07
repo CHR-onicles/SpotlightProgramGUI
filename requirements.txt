@@ -1,0 +1,3 @@
+PyQt5~=5.15.2
+Send2Trash~=1.5.0
+Pillow~=8.1.0
