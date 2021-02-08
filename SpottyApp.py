@@ -830,6 +830,7 @@ if __name__ == '__main__':
     #       - Informative text with Messagebox for 'No fav image selected', and possibly all messageboxes
     #
     #   TODO: [Optional]:
+    #       - Animate download button to get user attention
     #       - Edit the no_image icon to show the text more and reduce opacity of the circle
     #       - Animating loading in of pictures with a round progress bar kinda style
 
