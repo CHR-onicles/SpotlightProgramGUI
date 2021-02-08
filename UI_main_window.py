@@ -3,9 +3,12 @@ from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import QSize, Qt, QEvent
 
 # Local Imports
+from _version import __version__
 from custom_widgets import QVSeparationLine
 import icons_rc
 import style
+
+
 
 
 
@@ -13,7 +16,7 @@ class MainWindow(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.title = 'SpottyApp'
+        self.title = 'SpottyApp' + ' - v' + __version__
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon(':/icons/cat'))
 
@@ -97,7 +100,6 @@ class MainWindow(QWidget):
         self.btn_settings.setStyleSheet(style.toolButtonStyle())
         self.btn_settings.setToolTip('<b>Settings</b>')
 
-
         # IMAGE LABEL ----------------------------------------------------------------------------
         self.lbl_image = QLabel()
         self.lbl_image.setPixmap(QPixmap(':/icons/no_image'))  # change to 1024, 576 later
@@ -111,7 +113,8 @@ class MainWindow(QWidget):
 
         # FAVORITED ICON LABEL --------------------------------------------------------------------
         self.lbl_fav_icon = QLabel()
-        self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaledToHeight(self.fav_icon_size_y, Qt.SmoothTransformation))
+        self.lbl_fav_icon.setPixmap(
+            QPixmap(':/icons/save_icon').scaledToHeight(self.fav_icon_size_y, Qt.SmoothTransformation))
         self.lbl_fav_icon.setAlignment(Qt.AlignLeft | Qt.AlignBottom)
 
         # SEPARATION LINES -------------------------------------------------------------------------
@@ -164,7 +167,6 @@ class MainWindow(QWidget):
         self.main_bottom_layout.addWidget(self.left_bottom_box, 30)
         self.main_bottom_layout.addWidget(self.button_group_box, 40)
         self.main_bottom_layout.addWidget(self.right_bottom_box, 30)
-
 
         self.main_layout.addWidget(self.image_frame, 90)
         self.main_layout.addLayout(self.main_bottom_layout, 10)

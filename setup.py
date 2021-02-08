@@ -2,10 +2,10 @@ import sys
 
 from cx_Freeze import setup, Executable
 
+from _version import __version__
 
 
 
-__version__ = '0.1.0'
 # Dependencies are automatically detected, but it might need
 # fine tuning.
 build_options = {'zip_include_packages': ['PyQt5.QtWidgets', 'PyQt5.QtGui', 'PyQt5.QtCore', 'send2trash', 'PIL'],
