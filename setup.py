@@ -1,5 +1,11 @@
+import sys
+
 from cx_Freeze import setup, Executable
 
+
+
+
+__version__ = '0.1.0'
 # Dependencies are automatically detected, but it might need
 # fine tuning.
 build_options = {'zip_include_packages': ['PyQt5.QtWidgets', 'PyQt5.QtGui', 'PyQt5.QtCore', 'send2trash', 'PIL'],
@@ -8,17 +14,19 @@ build_options = {'zip_include_packages': ['PyQt5.QtWidgets', 'PyQt5.QtGui', 'PyQ
                               ]
                  }
 
-import sys
 base = 'Win32GUI' if sys.platform == 'win32' else None
 
 executables = [
     Executable('SpottyApp.py', base=base, icon='img/cat.ico', target_name='Spotty App')
 ]
 
-
 setup(
-      name="Spotlight App",
-      version='0.1.0',
-      description='App to download and save Windows Spotlight Photos.',
-      options={'build_exe': build_options},
-      executables=executables)
+    name="Spotlight App",
+    version=__version__,
+    license='MIT',
+    author='Divine Anum',
+    author_email='tpandivine48@gmail.com',
+    url='https://github.com/CHR-onicles/SpotlightProgramGUI',
+    description='App to download and save Windows Spotlight Photos.',
+    options={'build_exe': build_options},
+    executables=executables)

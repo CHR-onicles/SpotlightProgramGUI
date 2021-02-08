@@ -21,7 +21,7 @@ from UI_main_window import MainWindow
 
 print('System: ', platform.system(), platform.release())
 
-# PyInstaller function to help create exe file
+# PyInstaller function to help create exe file - (NB: NOT IN USE AS I NOW USE CX_FREEZE)
 # def resource_path(relative_path):
 #     """ Get absolute path to resource, works for dev and for PyInstaller """
 #     try:
