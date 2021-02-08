@@ -1,8 +1,10 @@
+# Standard Library packages
 import os
 import platform
 import sys
 from time import time
 
+# 3rd party packages
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, QEasingCurve, QPoint, QPropertyAnimation, QSettings, QSize, Qt, QTimer
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QApplication, QDesktopWidget, QDialog, QFileDialog, QFormLayout, QGroupBox, QHBoxLayout, \

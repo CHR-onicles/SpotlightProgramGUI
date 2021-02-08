@@ -1,3 +1,4 @@
+# 3rd party packages
 from PyQt5.QtWidgets import QWidget, QToolButton, QHBoxLayout, QVBoxLayout, QFrame, QLabel, QGroupBox
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import QSize, Qt, QEvent
