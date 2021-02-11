@@ -31,6 +31,9 @@ features and has a good amount of tooltips to describe the functions of widgets 
 ## Rename Dialog Box
 <img src="screenshots/4.png" width = 300>
 
+## Demo:
+[Short Demo](https://imgur.com/zVA7aUH)
+
 ## PS:
 > * App is still in development and still needs more features, users may also encounter some bugs/glitches.
 > * A release version(.exe) is being worked on currently...
