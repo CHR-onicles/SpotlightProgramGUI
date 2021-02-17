@@ -5,10 +5,10 @@ import sys
 from time import time
 
 # 3rd party packages
-from PyQt5.QtCore import pyqtSignal, pyqtSlot, QEasingCurve, QPoint, QPropertyAnimation, QSettings, QSize, Qt, QTimer
-from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QApplication, QDesktopWidget, QDialog, QFileDialog, QFormLayout, QGroupBox, QHBoxLayout, \
-    QLabel, QLineEdit, QMessageBox, QPushButton, QRadioButton, QVBoxLayout, QWidget
+from PyQt5.QtCore import (pyqtSignal, pyqtSlot, QEasingCurve, QPoint, QPropertyAnimation, QSettings, QSize, Qt, QTimer)
+from PyQt5.QtGui import (QIcon, QPixmap)
+from PyQt5.QtWidgets import (QApplication, QDesktopWidget, QDialog, QFileDialog, QFormLayout, QGroupBox, QHBoxLayout,
+                             QLabel, QLineEdit, QMessageBox, QPushButton, QRadioButton, QVBoxLayout, QWidget)
 import send2trash
 
 # Local Imports
@@ -22,6 +22,7 @@ from UI_main_window import MainWindow
 
 
 print('System: ', platform.system(), platform.release())
+
 
 # PyInstaller function to help create exe file - (NB: NOT IN USE AS I NOW USE CX_FREEZE)
 # def resource_path(relative_path):
@@ -39,8 +40,6 @@ print('System: ', platform.system(), platform.release())
 # resource_path('spotlight.py')
 # resource_path('style.py')
 # resource_path('icons_rc.py')
-
-
 
 
 class RenameDialogBox(QDialog):
@@ -109,7 +108,6 @@ class RenameDialogBox(QDialog):
         self.entry_new_name.setToolTip('<b>Short</b> description about photo')
         self.entry_new_name.setFocus()  # fixme: Still doesn't get first focus
 
-
         # SIGNALS --------------------------------------------------------------------------------------
         main_.signal_photo_name.connect(self.getPhotoName)
 
@@ -137,7 +135,6 @@ class RenameDialogBox(QDialog):
         self.bottom_layout.setContentsMargins(10, 10, 0, 0)
         self.bottom_layout.addRow(QLabel('Prefix:'), self.entry_prefix)
         self.bottom_layout.addRow(QLabel('New Name:'), self.entry_new_name)
-
 
         # Adding Layouts and Widgets to Main Layout ----------------------------------------------------
         self.main_layout.addLayout(self.top_layout, 20)
@@ -186,6 +183,7 @@ class SettingsDialog(QDialog):
 
         self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 450, 300
         self.resize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
+        self.setMaximumSize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
         self.setStyleSheet(style.SettingsDialogStyle())
 
         # Positioning at center of screen
@@ -491,7 +489,8 @@ class MainApp(MainWindow, QWidget):
                 self.setupFirstPicAfterRetrieval()
 
             else:  # Clicked while user is still viewing pictures.
-                mbox = QMessageBox.warning(self, 'Spotlight Photos', 'Previous images could be lost!',  # todo: change message here to something about having duplicate images
+                mbox = QMessageBox.warning(self, 'Spotlight Photos', 'Previous images could be lost!',
+                                           # todo: change message here to something about having duplicate images
                                            QMessageBox.Ok | QMessageBox.Cancel, QMessageBox.Cancel)
                 if mbox == QMessageBox.Cancel:
                     pass
@@ -767,7 +766,8 @@ class MainApp(MainWindow, QWidget):
             QMessageBox.information(self, 'Export Success', 'Image(s) exported successfully.')
 
     def setFavIconVisible(self):
-        self.lbl_fav_icon.setPixmap(QPixmap(':/icons/save_icon').scaledToHeight(self.fav_icon_size_y, Qt.SmoothTransformation))
+        self.lbl_fav_icon.setPixmap(
+            QPixmap(':/icons/save_icon').scaledToHeight(self.fav_icon_size_y, Qt.SmoothTransformation))
         self.left_bottom_layout.addWidget(self.lbl_fav_icon)
 
     def setupFirstPicAfterRetrieval(self):
