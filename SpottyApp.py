@@ -437,7 +437,7 @@ class MainApp(MainWindow, QWidget):
         if self.setts.contains('default prefix') is False:
             self.timer = QTimer()
             self.timer.singleShot(500, self.openSettings)
-            # self.openSettings()
+            # self.openSettings()  # can't open it instantly as the main app's objects would not have been created yet
 
         self.UI()
 
@@ -830,7 +830,7 @@ if __name__ == '__main__':
     #       - Lookup context menus [for the 'More' icon]
     #
     #   TODO: [Moderate Priority]:
-    #       - Add validators to entries
+    #       - Add validators to entries [optional]
     #       - Check if spotlight images is enabled
     #       - Refactor repeating code into helper functions across board
     #       - Informative text with Messagebox for 'No fav image selected', and possibly all messageboxes
@@ -842,6 +842,5 @@ if __name__ == '__main__':
 
 
     # TODO: FOR SETTINGS OPTIONS
-    #   1. Option to disable prefix with checkbox
-    #   2. Remove animation [HIGH PRIORITY]
-    #   3. Option for user to delete temp storage when done [optional]
+    #   - Option to disable prefix with checkbox [MEDIUM PRIORITY]
+    #   - Option for user to delete temp storage when done [optional]
