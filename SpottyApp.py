@@ -184,7 +184,7 @@ class SettingsDialog(QDialog):
         self.setStyleSheet(style.SettingsDialogStyle())
         self.setModal(True)  # deactivates other windows till this window is interacted with
 
-        self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 450, 100
+        self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 450, 300
         self.resize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
         self.setStyleSheet(style.SettingsDialogStyle())
 
@@ -228,7 +228,7 @@ class SettingsDialog(QDialog):
         self.entry_default_prefix.setToolTip('<b>Current</b> default prefix for images')
         self.entry_custom_prefix = QLineEdit(self)
         self.entry_custom_prefix.setFocus()
-        self.entry_custom_prefix.textEdited.connect(self.showHint)
+        # self.entry_custom_prefix.textEdited.connect(self.showHint)
 
         self.lbl_custom_prefix_hint = QLabel('')
         self.lbl_custom_prefix_hint.setWordWrap(True)
@@ -327,15 +327,15 @@ class SettingsDialog(QDialog):
         self.setLayout(self.main_layout)
 
 
-    def showHint(self):
-        if self.entry_custom_prefix.text() != '':
-            # print('Typed something in custom prefix')
-            self.lbl_custom_prefix_hint.setText(
-                'This prefix will be used as the default prefix for all images from now on.')
-            self.lbl_custom_prefix_hint.setStyleSheet('font: 8pt segoe UI; color: #3db7ff;')
-            self.top_form_layout.addRow('', self.lbl_custom_prefix_hint)
-        else:
-            self.lbl_custom_prefix_hint.clear()
+    # def showHint(self):
+    #     if self.entry_custom_prefix.text() != '':
+    #         # print('Typed something in custom prefix')
+    #         self.lbl_custom_prefix_hint.setText(
+    #             'This prefix will be used as the default prefix for all images from now on.')
+    #         self.lbl_custom_prefix_hint.setStyleSheet('font: 8pt segoe UI; color: #3db7ff;')
+    #         self.top_form_layout.addRow('', self.lbl_custom_prefix_hint)
+    #     else:
+    #         self.lbl_custom_prefix_hint.clear()
 
     def submitSettings(self):
         if self.entry_temp_dir.text() and self.entry_target_dir.text() != '':
