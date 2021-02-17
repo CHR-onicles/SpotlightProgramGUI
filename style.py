@@ -206,6 +206,11 @@ def SettingsDialogStyle():
         border: 2px solid #3d7eff;
     }
     
+     QLineEdit#default_prefix {
+        background-color: silver;
+        color: #444;
+    }
+    
     QLabel {
         font: 11pt segoe UI;
         color: white;

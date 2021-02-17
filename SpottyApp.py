@@ -104,9 +104,10 @@ class RenameDialogBox(QDialog):
         self.entry_prefix = QLineEdit(self.default_prefix)
         self.entry_prefix.setToolTip('<b>Default</b> prefix for all photos')
         self.entry_prefix.setReadOnly(True)
-        self.entry_new_name = QLineEdit(self)
+        self.entry_prefix.setFocusPolicy(Qt.NoFocus)
+        self.entry_new_name = QLineEdit()
         self.entry_new_name.setToolTip('<b>Short</b> description about photo')
-        self.entry_new_name.setFocus()  # fixme: Still doesn't get first focus
+        self.entry_new_name.setFocus()
 
         # SIGNALS --------------------------------------------------------------------------------------
         main_.signal_photo_name.connect(self.getPhotoName)
@@ -195,7 +196,7 @@ class SettingsDialog(QDialog):
         self.settings = QSettings('CHR-onicles', 'SpottyApp')
         try:
             self.move(self.settings.value('settings dialog location', QPoint(self.xpos, self.ypos), type=QPoint))
-            self.default_prefix_text = self.settings.value('default prefix', 'sp_', type=str)
+            self.default_prefix_text = self.settings.value('default prefix', 'SP_', type=str)
             self.temp_dir = str(self.settings.value('temporary directory', '', type=str))
             self.target_dir = str(self.settings.value('target directory', '', type=str))
             self.rbtn_fav_state = (self.settings.value('fav button checked', False, type=bool))
@@ -224,7 +225,10 @@ class SettingsDialog(QDialog):
         self.entry_default_prefix = QLineEdit(self.default_prefix_text)
         self.entry_default_prefix.setReadOnly(True)
         self.entry_default_prefix.setToolTip('<b>Current</b> default prefix for images')
-        self.entry_custom_prefix = QLineEdit(self)
+        self.entry_default_prefix.setObjectName('default_prefix')
+        self.entry_default_prefix.setFocusPolicy(Qt.NoFocus)
+
+        self.entry_custom_prefix = QLineEdit()
         self.entry_custom_prefix.setFocus()
         # self.entry_custom_prefix.textEdited.connect(self.showHint)
 
@@ -391,7 +395,6 @@ class SettingsDialog(QDialog):
 
 
 
-
 class MainApp(MainWindow, QWidget):
     """
     class for main app which makes use of main window UI
@@ -434,6 +437,7 @@ class MainApp(MainWindow, QWidget):
         if self.setts.contains('default prefix') is False:
             self.timer = QTimer()
             self.timer.singleShot(500, self.openSettings)
+            # self.openSettings()
 
         self.UI()
 
