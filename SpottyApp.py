@@ -207,7 +207,7 @@ class SettingsDialog(QDialog):
             print(f'There was an exception: \"{e}\" while trying to read from QSettings.')
 
         #  DIALOG ANIMATION SETTINGS ----------------------------------------------------------------------
-        self.openingAnimation(self.DIALOG_WIDTH, self.DIALOG_HEIGHT + 308)
+        # self.openingAnimation(self.DIALOG_WIDTH, self.DIALOG_HEIGHT + 308)
 
         self.UI()
 
@@ -382,13 +382,13 @@ class SettingsDialog(QDialog):
             print('target dir: ', self.target_dir)
             self.entry_target_dir.setText(self.target_dir)
 
-    def openingAnimation(self, width, height):
-        self.open_animation = QPropertyAnimation(self, b'size')
-        self.open_animation.setDuration(1000)
-        self.open_animation.setEndValue(QSize(width, height))
-        self.open_animation.setEasingCurve(QEasingCurve.Linear)
-        self.open_animation.start()
-        self.setMaximumSize(QSize(width, height))
+    # def openingAnimation(self, width, height):
+    #     self.open_animation = QPropertyAnimation(self, b'size')
+    #     self.open_animation.setDuration(1000)
+    #     self.open_animation.setEndValue(QSize(width, height))
+    #     self.open_animation.setEasingCurve(QEasingCurve.Linear)
+    #     self.open_animation.start()
+    #     self.setMaximumSize(QSize(width, height))
 
 
 
