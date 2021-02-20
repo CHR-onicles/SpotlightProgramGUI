@@ -14,7 +14,8 @@ build_options = {'zip_include_packages': ['PyQt5.QtWidgets', 'PyQt5.QtGui', 'PyQ
                               ]
                  }
 
-base = 'Win32GUI' if sys.platform == 'win32' else None
+base = None  # todo: uncomment for testing and debugging
+# base = 'Win32GUI' if sys.platform == 'win32' else None
 
 executables = [
     Executable('SpottyApp.py', base=base, icon='img/cat.ico', target_name='Spotty App')

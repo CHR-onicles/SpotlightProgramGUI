@@ -46,6 +46,7 @@ def mainWindowStyle():
     } 
     """
 
+
 def RenameDialogStyle():
     return """
     QDialog#RenameDialogBox {
@@ -82,6 +83,7 @@ def RenameDialogStyle():
         font: 11pt segoe UI;
         border: 1px solid #444;
         border-radius: 7px;
+        min-height: 30px;
     }
     
     QLineEdit:focus {
@@ -140,6 +142,7 @@ def RenameDialogStyle():
     }
     """
 
+
 def SettingsDialogStyle():
     return """
     QDialog#SettingsDialogBox {
@@ -192,14 +195,16 @@ def SettingsDialogStyle():
         font: 10pt segoe UI;
         border: 1px solid #444;
         border-radius: 7px;
-        padding-top: 2px;
-        padding-bottom: 2px;
+        min-height: 30px;
+        /*padding-top: 2px;
+        padding-bottom: 2px; */
     }
     
     QLineEdit#entry_dir {
-        font: 9pt segoe UI;
-        padding-top: 2px;
-        padding-bottom: 2px;
+        font: 10pt segoe UI;
+        min-height: 30px;
+        /*padding-top: 2px;
+        padding-bottom: 2px;*/
     }
     
     QLineEdit:focus {
@@ -281,6 +286,7 @@ def toolButtonStyle():
     }
     """
 
+
 def buttonGroupBoxStyle():
     return """
     QGroupBox#button_group_box {
@@ -288,6 +294,7 @@ def buttonGroupBoxStyle():
         border-radius: 10px;
     }
     """
+
 
 def labelStyle():
     return """

@@ -828,6 +828,7 @@ if __name__ == '__main__':
     #       - Add checkbox to allow user to remove prefix and deactivate it in the rename dialog box
     #       - Option to open previous pics or load new ones (Use 'more icon' and put some buttons there) [Have to use new naming scheme: SP-210107-1319-abcde] where a-zA-Z0-9a for abcde
     #       - Lookup context menus [for the 'More' icon]
+    #       - Add text to buttons on main window and draw attention to 'download' button.
     #
     #   TODO: [Moderate Priority]:
     #       - Add validators to entries [optional]
