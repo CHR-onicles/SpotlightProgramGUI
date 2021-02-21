@@ -45,6 +45,7 @@ class MainWindow(QWidget):
         self.btn_save.setStyleSheet(style.toolButtonStyle())
         self.btn_save.setToolTip('Add to <b>favorites</b> (Enter)')
         self.btn_save.setEnabled(False)
+        self.btn_save.setCursor(Qt.PointingHandCursor)
 
         self.btn_next = QToolButton()
         next_icon = QIcon()
@@ -55,6 +56,7 @@ class MainWindow(QWidget):
         self.btn_next.setStyleSheet(style.toolButtonStyle())
         self.btn_next.setToolTip('<b>Next</b> Image')
         self.btn_next.setEnabled(False)
+        self.btn_next.setCursor(Qt.PointingHandCursor)
 
         self.btn_previous = QToolButton()
         back_icon = QIcon()
@@ -65,6 +67,7 @@ class MainWindow(QWidget):
         self.btn_previous.setStyleSheet(style.toolButtonStyle())
         self.btn_previous.setToolTip('<b>Previous</b> Image')
         self.btn_previous.setEnabled(False)
+        self.btn_previous.setCursor(Qt.PointingHandCursor)
 
         self.btn_delete = QToolButton()
         delete_icon = QIcon()
@@ -75,6 +78,7 @@ class MainWindow(QWidget):
         self.btn_delete.setStyleSheet(style.toolButtonStyle())
         self.btn_delete.setToolTip('<b>Delete</b> Image (Del)')
         self.btn_delete.setEnabled(False)
+        self.btn_delete.setCursor(Qt.PointingHandCursor)
 
         self.btn_load_in = QToolButton()
         load_in_icon = QIcon()
@@ -84,6 +88,7 @@ class MainWindow(QWidget):
         self.btn_load_in.setIconSize(QSize(self.button_icon_size_x, self.button_icon_size_y))
         self.btn_load_in.setStyleSheet(style.toolButtonStyle())
         self.btn_load_in.setToolTip('<b>Retrieve</b> new Spotlight Images (Ctrl+D)')
+        self.btn_load_in.setCursor(Qt.PointingHandCursor)
 
         self.btn_export = QToolButton()
         export_icon = QIcon()
@@ -94,12 +99,14 @@ class MainWindow(QWidget):
         self.btn_export.setStyleSheet(style.toolButtonStyle())
         self.btn_export.setToolTip('<b>Export</b> images to specified destination (Ctrl+E)')
         self.btn_export.setEnabled(False)
+        self.btn_export.setCursor(Qt.PointingHandCursor)
 
         self.btn_settings = QToolButton()
         self.btn_settings.setIcon(QIcon(':/icons/settings_icon'))
         self.btn_settings.setIconSize(QSize(self.button_icon_size_x, self.button_icon_size_y))
         self.btn_settings.setStyleSheet(style.toolButtonStyle())
         self.btn_settings.setToolTip('<b>Settings</b>')
+        self.btn_settings.setCursor(Qt.PointingHandCursor)
 
         # IMAGE LABEL ----------------------------------------------------------------------------
         self.lbl_image = QLabel()
