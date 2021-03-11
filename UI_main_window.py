@@ -110,7 +110,7 @@ class MainWindow(QWidget):
 
         # IMAGE LABEL ----------------------------------------------------------------------------
         self.lbl_image = QLabel()
-        self.lbl_image.setPixmap(QPixmap(':/icons/no_image'))  # change to 1024, 576 later
+        self.lbl_image.setPixmap(QPixmap(':/icons/no_image'))
         self.lbl_image.setAlignment(Qt.AlignCenter)
 
         # COUNTER LABEL ---------------------------------------------------------------------------
