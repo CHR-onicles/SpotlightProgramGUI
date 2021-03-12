@@ -165,17 +165,13 @@ def SettingsDialogStyle():
     }
     
     QPushButton#btn_browse {
-        color: silver;
+        color: white;
         font: 10pt segoe UI;
         border: 2px solid #3d7eff;
         border-radius: 5px;
         padding-top:3px;
         padding-bottom:3px;
         min-width: 4em;
-    }
-    
-    QPushButton#btn_browse:hover {
-        color:white;
     }
     
     QPushButton:hover {
