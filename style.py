@@ -15,7 +15,8 @@ def mainWindowStyle():
     QVSeparationLine {
         border-width: 1px;
         border-style: solid;
-        border-color: #3d7eff;
+        /* border-color: #3d7eff; */  # blue looks out of place
+        border-color: white;
     }
 
     QMessageBox {
@@ -270,19 +271,39 @@ def SettingsDialogStyle():
 
 
 def toolButtonStyle():
+    # Normal animated effect
+    # return """
+    # QToolButton {
+    #     border: #444; /* Not visible tho*/
+    # }
+    #
+    # QToolButton:hover {
+    #     border: 3px solid #444;
+    #     padding: 2px;
+    #     margin: -2px;
+    # }
+    #
+    # QToolButton:pressed {
+    #     border: #444;
+    # }
+    # """
+
+    # Glass kinda effect
     return """
-    QToolButton {
-        border: #444; /* Not visible tho*/
+        QToolButton {
+        background-color: #444;
+        border: 1px solid #444;
+        border-radius: 5px;
+        padding: 10px;
     }
-    
+
     QToolButton:hover {
-        border: 3px solid #444;
-        padding: 2px;
-        margin: -2px;
+        background-color: rgba(255, 255, 255, 30);
     }
-    
+
     QToolButton:pressed {
-        border: #444;
+        background-color: transparent;
+        border: 1px solid #777;
     }
     """
 
