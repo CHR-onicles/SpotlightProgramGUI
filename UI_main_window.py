@@ -23,7 +23,7 @@ class MainWindow(QWidget):
 
         self.setObjectName('MainWindow')
         self.setStyleSheet(style.mainWindowStyle())
-        self.button_icon_size_x, self.button_icon_size_y = 30, 30
+        self.button_icon_size_x, self.button_icon_size_y = 27, 27
         self.fav_icon_size_x, self.fav_icon_size_y = 25, 25
 
         self.UIComponents()
@@ -172,9 +172,9 @@ class MainWindow(QWidget):
         self.right_bottom_box.setLayout(self.right_bottom_layout)
 
         # CONFIGURING BOTTOM LAYOUT -------------------------------------------------------------------
-        self.main_bottom_layout.addWidget(self.left_bottom_box, 30)
-        self.main_bottom_layout.addWidget(self.button_group_box, 40)
-        self.main_bottom_layout.addWidget(self.right_bottom_box, 30)
+        self.main_bottom_layout.addWidget(self.left_bottom_box, 35)
+        self.main_bottom_layout.addWidget(self.button_group_box, 30)
+        self.main_bottom_layout.addWidget(self.right_bottom_box, 35)
 
         self.main_layout.addWidget(self.image_frame, 90)
         self.main_layout.addLayout(self.main_bottom_layout, 10)
