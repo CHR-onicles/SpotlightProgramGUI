@@ -6,7 +6,7 @@ from time import time
 
 # 3rd party packages
 from PyQt5.QtCore import (pyqtSignal, pyqtSlot, QEasingCurve, QPoint, QPropertyAnimation, QSettings, QSize, Qt, QTimer)
-from PyQt5.QtGui import (QIcon, QPixmap)
+from PyQt5.QtGui import (QIcon, QPixmap, QColor, QPainter, QBrush)
 from PyQt5.QtWidgets import (QApplication, QDesktopWidget, QDialog, QFileDialog, QFormLayout, QGroupBox, QHBoxLayout,
                              QLabel, QLineEdit, QMessageBox, QPushButton, QRadioButton, QVBoxLayout, QWidget)
 import send2trash
@@ -517,7 +517,8 @@ class MainApp(MainWindow, QWidget):
             self.btn_next.setEnabled(False)
 
         self.image_index += 1
-        self.lbl_image.setPixmap(QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
+        self.lbl_image.setPixmap(self.make_label_rounded(os.path.join(self.spotlight.temp_storage,
+                                                                      self.images[self.image_index])))
         self.btn_previous.setEnabled(True)
         self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
 
@@ -537,7 +538,8 @@ class MainApp(MainWindow, QWidget):
             self.btn_previous.setEnabled(False)
 
         self.image_index -= 1
-        self.lbl_image.setPixmap(QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
+        self.lbl_image.setPixmap(self.make_label_rounded(os.path.join(self.spotlight.temp_storage,
+                                                                      self.images[self.image_index])))
         self.btn_next.setEnabled(True)
         self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
 
@@ -558,7 +560,7 @@ class MainApp(MainWindow, QWidget):
             print(self.images)
             self.lbl_image.close()
             self.lbl_image = QLabel()
-            self.lbl_image.setPixmap(QPixmap(':/icons/no_image'))
+            self.lbl_image.setPixmap(QPixmap(':/icons/no_image'))  # No need to make rounded as borders are not visible
             self.lbl_image.setAlignment(Qt.AlignCenter)
             self.top_layout.addWidget(self.lbl_image)
             self.lbl_counter.setText('')
@@ -607,7 +609,8 @@ class MainApp(MainWindow, QWidget):
                 self.btn_next.setEnabled(False)
             print('remaining images:', self.images)
 
-        self.lbl_image.setPixmap(QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
+        self.lbl_image.setPixmap(self.make_label_rounded(os.path.join(self.spotlight.temp_storage,
+                                                                      self.images[self.image_index])))
         self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
         if self.setts.value('default prefix') in self.images[self.image_index]:
             self.setFavIconVisible()
@@ -732,7 +735,7 @@ class MainApp(MainWindow, QWidget):
         print(self.images, len(self.images))
         self.image_index = 0
         if len(self.images) != 0:
-            self.lbl_image.setPixmap(QPixmap(self.images[self.image_index]))
+            self.lbl_image.setPixmap(self.make_label_rounded(self.images[self.image_index]))
             if len(self.images) == 1:
                 self.lbl_counter.setText(str(len(self.images)) + ' item')
                 self.btn_next.setEnabled(False)
@@ -791,8 +794,10 @@ class MainApp(MainWindow, QWidget):
             self.lbl_image.close()
             self.lbl_image = Label()
             self.top_layout.addWidget(self.lbl_image)
-            self.lbl_image.setPixmap(
-                QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
+            self.lbl_image.setPixmap(self.make_label_rounded(os.path.join(self.spotlight.temp_storage,
+                                                                          self.images[self.image_index])))
+            # self.lbl_image.setPixmap(
+            #     QPixmap(os.path.join(self.spotlight.temp_storage, self.images[self.image_index])))
             self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
 
             # Enable buttons except previous button since we'll be at first image
@@ -810,6 +815,28 @@ class MainApp(MainWindow, QWidget):
             # with open('log.txt', 'a') as f:  # todo: remove during release
             #     f.write('Time elapsed :' + str(self.t2 - self.t1) + '\n')
 
+    def make_label_rounded(self, image_path):
+        """
+        Here is one way to do this. This works by drawing a rounded rect
+        on an initially transparent pixmap using the original pixmap as
+        the brush for the painter.
+        (https://stackoverflow.com/questions/63656328/rounding-a-qlabels-corners-in-pyqt5)
+        """
+        # Stack overflow solution for rounded rectangle label
+        self.pixmap = QPixmap(image_path)
+        radius = 30
+
+        self.rounded = QPixmap(self.pixmap.size())
+        self.rounded.fill(QColor('transparent'))
+
+        self.painter = QPainter(self.rounded)
+        self.painter.setRenderHint(QPainter.Antialiasing)
+        self.painter.setBrush(QBrush(self.pixmap))
+        self.painter.setPen(Qt.NoPen)
+        self.painter.drawRoundedRect(self.pixmap.rect(), radius, radius)
+        return self.rounded
+
+
 
 
 
@@ -823,6 +850,7 @@ if __name__ == '__main__':
 
 
     #   TODO: [High Priority]:
+    #       - Change function names to snake case to differentiate between my fxns and PyQt's fxns
     #       - Add to README or settings that 'temp storage' should not be used as 'permanent wallpaper folder' as it will affect performance of the app
     #       - Option to favorite without necessarily renaming
     #       - Add checkbox to allow user to remove prefix and deactivate it in the rename dialog box
