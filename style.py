@@ -15,7 +15,7 @@ def mainWindowStyle():
     QVSeparationLine {
         border-width: 1px;
         border-style: solid;
-        /* border-color: #3d7eff; */  # blue looks out of place
+        /* border-color: #3d7eff; # blue looks out of place */
         border-color: white;
     }
 
@@ -35,15 +35,20 @@ def mainWindowStyle():
         min-width: 4em;
         padding-top: 5px;
         padding-bottom: 5px;
-        color: white;
+        color: silver;
     }
     
     QMessageBox QPushButton:hover {
-        background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0.363184 rgba(17, 103, 241, 255), stop:1 rgba(255, 255, 255, 255));
+        background-color: #3d7eff;
+        color: white;
     }
     
     QMessageBox QPushButton:focus {
         border: 3px solid #3d7eff;
+    }
+    
+    QMessageBox QPushButton:pressed {
+        background-color: transparent;
     } 
     """
 
@@ -160,7 +165,7 @@ def SettingsDialogStyle():
     }
     
     QPushButton#btn_browse {
-        color: white;
+        color: silver;
         font: 10pt segoe UI;
         border: 2px solid #3d7eff;
         border-radius: 5px;
@@ -169,12 +174,17 @@ def SettingsDialogStyle():
         min-width: 4em;
     }
     
+    QPushButton#btn_browse:hover {
+        color:white;
+    }
+    
     QPushButton:hover {
-        background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0.363184 rgba(17, 103, 241, 255), stop:1 rgba(255, 255, 255, 255));
+    background-color: #3d7eff;
+    color: white;
     }
     
     QPushButton:pressed {
-        background-color:  qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0.363184 rgba(15, 8, 227, 255), stop:1 rgba(255, 255, 255, 255));
+    background-color: transparent;
     }
     
     QPushButton:focus {
@@ -288,7 +298,7 @@ def toolButtonStyle():
     # }
     # """
 
-    # Glass kinda effect
+    # Glass effect on hover
     return """
         QToolButton {
         background-color: #444;
