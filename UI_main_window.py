@@ -1,7 +1,7 @@
 # 3rd party packages
-from PyQt5.QtWidgets import QWidget, QToolButton, QHBoxLayout, QVBoxLayout, QFrame, QLabel, QGroupBox
-from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtCore import QSize, Qt, QEvent
+from PyQt5.QtWidgets import (QWidget, QToolButton, QHBoxLayout, QVBoxLayout, QFrame, QLabel, QGroupBox, QSizePolicy)
+from PyQt5.QtGui import (QPixmap, QIcon)
+from PyQt5.QtCore import (QSize, Qt, QEvent)
 
 # Local Imports
 from _version import __version__
@@ -17,7 +17,7 @@ class MainWindow(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.title = 'SpottyApp' + ' - v' + __version__
+        self.title = 'SpottyApp' + ' v' + __version__
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon(':/icons/cat'))
 
@@ -137,11 +137,13 @@ class MainWindow(QWidget):
         self.main_layout = QVBoxLayout()
         self.top_layout = QHBoxLayout()
         self.bottom_button_layout = QHBoxLayout()
+        self.bottom_button_layout.setSpacing(1)
         self.main_bottom_layout = QHBoxLayout()
 
         self.button_group_box = QGroupBox()
         self.button_group_box.setObjectName('button_group_box')
         self.button_group_box.setStyleSheet(style.buttonGroupBoxStyle())
+        self.button_group_box.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
         self.image_frame = QFrame()
         self.left_bottom_layout = QHBoxLayout()
         self.right_bottom_layout = QHBoxLayout()
@@ -181,17 +183,17 @@ class MainWindow(QWidget):
         self.setLayout(self.main_layout)
 
 
-    def changeEvent(self, event):
-        if event.type() == QEvent.WindowStateChange:
-            if self.isMaximized():
-                print('Window maximized')
-                # CONFIGURING BOTTOM LAYOUT MAXIMIZED WINDOW -------------------------------------------
-                self.main_bottom_layout.addWidget(self.left_bottom_box, 35)
-                self.main_bottom_layout.addWidget(self.button_group_box, 30)
-                self.main_bottom_layout.addWidget(self.right_bottom_box, 35)
-            else:
-                print('Window restored down')
-                # CONFIGURING BOTTOM LAYOUT IN RESTORED WINDOW -----------------------------------------
-                self.main_bottom_layout.addWidget(self.left_bottom_box, 30)
-                self.main_bottom_layout.addWidget(self.button_group_box, 40)
-                self.main_bottom_layout.addWidget(self.right_bottom_box, 30)
+    # def changeEvent(self, event):
+    #     if event.type() == QEvent.WindowStateChange:
+    #         if self.isMaximized():
+    #             print('Window maximized')
+    #             # CONFIGURING BOTTOM LAYOUT MAXIMIZED WINDOW -------------------------------------------
+    #             self.main_bottom_layout.addWidget(self.left_bottom_box, 35)
+    #             self.main_bottom_layout.addWidget(self.button_group_box, 30)
+    #             self.main_bottom_layout.addWidget(self.right_bottom_box, 35)
+    #         else:
+    #             print('Window restored down')
+    #             # CONFIGURING BOTTOM LAYOUT IN RESTORED WINDOW -----------------------------------------
+    #             self.main_bottom_layout.addWidget(self.left_bottom_box, 30)
+    #             self.main_bottom_layout.addWidget(self.button_group_box, 40)
+    #             self.main_bottom_layout.addWidget(self.right_bottom_box, 30)

@@ -313,6 +313,7 @@ def buttonGroupBoxStyle():
     QGroupBox#button_group_box {
         border: 1px solid white;
         border-radius: 10px;
+        min-width: 450px;
     }
     """
 
