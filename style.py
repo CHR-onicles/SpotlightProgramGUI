@@ -1,4 +1,4 @@
-def mainWindowStyle():
+def main_window_style():
     return """
     QWidget#MainWindow {
         background-color: #444;
@@ -53,7 +53,7 @@ def mainWindowStyle():
     """
 
 
-def RenameDialogStyle():
+def rename_dialog_style():
     return """
     QDialog#RenameDialogBox {
         background-color: #444;
@@ -149,7 +149,7 @@ def RenameDialogStyle():
     """
 
 
-def SettingsDialogStyle():
+def settings_dialog_style():
     return """
     QDialog#SettingsDialogBox {
         background-color: #444;
@@ -276,7 +276,7 @@ def SettingsDialogStyle():
     """
 
 
-def toolButtonStyle():
+def tool_button_style():
     # Normal animated effect
     # return """
     # QToolButton {
@@ -314,7 +314,7 @@ def toolButtonStyle():
     """
 
 
-def buttonGroupBoxStyle():
+def button_group_box_style():
     return """
     QGroupBox#button_group_box {
         border: 1px solid white;
@@ -324,7 +324,7 @@ def buttonGroupBoxStyle():
     """
 
 
-def labelStyle():
+def label_style():
     return """
     QLabel#lbl_counter {
         font: 13pt segoe UI;

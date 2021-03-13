@@ -53,7 +53,7 @@ class RenameDialogBox(QDialog):
         self.setWindowTitle('Rename')
         self.setObjectName('RenameDialogBox')
         self.setWindowIcon(QIcon(':/icons/cat'))
-        self.setStyleSheet(style.RenameDialogStyle())
+        self.setStyleSheet(style.rename_dialog_style())
         self.setModal(True)  # deactivates other windows till this window is interacted with
 
         self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 400, 220
@@ -179,13 +179,13 @@ class SettingsDialog(QDialog):
         self.setWindowTitle('Settings')
         self.setObjectName('SettingsDialogBox')
         self.setWindowIcon(QIcon(':/icons/cat'))
-        self.setStyleSheet(style.SettingsDialogStyle())
+        self.setStyleSheet(style.settings_dialog_style())
         self.setModal(True)  # deactivates other windows till this window is interacted with
 
         self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 450, 300
         self.resize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
         self.setMaximumSize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
-        self.setStyleSheet(style.SettingsDialogStyle())
+        # self.setStyleSheet(style.settings_dialog_style())
 
         # Positioning at center of screen
         self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT

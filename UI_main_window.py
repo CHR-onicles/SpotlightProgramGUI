@@ -22,7 +22,7 @@ class MainWindow(QWidget):
         self.setWindowIcon(QIcon(':/icons/cat'))
 
         self.setObjectName('MainWindow')
-        self.setStyleSheet(style.mainWindowStyle())
+        self.setStyleSheet(style.main_window_style())
         self.button_icon_size_x, self.button_icon_size_y = 27, 27
         self.fav_icon_size_x, self.fav_icon_size_y = 25, 25
 
@@ -42,7 +42,7 @@ class MainWindow(QWidget):
         save_icon.addPixmap(QPixmap(':/icons/save_icon_disabled'), QIcon.Disabled)
         self.btn_save.setIcon(QIcon(save_icon))
         self.btn_save.setIconSize(QSize(self.button_icon_size_x, self.button_icon_size_y))
-        self.btn_save.setStyleSheet(style.toolButtonStyle())
+        self.btn_save.setStyleSheet(style.tool_button_style())
         self.btn_save.setToolTip('Add to <b>favorites</b> (Enter)')
         self.btn_save.setEnabled(False)
         self.btn_save.setCursor(Qt.PointingHandCursor)
@@ -53,7 +53,7 @@ class MainWindow(QWidget):
         next_icon.addPixmap(QPixmap(':/icons/next_icon_disabled'), QIcon.Disabled)
         self.btn_next.setIcon(QIcon(next_icon))
         self.btn_next.setIconSize(QSize(self.button_icon_size_x, self.button_icon_size_y))
-        self.btn_next.setStyleSheet(style.toolButtonStyle())
+        self.btn_next.setStyleSheet(style.tool_button_style())
         self.btn_next.setToolTip('<b>Next</b> Image')
         self.btn_next.setEnabled(False)
         self.btn_next.setCursor(Qt.PointingHandCursor)
@@ -64,7 +64,7 @@ class MainWindow(QWidget):
         back_icon.addPixmap(QPixmap(':/icons/back_icon_disabled'), QIcon.Disabled)
         self.btn_previous.setIcon(QIcon(back_icon))
         self.btn_previous.setIconSize(QSize(self.button_icon_size_x, self.button_icon_size_y))
-        self.btn_previous.setStyleSheet(style.toolButtonStyle())
+        self.btn_previous.setStyleSheet(style.tool_button_style())
         self.btn_previous.setToolTip('<b>Previous</b> Image')
         self.btn_previous.setEnabled(False)
         self.btn_previous.setCursor(Qt.PointingHandCursor)
@@ -75,7 +75,7 @@ class MainWindow(QWidget):
         delete_icon.addPixmap(QPixmap(':/icons/trash_icon_disabled'), QIcon.Disabled)
         self.btn_delete.setIcon(QIcon(delete_icon))
         self.btn_delete.setIconSize(QSize(self.button_icon_size_x, self.button_icon_size_y))
-        self.btn_delete.setStyleSheet(style.toolButtonStyle())
+        self.btn_delete.setStyleSheet(style.tool_button_style())
         self.btn_delete.setToolTip('<b>Delete</b> Image (Del)')
         self.btn_delete.setEnabled(False)
         self.btn_delete.setCursor(Qt.PointingHandCursor)
@@ -86,7 +86,7 @@ class MainWindow(QWidget):
         # load_in_icon.addPixmap(QPixmap(':/icons/download_icon_disabled'), QIcon.Disabled)  # Don't need this now
         self.btn_load_in.setIcon(QIcon(load_in_icon))
         self.btn_load_in.setIconSize(QSize(self.button_icon_size_x, self.button_icon_size_y))
-        self.btn_load_in.setStyleSheet(style.toolButtonStyle())
+        self.btn_load_in.setStyleSheet(style.tool_button_style())
         self.btn_load_in.setToolTip('<b>Retrieve</b> new Spotlight Images (Ctrl+D)')
         self.btn_load_in.setCursor(Qt.PointingHandCursor)
 
@@ -96,7 +96,7 @@ class MainWindow(QWidget):
         export_icon.addPixmap(QPixmap(':/icons/export_icon_disabled'), QIcon.Disabled)
         self.btn_export.setIcon(export_icon)
         self.btn_export.setIconSize(QSize(self.button_icon_size_x, self.button_icon_size_y))
-        self.btn_export.setStyleSheet(style.toolButtonStyle())
+        self.btn_export.setStyleSheet(style.tool_button_style())
         self.btn_export.setToolTip('<b>Export</b> images to specified destination (Ctrl+E)')
         self.btn_export.setEnabled(False)
         self.btn_export.setCursor(Qt.PointingHandCursor)
@@ -104,7 +104,7 @@ class MainWindow(QWidget):
         self.btn_settings = QToolButton()
         self.btn_settings.setIcon(QIcon(':/icons/settings_icon'))
         self.btn_settings.setIconSize(QSize(self.button_icon_size_x, self.button_icon_size_y))
-        self.btn_settings.setStyleSheet(style.toolButtonStyle())
+        self.btn_settings.setStyleSheet(style.tool_button_style())
         self.btn_settings.setToolTip('<b>Settings</b>')
         self.btn_settings.setCursor(Qt.PointingHandCursor)
 
@@ -116,7 +116,7 @@ class MainWindow(QWidget):
         # COUNTER LABEL ---------------------------------------------------------------------------
         self.lbl_counter = QLabel('')
         self.lbl_counter.setObjectName('lbl_counter')
-        self.lbl_counter.setStyleSheet(style.labelStyle())
+        self.lbl_counter.setStyleSheet(style.label_style())
         self.lbl_counter.setAlignment(Qt.AlignBottom | Qt.AlignRight)
 
         # FAVORITED ICON LABEL --------------------------------------------------------------------
@@ -142,7 +142,7 @@ class MainWindow(QWidget):
 
         self.button_group_box = QGroupBox()
         self.button_group_box.setObjectName('button_group_box')
-        self.button_group_box.setStyleSheet(style.buttonGroupBoxStyle())
+        self.button_group_box.setStyleSheet(style.button_group_box_style())
         self.button_group_box.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
         self.image_frame = QFrame()
         self.left_bottom_layout = QHBoxLayout()
