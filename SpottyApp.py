@@ -76,14 +76,14 @@ class RenameDialogBox(QDialog):
         except:
             pass
 
-        self.UI()
+        self.ui()
 
 
     def closeEvent(self, event):
         self.settings.setValue('rename dialog position', self.pos())
 
 
-    def UI(self):
+    def ui(self):
         self.widgets()
         self.layouts()
 
@@ -91,7 +91,7 @@ class RenameDialogBox(QDialog):
     def widgets(self):
         # BUTTONS ----------------------------------------------------------------------------------------
         self.btn_submit = QPushButton('Submit')
-        self.btn_submit.clicked.connect(self.submitNewName)
+        self.btn_submit.clicked.connect(self.submit_new_name)
         self.btn_submit.setObjectName('btn_submit')
         self.btn_cancel = QPushButton('Cancel')
         self.btn_cancel.clicked.connect(self.close)
@@ -110,7 +110,7 @@ class RenameDialogBox(QDialog):
         self.entry_new_name.setFocus()
 
         # SIGNALS --------------------------------------------------------------------------------------
-        main_.signal_photo_name.connect(self.getPhotoName)
+        main_.signal_photo_name.connect(self.get_photo_name)
 
 
     def layouts(self):
@@ -145,7 +145,7 @@ class RenameDialogBox(QDialog):
 
 
     @pyqtSlot(str)
-    def getPhotoName(self, pic):
+    def get_photo_name(self, pic):
         # print('pic', pic)
         self.photoname = pic
         if len(self.photoname) > 21:
@@ -154,7 +154,7 @@ class RenameDialogBox(QDialog):
         else:
             self.lbl_rename.setText(f'Renaming photo \'<i>{self.photoname}</i>\' to: ')
 
-    def submitNewName(self):
+    def submit_new_name(self):
         prefix = self.entry_prefix.text()
         name = self.entry_new_name.text()
         if name in ['', ' ']:
@@ -208,12 +208,12 @@ class SettingsDialog(QDialog):
         #  DIALOG ANIMATION SETTINGS ----------------------------------------------------------------------
         # self.openingAnimation(self.DIALOG_WIDTH, self.DIALOG_HEIGHT + 308)
 
-        self.UI()
+        self.ui()
 
     def closeEvent(self, event):
         self.settings.setValue('settings dialog location', self.pos())
 
-    def UI(self):
+    def ui(self):
         self.widgets()
         self.layouts()
 
@@ -251,11 +251,11 @@ class SettingsDialog(QDialog):
         self.btn_temp_dir_browse = QPushButton('Browse')
         self.btn_temp_dir_browse.setObjectName('btn_browse')
         self.btn_temp_dir_browse.setToolTip('Select folder for <b>temporary</b> storage of spotlight photos')
-        self.btn_temp_dir_browse.clicked.connect(self.browseTempDirectory)
+        self.btn_temp_dir_browse.clicked.connect(self.browse_temp_directory)
         self.btn_target_dir_browse = QPushButton('Browse')
         self.btn_target_dir_browse.setObjectName('btn_browse')
         self.btn_target_dir_browse.setToolTip('Select folder to <b>export</b> images to')
-        self.btn_target_dir_browse.clicked.connect(self.browseTargetDirectory)
+        self.btn_target_dir_browse.clicked.connect(self.browse_target_directory)
 
         # BOTTOM LAYOUT WIDGETS ----------------------------------------------------------------------------
         self.rbtn_fav = QRadioButton('Favorite images only')
@@ -267,7 +267,7 @@ class SettingsDialog(QDialog):
 
         self.btn_ok = QPushButton('OK')
         self.btn_ok.setObjectName('btn_ok')
-        self.btn_ok.clicked.connect(self.submitSettings)
+        self.btn_ok.clicked.connect(self.submit_settings)
         self.btn_cancel = QPushButton('Cancel')
         self.btn_cancel.clicked.connect(self.close)
 
@@ -339,7 +339,7 @@ class SettingsDialog(QDialog):
     #     else:
     #         self.lbl_custom_prefix_hint.clear()
 
-    def submitSettings(self):
+    def submit_settings(self):
         if self.entry_temp_dir.text() and self.entry_target_dir.text() != '':
             if self.entry_custom_prefix.text() == '':
                 self.custom_prefix = self.entry_default_prefix.text()
@@ -360,7 +360,7 @@ class SettingsDialog(QDialog):
         else:
             QMessageBox.warning(self, 'Settings Warning', 'Please fill <b>all</b> required fields!')
 
-    def browseTempDirectory(self):
+    def browse_temp_directory(self):
         self.temp_dir = QFileDialog.getExistingDirectory(self, 'Select Temporary Folder for Images')
         if self.temp_dir != '' and self.temp_dir == self.target_dir:
             QMessageBox.critical(self, 'Invalid Folder Error',
@@ -374,7 +374,7 @@ class SettingsDialog(QDialog):
             # else:  # need to introduce new var to prevent this from affecting the real path used for processing
             self.entry_temp_dir.setText(self.temp_dir)
 
-    def browseTargetDirectory(self):
+    def browse_target_directory(self):
         self.target_dir = QFileDialog.getExistingDirectory(self, 'Select Target Folder for Favorite/All Images')
         if self.target_dir != '' and self.target_dir == self.temp_dir:
             QMessageBox.critical(self, 'Invalid Folder Error',
@@ -436,10 +436,10 @@ class MainApp(MainWindow, QWidget):
 
         if self.setts.contains('default prefix') is False:
             self.timer = QTimer()
-            self.timer.singleShot(500, self.openSettings)
-            # self.openSettings()  # can't open it instantly as the main app's objects would not have been created yet
+            self.timer.singleShot(500, self.open_settings)
+            # self.open_settings()  # can't open it instantly as the main app's objects would not have been created yet
 
-        self.UI()
+        self.ui()
 
 
     def closeEvent(self, event):
@@ -447,34 +447,34 @@ class MainApp(MainWindow, QWidget):
         self.setts.setValue('window position', self.pos())
 
 
-    def UI(self):
+    def ui(self):
         self.app_widgets()
 
 
     def app_widgets(self):
         # BUTTONS ---------------------------------------------------------------------------
-        self.btn_load_in.clicked.connect(self.retrieveSpotlightPhotos)
+        self.btn_load_in.clicked.connect(self.retrieve_spotlight_photos)
         self.btn_load_in.setShortcut('Ctrl+D')
 
-        self.btn_next.clicked.connect(self.nextImage)
+        self.btn_next.clicked.connect(self.next_image)
         self.btn_next.setShortcut('Right')
 
-        self.btn_previous.clicked.connect(self.previousImage)
+        self.btn_previous.clicked.connect(self.previous_image)
         self.btn_previous.setShortcut('Left')
 
-        self.btn_delete.clicked.connect(self.deleteImage)
+        self.btn_delete.clicked.connect(self.delete_image)
         self.btn_delete.setShortcut('Del')
 
-        self.btn_save.clicked.connect(self.saveImage)
+        self.btn_save.clicked.connect(self.save_image)
         self.btn_save.setShortcut('Return')
 
-        self.btn_export.clicked.connect(self.exportImages)
+        self.btn_export.clicked.connect(self.export_images)
         self.btn_export.setShortcut('Ctrl+E')
 
-        self.btn_settings.clicked.connect(self.openSettings)
+        self.btn_settings.clicked.connect(self.open_settings)
 
 
-    def retrieveSpotlightPhotos(self):
+    def retrieve_spotlight_photos(self):
         self.image_index = 0
         prefix = self.setts.value('default prefix')
         temp_dir = self.setts.value('temporary directory')
@@ -490,7 +490,7 @@ class MainApp(MainWindow, QWidget):
 
                 print(self.spotlight.selected_new_win_files)
 
-                self.setupFirstPicAfterRetrieval()
+                self.setup_first_pic_after_retrieval()
 
             else:  # Clicked while user is still viewing pictures.
                 mbox = QMessageBox.warning(self, 'Spotlight Photos', 'Previous images could be lost!',
@@ -503,15 +503,15 @@ class MainApp(MainWindow, QWidget):
                     self.spotlight = Spotlight(prefix=prefix, temp_storage=temp_dir)
                     print(self.spotlight.selected_new_win_files)
 
-                    self.setupFirstPicAfterRetrieval()
+                    self.setup_first_pic_after_retrieval()
 
             if self.setts.value('default prefix') in self.images[self.image_index]:
-                self.setFavIconVisible()
+                self.set_fav_icon_visible()
             else:
                 self.lbl_fav_icon.clear()
 
 
-    def nextImage(self):
+    def next_image(self):
         if self.image_index == (len(self.images) - 1):
             self.image_index -= 1
             self.btn_next.setEnabled(False)
@@ -526,12 +526,12 @@ class MainApp(MainWindow, QWidget):
             self.btn_next.setEnabled(False)
 
         if self.setts.value('default prefix') in self.images[self.image_index]:
-            self.setFavIconVisible()
+            self.set_fav_icon_visible()
         else:
             self.lbl_fav_icon.clear()
 
 
-    def previousImage(self):
+    def previous_image(self):
         # Check before executing button function
         if self.image_index == 0:
             self.image_index += 1
@@ -548,12 +548,12 @@ class MainApp(MainWindow, QWidget):
             self.btn_previous.setEnabled(False)
 
         if self.setts.value('default prefix') in self.images[self.image_index]:
-            self.setFavIconVisible()
+            self.set_fav_icon_visible()
         else:
             self.lbl_fav_icon.clear()
 
 
-    def deleteImage(self):
+    def delete_image(self):
         if len(self.images) == 1:  # Deleting the last image
             send2trash.send2trash(self.images[self.image_index])
             self.images.remove(self.images[self.image_index])
@@ -613,7 +613,7 @@ class MainApp(MainWindow, QWidget):
                                                                       self.images[self.image_index])))
         self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
         if self.setts.value('default prefix') in self.images[self.image_index]:
-            self.setFavIconVisible()
+            self.set_fav_icon_visible()
         else:
             self.lbl_fav_icon.clear()
         if len(self.images) > 1:
@@ -622,15 +622,15 @@ class MainApp(MainWindow, QWidget):
             self.lbl_counter.setText(str(len(self.images)) + ' item')
 
 
-    def saveImage(self):
+    def save_image(self):
         self.save_dialog = RenameDialogBox()
         self.signal_photo_name.emit(self.images[self.image_index])
         self.save_dialog.show()
-        self.save_dialog.signal_new_name.connect(self.getNewName)
+        self.save_dialog.signal_new_name.connect(self.get_new_name)
 
 
     @pyqtSlot(str, str)
-    def getNewName(self, prefix, name):
+    def get_new_name(self, prefix, name):
         self.new_prefix = prefix
         self.new_name = name
         print('\nOld name: ' + self.images[self.image_index])
@@ -663,13 +663,13 @@ class MainApp(MainWindow, QWidget):
 
         self.setWindowTitle(self.title + ' - ' + self.new_prefix + self.new_name + '.png')
         if self.setts.value('default prefix') in self.images[self.image_index]:
-            self.setFavIconVisible()
+            self.set_fav_icon_visible()
         else:
             self.lbl_fav_icon.clear()
         print('New Images:', self.images)
 
 
-    def exportImages(self):
+    def export_images(self):
         print('cur directory: ', os.getcwd())
         print('Dir chosen:', self.setts.value('target directory'))
 
@@ -685,12 +685,12 @@ class MainApp(MainWindow, QWidget):
                 QMessageBox.critical(self, 'Image already exists', f'Image with the name \'<i>{selected_pics[1]}</i>\''
                                                                    f' already exists at <b>target folder</b>!')
 
-                self.conditionsForWhatToDoAfterExport(extra_condition='FileExistsError')
+                self.conditions_for_what_to_do_after_export(extra_condition='FileExistsError')
 
             else:
                 for item in selected_pics:
                     self.images.remove(item)
-                self.conditionsForWhatToDoAfterExport()
+                self.conditions_for_what_to_do_after_export()
 
         elif self.setts.value('all button checked', False, type=bool) is True:
             print('all button checked:', self.setts.value('all button checked'))
@@ -703,7 +703,7 @@ class MainApp(MainWindow, QWidget):
                 return
             else:
                 self.images.clear()
-                self.conditionsForWhatToDoAfterExport()
+                self.conditions_for_what_to_do_after_export()
 
         elif self.setts.value('one button checked', False, type=bool) is True:
             print('one button checked:', self.setts.value('one button checked'))
@@ -717,20 +717,20 @@ class MainApp(MainWindow, QWidget):
                 return
             else:
                 self.images.remove(single_pic)
-                self.conditionsForWhatToDoAfterExport()
+                self.conditions_for_what_to_do_after_export()
 
         else:
             QMessageBox.critical(self, 'Export Choice', 'No <b>Export Option</b> was selected in Settings!')
             # TODO: Add informative text here to: 'go to settings'
 
 
-    def openSettings(self):
+    def open_settings(self):
         self.settings_dialog = SettingsDialog()
         self.settings_dialog.show()
 
 
     # CLASS HELPER FUNCTIONS (to reduce repetition) ------------------------------------------------------
-    def conditionsForWhatToDoAfterExport(self, extra_condition=None):
+    def conditions_for_what_to_do_after_export(self, extra_condition=None):
         self.images = [x for x in os.listdir() if '.png' in x]
         print(self.images, len(self.images))
         self.image_index = 0
@@ -750,7 +750,7 @@ class MainApp(MainWindow, QWidget):
             else:
                 self.setWindowTitle(self.title + ' - ' + self.images[self.image_index])
             if self.setts.value('default prefix') in self.images[self.image_index]:
-                self.setFavIconVisible()
+                self.set_fav_icon_visible()
             else:
                 self.lbl_fav_icon.clear()
 
@@ -772,12 +772,12 @@ class MainApp(MainWindow, QWidget):
             self.btn_export.setEnabled(False)
             QMessageBox.information(self, 'Export Success', 'Image(s) exported successfully.')
 
-    def setFavIconVisible(self):
+    def set_fav_icon_visible(self):
         self.lbl_fav_icon.setPixmap(
             QPixmap(':/icons/save_icon').scaledToHeight(self.fav_icon_size_y, Qt.SmoothTransformation))
         self.left_bottom_layout.addWidget(self.lbl_fav_icon)
 
-    def setupFirstPicAfterRetrieval(self):
+    def setup_first_pic_after_retrieval(self):
         if self.spotlight.selected_new_win_files == []:
             QMessageBox.critical(self, 'Spotlight Photos', 'No New Spotlight Photos Found!')
 
@@ -850,7 +850,6 @@ if __name__ == '__main__':
 
 
     #   TODO: [High Priority]:
-    #       - Change function names to snake case to differentiate between my fxns and PyQt's fxns
     #       - Add to README or settings that 'temp storage' should not be used as 'permanent wallpaper folder' as it will affect performance of the app
     #       - Option to favorite without necessarily renaming
     #       - Add checkbox to allow user to remove prefix and deactivate it in the rename dialog box
