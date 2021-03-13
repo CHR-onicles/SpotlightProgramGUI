@@ -22,7 +22,7 @@ features and has a good amount of tooltips to describe the functions of widgets 
 ## Main Window
 <img src="screenshots/1.png" width = 800>
 <img src="screenshots/2.png" width = 800>
-<img src="screenshots/6.png" width = 800>
+<img src="screenshots/5.png" width = 800>
 
 
 ## Rename Dialog Box
