@@ -19,7 +19,7 @@ features and has a good amount of tooltips to describe the functions of widgets 
 > * Executable: [*(release version will be published soon)*]()
 
 
-## Main Window
+## Screenshots
 <img src="screenshots/1.png" width = 800>
 <img src="screenshots/2.png" width = 800>
 <img src="screenshots/5.png" width = 800>
