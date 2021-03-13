@@ -784,7 +784,7 @@ class MainApp(MainWindow, QWidget):
             # For debugging
             self.t2 = time()
             print('Stopped abruptly - Time elapsed :', self.t2 - self.t1)
-            # with open('log.txt', 'a') as f:  # todo: remove during release
+            # with open('log.txt', 'a') as f:
             #     f.write('Stopped abruptly - Time elapsed :' + str(self.t2 - self.t1) + '\n')
             return
         else:
@@ -812,14 +812,15 @@ class MainApp(MainWindow, QWidget):
             self.t2 = time()
             print('Time elapsed :', self.t2 - self.t1)
             # print(os.getcwd())
-            # with open('log.txt', 'a') as f:  # todo: remove during release
+            # with open('log.txt', 'a') as f:
             #     f.write('Time elapsed :' + str(self.t2 - self.t1) + '\n')
 
     def make_label_rounded(self, image_path):
         """
-        Here is one way to do this. This works by drawing a rounded rect
+        "Here is one way to do this. This works by drawing a rounded rect
         on an initially transparent pixmap using the original pixmap as
-        the brush for the painter.
+        the brush for the painter."
+        ~ Heike, StackOverflow.
         (https://stackoverflow.com/questions/63656328/rounding-a-qlabels-corners-in-pyqt5)
         """
         # Stack overflow solution for rounded rectangle label
