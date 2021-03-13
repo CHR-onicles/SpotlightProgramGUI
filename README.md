@@ -34,8 +34,6 @@ features and has a good amount of tooltips to describe the functions of widgets 
 ## PS:
 > * App is still in development and still needs more features, users may also encounter some bugs/glitches.
 > * A release version(.exe) is being worked on currently...
-
-> * Do reach out to me for clarity on anything.
 > * Contact: tpandivine48@gmail.com
 
 

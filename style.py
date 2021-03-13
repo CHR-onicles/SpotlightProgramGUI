@@ -5,7 +5,7 @@ def mainWindowStyle():
     }
     
     QToolTip {
-        border: 1px solid white;
+        border: 1px solid silver;
         padding: 5px;
         border-radius: 5px;
         color: white;
@@ -126,7 +126,7 @@ def RenameDialogStyle():
     }
     
     QToolTip {
-        border: 1px solid white;
+        border: 1px solid silver;
         padding: 5px;
         border-radius: 5px;
         color: white;
@@ -234,7 +234,7 @@ def SettingsDialogStyle():
     }
     
     QToolTip {
-        border: 1px solid white;
+        border: 1px solid silver;
         padding: 5px;
         border-radius: 5px;
         color: white;
