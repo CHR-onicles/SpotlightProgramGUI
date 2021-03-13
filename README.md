@@ -24,10 +24,6 @@ features and has a good amount of tooltips to describe the functions of widgets 
 <img src="screenshots/2.png" width = 800>
 <img src="screenshots/5.png" width = 800>
 
-
-## Rename Dialog Box
-<img src="screenshots/4.png" width = 300>
-
 ## Demo:
 [Short Demo](https://imgur.com/zVA7aUH)
 
