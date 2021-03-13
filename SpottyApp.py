@@ -850,6 +850,8 @@ if __name__ == '__main__':
 
 
     #   TODO: [High Priority]:
+    #       - Animate download button to get user attention or some other form of in-app tutorial
+    #       - Animating loading in of pictures with a round progress bar kinda style
     #       - Add to README or settings that 'temp storage' should not be used as 'permanent wallpaper folder' as it will affect performance of the app
     #       - Option to favorite without necessarily renaming
     #       - Add checkbox to allow user to remove prefix and deactivate it in the rename dialog box
@@ -864,9 +866,7 @@ if __name__ == '__main__':
     #       - Informative text with Messagebox for 'No fav image selected', and possibly all messageboxes
     #
     #   TODO: [Optional]:
-    #       - Animate download button to get user attention or some other form of in-app tutorial
     #       - Edit the no_image icon to show the text more and reduce opacity of the circle
-    #       - Animating loading in of pictures with a round progress bar kinda style
 
 
     # TODO: FOR SETTINGS OPTIONS
