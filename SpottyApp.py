@@ -675,7 +675,7 @@ class MainApp(MainWindow, QWidget):
 
         if self.setts.value('fav button checked', False, type=bool) is True:
             print('fav button checked:', self.setts.value('fav button checked'))
-            selected_pics = self.spotlight.moveFavoritesToSpecificFolder(
+            selected_pics = self.spotlight.move_favorites_to_specific_folder(
                 prefix=self.setts.value('default prefix'), target_folder=self.setts.value('target directory'))
             print('from main app, selected pics:', selected_pics)
             if selected_pics is None:
@@ -694,7 +694,7 @@ class MainApp(MainWindow, QWidget):
 
         elif self.setts.value('all button checked', False, type=bool) is True:
             print('all button checked:', self.setts.value('all button checked'))
-            all_pics = self.spotlight.moveAllToSpecificFolder(target_folder=self.setts.value('target directory'))
+            all_pics = self.spotlight.move_all_to_specific_folder(target_folder=self.setts.value('target directory'))
 
             print('from main app, all pics:', all_pics)
             if all_pics[0] == 'FileExistsError':
@@ -707,7 +707,7 @@ class MainApp(MainWindow, QWidget):
 
         elif self.setts.value('one button checked', False, type=bool) is True:
             print('one button checked:', self.setts.value('one button checked'))
-            single_pic = self.spotlight.moveOneToSpecificFolder(
+            single_pic = self.spotlight.move_one_to_specific_folder(
                 single_pic=self.images[self.image_index], target_folder=self.setts.value('target directory'))
 
             print('from main app, single pic:', single_pic)

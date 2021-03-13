@@ -98,7 +98,7 @@ class Spotlight:
         print('from Spotlight class, selected images:', self.selected_new_win_files)
 
 
-    def moveFavoritesToSpecificFolder(self, prefix=None, target_folder=None):
+    def move_favorites_to_specific_folder(self, prefix=None, target_folder=None):
         pics = [x for x in os.listdir() if '.png' in x]
         print('listing target dir:', os.listdir(target_folder))
         fav_pics = []
@@ -129,7 +129,7 @@ class Spotlight:
             return fav_pics
 
 
-    def moveAllToSpecificFolder(self, target_folder=None):
+    def move_all_to_specific_folder(self, target_folder=None):
         pics = [x for x in os.listdir() if '.png' in x]
         print('listing target dir:', os.listdir(target_folder))
         print('Target folder valid:', os.path.isdir(target_folder))
@@ -147,7 +147,7 @@ class Spotlight:
         print('All Files moved successfully! \n')
         return pics
 
-    def moveOneToSpecificFolder(self, single_pic=None, target_folder=None):
+    def move_one_to_specific_folder(self, single_pic=None, target_folder=None):
         pic = single_pic
         print('listing target dir:', os.listdir(target_folder))
         print('Target folder valid:', os.path.isdir(target_folder))
