@@ -26,11 +26,11 @@ class MainWindow(QWidget):
         self.button_icon_size_x, self.button_icon_size_y = 27, 27
         self.fav_icon_size_x, self.fav_icon_size_y = 25, 25
 
-        self.UIComponents()
+        self.ui_components()
         self.show()
 
 
-    def UIComponents(self):
+    def ui_components(self):
         self.widgets()
         self.layouts()
 
