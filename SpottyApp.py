@@ -8,7 +8,8 @@ from time import time
 from PyQt5.QtCore import (pyqtSignal, pyqtSlot, QEasingCurve, QPoint, QPropertyAnimation, QSettings, QSize, Qt, QTimer)
 from PyQt5.QtGui import (QIcon, QPixmap, QColor, QPainter, QBrush)
 from PyQt5.QtWidgets import (QApplication, QDesktopWidget, QDialog, QFileDialog, QFormLayout, QGroupBox, QHBoxLayout,
-                             QLabel, QLineEdit, QMessageBox, QPushButton, QRadioButton, QVBoxLayout, QWidget)
+                             QLabel, QLineEdit, QMessageBox, QPushButton, QRadioButton, QVBoxLayout, QWidget,
+                             QGridLayout)
 import send2trash
 
 # Local Imports
@@ -185,7 +186,6 @@ class SettingsDialog(QDialog):
         self.DIALOG_WIDTH, self.DIALOG_HEIGHT = 450, 300
         self.resize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
         self.setMaximumSize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
-        # self.setStyleSheet(style.settings_dialog_style())
 
         # Positioning at center of screen
         self.D_WIDTH, self.D_HEIGHT = main_.DESKTOP_WIDTH, main_.DESKTOP_HEIGHT
@@ -276,7 +276,8 @@ class SettingsDialog(QDialog):
         self.main_layout = QVBoxLayout()
         self.top_layout = QVBoxLayout()
         self.middle_layout = QVBoxLayout()
-        self.bottom_layout = QHBoxLayout()
+        # self.bottom_layout = QHBoxLayout()
+        self.bottom_layout = QGridLayout()
         self.btn_ok_cancel_layout = QHBoxLayout()
 
         self.top_group_box = QGroupBox('Prefix options')
@@ -311,9 +312,9 @@ class SettingsDialog(QDialog):
         self.middle_layout.addLayout(self.middle_form_layout)
 
         # BOTTOM LAYOUT -----------------------------------------------------------------------------------
-        self.bottom_layout.addWidget(self.rbtn_all)
-        self.bottom_layout.addWidget(self.rbtn_fav)
-        self.bottom_layout.addWidget(self.rbtn_one)
+        self.bottom_layout.addWidget(self.rbtn_all, 0, 0)
+        self.bottom_layout.addWidget(self.rbtn_fav, 0, 1)
+        self.bottom_layout.addWidget(self.rbtn_one, 0, 2)
         self.bottom_group_box.setContentsMargins(10, 0, 0, 0)  # or use hlayout rather
 
         # BUTTONS LAYOUT -----------------------------------------------------------------------------------
