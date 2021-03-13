@@ -69,11 +69,11 @@ def RenameDialogStyle():
     }
     
     QPushButton:hover {
-        background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0.363184 rgba(17, 103, 241, 255), stop:1 rgba(255, 255, 255, 255));
+    background-color: #3d7eff;
     }
     
     QPushButton:pressed {
-        background-color:  qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0.363184 rgba(15, 8, 227, 255), stop:1 rgba(255, 255, 255, 255));
+    background-color: transparent;
     }
     
     QPushButton:focus {
