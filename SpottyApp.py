@@ -9,7 +9,7 @@ from PyQt5.QtCore import (pyqtSignal, pyqtSlot, QEasingCurve, QPoint, QPropertyA
 from PyQt5.QtGui import (QIcon, QPixmap, QColor, QPainter, QBrush)
 from PyQt5.QtWidgets import (QApplication, QDesktopWidget, QDialog, QFileDialog, QFormLayout, QGroupBox, QHBoxLayout,
                              QLabel, QLineEdit, QMessageBox, QPushButton, QRadioButton, QVBoxLayout, QWidget,
-                             QGridLayout)
+                             QGridLayout, QCheckBox)
 import send2trash
 
 # Local Imports
@@ -232,8 +232,11 @@ class SettingsDialog(QDialog):
         self.entry_custom_prefix.setFocus()
         # self.entry_custom_prefix.textEdited.connect(self.showHint)
 
-        self.lbl_custom_prefix_hint = QLabel('')
-        self.lbl_custom_prefix_hint.setWordWrap(True)
+        self.cbox_set_prefix = QCheckBox('No Prefix')
+        self.cbox_set_rename = QCheckBox('No Rename')
+
+        # self.lbl_custom_prefix_hint = QLabel('')
+        # self.lbl_custom_prefix_hint.setWordWrap(True)
 
         # MIDDLE LAYOUT WIDGETS ----------------------------------------------------------------------------
         self.lbl_temp_dir = QLabel('Temp. Folder')
@@ -281,6 +284,7 @@ class SettingsDialog(QDialog):
         self.btn_ok_cancel_layout = QHBoxLayout()
 
         self.top_group_box = QGroupBox('Prefix options')
+        # self.top_group_box.setCheckable(True)
         self.top_group_box.setLayout(self.top_layout)
         self.middle_group_box = QGroupBox('Folder options')
         self.middle_group_box.setLayout(self.middle_layout)
@@ -298,6 +302,8 @@ class SettingsDialog(QDialog):
         # TOP LAYOUT --------------------------------------------------------------------------------------
         self.top_form_layout.addRow(self.lbl_default_prefix, self.entry_default_prefix)
         self.top_form_layout.addRow(self.lbl_custom_prefix, self.entry_custom_prefix)
+        self.top_form_layout.addRow(self.cbox_set_prefix)
+        self.top_form_layout.addRow(self.cbox_set_rename)
         self.top_form_layout.setContentsMargins(10, 0, 0, 0)
         self.top_layout.addLayout(self.top_form_layout)
 

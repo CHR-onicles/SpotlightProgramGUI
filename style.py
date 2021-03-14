@@ -272,6 +272,23 @@ def settings_dialog_style():
     color: #3d7eff;
     top: -12px;
     }
+    
+    QCheckBox {
+        color: white;
+        font-size: 10pt;
+    }
+    
+    QCheckBox::indicator {
+        width: 15px;
+        height: 15px;
+        background-color: #444;
+        border: 1px solid #3d7eff;
+        border-radius: 3px;
+    }
+    
+    QCheckBox::indicator:checked {
+        image: url(:/icons/tick_icon);
+    }
     """
 
 
