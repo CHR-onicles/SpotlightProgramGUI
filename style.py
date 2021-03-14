@@ -35,12 +35,11 @@ def main_window_style():
         min-width: 4em;
         padding-top: 5px;
         padding-bottom: 5px;
-        color: silver;
+        color: white;
     }
     
     QMessageBox QPushButton:hover {
         background-color: #3d7eff;
-        color: white;
     }
     
     QMessageBox QPushButton:focus {
