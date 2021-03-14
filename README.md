@@ -25,7 +25,7 @@ features and has a good amount of tooltips to describe the functions of widgets 
 <img src="screenshots/5.png" width = 800>
 
 ## Demo:
-[Short Demo](https://imgur.com/zVA7aUH)
+[Short Demo](https://imgur.com/zVA7aUH) (outdated)
 
 ## PS:
 > * App is still in development and still needs more features, users may also encounter some bugs/glitches.
