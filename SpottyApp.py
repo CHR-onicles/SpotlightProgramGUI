@@ -202,6 +202,8 @@ class SettingsDialog(QDialog):
             self.rbtn_fav_state = (self.settings.value('fav button checked', False, type=bool))
             self.rbtn_all_state = (self.settings.value('all button checked', False, type=bool))
             self.rbtn_one_state = (self.settings.value('one button checked', False, type=bool))
+            self.cbox_prefix_state = (self.settings.value('no prefix checked', False, type=bool))
+            self.cbox_rename_state = (self.settings.value('no rename checked', False, type=bool))
         except Exception as e:
             print(f'There was an exception: \"{e}\" while trying to read from QSettings.')
 
@@ -233,6 +235,7 @@ class SettingsDialog(QDialog):
         # self.entry_custom_prefix.textEdited.connect(self.showHint)
 
         self.cbox_set_prefix = QCheckBox('No Prefix')
+        self.cbox_set_prefix.clicked.connect(self.check_cbox_prefix_state)
         self.cbox_set_rename = QCheckBox('No Rename')
 
         # self.lbl_custom_prefix_hint = QLabel('')
@@ -399,6 +402,12 @@ class SettingsDialog(QDialog):
     #     self.open_animation.start()
     #     self.setMaximumSize(QSize(width, height))
 
+    def check_cbox_prefix_state(self):
+        if self.cbox_set_prefix.isChecked():
+            self.entry_custom_prefix.setDisabled(True)
+        else:
+            self.entry_custom_prefix.setEnabled(True)
+            self.entry_custom_prefix.setFocus()
 
 
 

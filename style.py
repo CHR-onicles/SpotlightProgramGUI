@@ -142,7 +142,7 @@ def rename_dialog_style():
     }
     
     QGroupBox::title {
-    color: #3db7ff;
+    color: #3db7ff; /* why did I use this color? */
     top: -10px;
     }
     """
