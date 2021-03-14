@@ -138,6 +138,7 @@ class MainWindow(QWidget):
         self.top_layout = QHBoxLayout()
         self.bottom_button_layout = QHBoxLayout()
         self.bottom_button_layout.setSpacing(1)
+        self.bottom_button_layout.setContentsMargins(10, 10, 8, 10)  # There was too much margin space on the right
         self.main_bottom_layout = QHBoxLayout()
 
         self.button_group_box = QGroupBox()
