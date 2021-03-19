@@ -351,6 +351,7 @@ class SettingsDialog(QDialog):
 
     def submit_settings(self):
         if self.entry_temp_dir.text() and self.entry_target_dir.text() != '':
+            # todo: recheck logic for code below and insert "No Prefix", "No Rename" appropriately
             if self.entry_custom_prefix.text() == '':
                 self.custom_prefix = self.entry_default_prefix.text()
                 print('set custom prefix to default entry', self.entry_default_prefix.text())
