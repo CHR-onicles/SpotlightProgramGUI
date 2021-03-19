@@ -66,7 +66,7 @@ class RenameDialogBox(QDialog):
         self.ypos = int((self.D_HEIGHT / 2) - (self.DIALOG_HEIGHT / 2))
 
         # self.setGeometry(int(self.xpos), int(self.ypos), self.DIALOG_WIDTH, self.DIALOG_HEIGHT)
-        self.setFixedSize(self.size())
+        # self.setFixedSize(self.size())  # moved down to line 79, delete this later
 
         # RENAME DIALOG SETTINGS ---------------------------------------------------------------
         # self.default_prefix = ''
@@ -74,6 +74,9 @@ class RenameDialogBox(QDialog):
         self.default_prefix = self.settings.value('default prefix')
         try:
             self.move(self.settings.value('rename dialog position', QPoint(self.xpos, self.ypos), type=QPoint))
+            self.is_no_prefix = self.settings.value('no prefix checked', False, type=bool)
+            if self.is_no_prefix is False:
+                self.setFixedSize(self.size())
         except:
             pass
 
@@ -87,6 +90,8 @@ class RenameDialogBox(QDialog):
     def ui(self):
         self.widgets()
         self.layouts()
+        if self.is_no_prefix is True:
+            self.remove_prefix()
 
 
     def widgets(self):
@@ -100,6 +105,8 @@ class RenameDialogBox(QDialog):
         # LABELS -----------------------------------------------------------------------------------------
         self.lbl_rename = QLabel('')
         self.lbl_rename.setObjectName('lbl_rename')
+        self.lbl_prefix = QLabel('Prefix:')
+        self.lbl_new_name = QLabel('New Name:')
 
         # ENTRIES ---------------------------------------------------------------------------------------
         self.entry_prefix = QLineEdit(self.default_prefix)
@@ -135,8 +142,8 @@ class RenameDialogBox(QDialog):
 
         # Adding Widgets to Bottom Layout ---------------------------------------------------------------
         self.bottom_layout.setContentsMargins(10, 10, 0, 0)
-        self.bottom_layout.addRow(QLabel('Prefix:'), self.entry_prefix)
-        self.bottom_layout.addRow(QLabel('New Name:'), self.entry_new_name)
+        self.bottom_layout.addRow(self.lbl_prefix, self.entry_prefix)
+        self.bottom_layout.addRow(self.lbl_new_name, self.entry_new_name)
 
         # Adding Layouts and Widgets to Main Layout ----------------------------------------------------
         self.main_layout.addLayout(self.top_layout, 20)
@@ -166,6 +173,12 @@ class RenameDialogBox(QDialog):
             self.signal_new_name.emit(prefix, name)
             QMessageBox.information(self, 'Rename success', 'Image renamed successfully.')
             self.close()
+
+    def remove_prefix(self):
+        self.entry_prefix.close()
+        self.lbl_prefix.close()
+        self.resize(self.DIALOG_WIDTH, self.DIALOG_HEIGHT-30)
+        self.setFixedSize(self.size())
 
 
 
@@ -209,6 +222,7 @@ class SettingsDialog(QDialog):
 
         #  DIALOG ANIMATION SETTINGS ----------------------------------------------------------------------
         # self.openingAnimation(self.DIALOG_WIDTH, self.DIALOG_HEIGHT + 308)
+        self.custom_prefix = None
 
         self.ui()
 
@@ -218,6 +232,7 @@ class SettingsDialog(QDialog):
     def ui(self):
         self.widgets()
         self.layouts()
+        self.check_cbox_prefix_state()
 
     def widgets(self):
         # TOP LAYOUT WIDGETS ------------------------------------------------------------------------------
@@ -235,6 +250,7 @@ class SettingsDialog(QDialog):
         # self.entry_custom_prefix.textEdited.connect(self.showHint)
 
         self.cbox_set_prefix = QCheckBox('No Prefix')
+        self.cbox_set_prefix.setChecked(self.cbox_prefix_state)
         self.cbox_set_prefix.clicked.connect(self.check_cbox_prefix_state)
         self.cbox_set_rename = QCheckBox('No Rename')
 
@@ -351,21 +367,27 @@ class SettingsDialog(QDialog):
 
     def submit_settings(self):
         if self.entry_temp_dir.text() and self.entry_target_dir.text() != '':
-            # todo: recheck logic for code below and insert "No Prefix", "No Rename" appropriately
-            if self.entry_custom_prefix.text() == '':
+            if self.cbox_set_prefix.isChecked() is True:
+                pass  # todo: add logic here
+            elif self.entry_custom_prefix.text() == '' and self.cbox_set_prefix.isChecked() is False:
                 self.custom_prefix = self.entry_default_prefix.text()
                 print('set custom prefix to default entry', self.entry_default_prefix.text())
-            else:
+            elif self.entry_custom_prefix.text() != '':
                 self.custom_prefix = self.entry_custom_prefix.text()
                 print('set custom prefix to custom entry')
+            if self.custom_prefix is None:
+                self.custom_prefix = ' '
             self.temp_dir = self.entry_temp_dir.text()
             self.target_dir = self.entry_target_dir.text()
             self.settings.setValue('default prefix', self.custom_prefix)
+            print('custom prefix in settings:', self.custom_prefix)
             self.settings.setValue('temporary directory', self.temp_dir)
             self.settings.setValue('target directory', self.target_dir)
             self.settings.setValue('fav button checked', self.rbtn_fav.isChecked())
             self.settings.setValue('all button checked', self.rbtn_all.isChecked())
             self.settings.setValue('one button checked', self.rbtn_one.isChecked())
+            self.settings.setValue('no prefix checked', self.cbox_set_prefix.isChecked())
+            self.settings.setValue('no rename checked', self.cbox_set_rename.isChecked())
             QMessageBox.information(self, 'Settings saved', 'Settings have been updated!')
             self.close()
         else:
@@ -409,6 +431,7 @@ class SettingsDialog(QDialog):
         else:
             self.entry_custom_prefix.setEnabled(True)
             self.entry_custom_prefix.setFocus()
+
 
 
 
@@ -546,8 +569,6 @@ class MainApp(MainWindow, QWidget):
             self.set_fav_icon_visible()
         else:
             self.lbl_fav_icon.clear()
-
-
     def previous_image(self):
         # Check before executing button function
         if self.image_index == 0:
@@ -657,7 +678,6 @@ class MainApp(MainWindow, QWidget):
         os.rename(old_file, self.new_prefix + self.new_name + '.png')
         self.images.remove(old_file)
         self.images = [x for x in os.listdir() if '.png' in x]
-        # print(self.images.index('.png'))  # Doesn't work...have no idea why
         for count, item in enumerate(self.images):
             if self.new_name in item:
                 print('Renamed image at:', count)
@@ -869,12 +889,12 @@ if __name__ == '__main__':
 
     #   TODO: [High Priority]:
     #       - Animate download button to get user attention or some other form of in-app tutorial
-    #       - Animating loading in of pictures with a round progress bar kinda style
-    #       - Add to README or settings that 'temp storage' should not be used as 'permanent wallpaper folder' as it will affect performance of the app
     #       - Option to favorite without necessarily renaming
+    #       - Animating loading-in of pictures with a round progress bar kinda style
+    #       - Add to README or settings that 'temp storage' should not be used as 'permanent wallpaper folder' as it will affect performance of the app
     #       - Add checkbox to allow user to remove prefix and deactivate it in the rename dialog box
     #       - Option to open previous pics or load new ones (Use 'more icon' and put some buttons there) [Have to use new naming scheme: SP-210107-1319-abcde] where a-zA-Z0-9a for abcde
-    #       - Lookup context menus [for the 'More' icon]
+    #       - Lookup context menus [for the 'More' icon] - (Partially done)
     #       - Add text to buttons on main window and draw attention to 'download' button.
     #
     #   TODO: [Moderate Priority]:
