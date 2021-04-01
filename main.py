@@ -898,6 +898,7 @@ if __name__ == '__main__':
     #       - Add text to buttons on main window and draw attention to 'download' button.
     #
     #   TODO: [Moderate Priority]:
+    #       - Confirm dialog for when deleting favorited images
     #       - Add validators to entries [optional]
     #       - Check if spotlight images is enabled
     #       - Refactor repeating code into helper functions across board

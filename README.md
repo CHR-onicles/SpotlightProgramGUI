@@ -20,9 +20,9 @@ features and has a good amount of tooltips to describe the functions of widgets 
 
 
 ## Screenshots
-<img src="screenshots/1.png" width = 800>
-<img src="screenshots/2.png" width = 800>
-<img src="screenshots/5.png" width = 800>
+![pic_1](https://raw.githubusercontent.com/CHR-onicles/SpotlightProgramGUI/main/screenshots/1.png)
+![pic_1](https://raw.githubusercontent.com/CHR-onicles/SpotlightProgramGUI/main/screenshots/2.png)
+![pic_1](https://raw.githubusercontent.com/CHR-onicles/SpotlightProgramGUI/main/screenshots/5.png)
 
 ## Demo:
 [Short Demo](https://imgur.com/zVA7aUH) (outdated)
