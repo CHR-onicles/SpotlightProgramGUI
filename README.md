@@ -1,5 +1,5 @@
 # SpottyApp v0.1
-> Completely rewrote [Spotlight Program](https://github.com/CHR-onicles/SpotlightProgram) with GUI using PyQt5.
+> Completely rewrote [Spotlight Program][old spotty link] with GUI using PyQt5.
 
 ## Description
 > This is an app similar to a photo viewer, but tailored specifically for **Windows Spotlight Photos**.
@@ -31,6 +31,9 @@ features and has a good amount of tooltips to describe the functions of widgets 
 > * App is still in development and still needs more features, users may also encounter some bugs/glitches.
 > * A release version(.exe) is being worked on currently...
 > * Contact: tpandivine48@gmail.com
+
+<!-- Links -->
+[old spotty link]: (https://github.com/CHR-onicles/SpotlightProgram)
 
 
 
