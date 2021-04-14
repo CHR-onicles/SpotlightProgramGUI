@@ -19,9 +19,10 @@ These photos are usually set by default as your lockscreen, but it is worth ment
 
 
 ## Screenshots
-![pic_1](https://raw.githubusercontent.com/CHR-onicles/SpotlightProgramGUI/main/screenshots/1.png)
-![pic_1](https://raw.githubusercontent.com/CHR-onicles/SpotlightProgramGUI/main/screenshots/2.png)
-![pic_1](https://raw.githubusercontent.com/CHR-onicles/SpotlightProgramGUI/main/screenshots/5.png)
+![pic_1](screenshots/1.png)
+![pic_1](screenshots/2.png)
+![pic_1](screenshots/5.png)
+<!-- ![df](screenshots/1.png) This works too...No need for raw github content -->
 
 ## Demo:
 [Short Demo](https://imgur.com/zVA7aUH) (outdated)
