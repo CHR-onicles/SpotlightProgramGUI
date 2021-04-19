@@ -15,7 +15,7 @@ These photos are usually set by default as your lockscreen.
 
 ## Run
 > * `main.py`
-> * Executable: [*(release version will be published soon)*]()
+> * Executable: [First Release](https://github.com/CHR-onicles/SpotlightProgramGUI/releases/tag/v0.3.2)
 
 
 ## Screenshots
