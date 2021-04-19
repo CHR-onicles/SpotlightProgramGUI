@@ -13,7 +13,7 @@ These photos are usually set by default as your lockscreen.
 > * [send2trash](https://pypi.org/project/Send2Trash/)
 > * [Pillow](https://pypi.org/project/Pillow/)
 
-## Run
+## Run Files
 > * `main.py`
 > * Executable: [First Release](https://github.com/CHR-onicles/SpotlightProgramGUI/releases/tag/v0.3.2)
 
