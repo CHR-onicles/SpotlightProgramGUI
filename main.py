@@ -14,9 +14,10 @@ import send2trash
 
 # Local Imports
 from custom_widgets import Label
-import style
 from spotlight import Spotlight
-from UI_main_window import MainWindow
+import style
+from UI_main_window import MainWindow, app_name
+from _version import __version__
 
 
 
@@ -42,6 +43,10 @@ print('System: ', platform.system(), platform.release())
 # resource_path('style.py')
 # resource_path('icons_rc.py')
 
+
+# GLOBAL VARIABLES ---------------------------------------------
+settings_registry_key_name = 'CHR-onicles'
+settings_registry_subkey_name = app_name + ' v' + __version__
 
 class RenameDialogBox(QDialog):
     """
@@ -70,7 +75,7 @@ class RenameDialogBox(QDialog):
 
         # RENAME DIALOG SETTINGS ---------------------------------------------------------------
         # self.default_prefix = ''
-        self.settings = QSettings('CHR-onicles', 'SpottyApp')
+        self.settings = QSettings(settings_registry_key_name, settings_registry_subkey_name)
         self.default_prefix = self.settings.value('default prefix')
         try:
             self.move(self.settings.value('rename dialog position', QPoint(self.xpos, self.ypos), type=QPoint))
@@ -193,7 +198,7 @@ class SettingsDialog(QDialog):
         self.ypos = int((self.D_HEIGHT / 2) - ((self.DIALOG_HEIGHT + 308) / 2))
 
         # SETTINGS DIALOG SETTINGS lol --------------------------------------------------------------------
-        self.settings = QSettings('CHR-onicles', 'SpottyApp')
+        self.settings = QSettings(settings_registry_key_name, settings_registry_subkey_name)
         try:
             self.move(self.settings.value('settings dialog location', QPoint(self.xpos, self.ypos), type=QPoint))
             self.default_prefix_text = self.settings.value('default prefix', 'SP_', type=str)
@@ -426,7 +431,7 @@ class MainApp(MainWindow, QWidget):
         self.image_index = 0
 
         # APP SETTINGS -------------------------------------------------------------------------------
-        self.setts = QSettings('CHR-onicles', 'SpottyApp')
+        self.setts = QSettings(settings_registry_key_name, settings_registry_subkey_name)
         print('App data already exists:', self.setts.contains('default prefix'))
 
         try:
@@ -869,8 +874,9 @@ if __name__ == '__main__':
     #
     #   TODO: [Optional]:
     #       - Edit the no_image icon to show the text more and reduce opacity of the circle
+    #       - Change 'CHR-onicles' to a global variable to prevent redundancy
 
 
-    # TODO: FOR SETTINGS OPTIONS
-    #   - Option to disable prefix with checkbox [MEDIUM PRIORITY]
-    #   - Option for user to delete temp storage when done [optional]
+    # TODO: FOR SETTINGS OPTIONS (this version would not have these...so delete this later)
+    #       - Option to disable prefix with checkbox [MEDIUM PRIORITY]
+    #       - Option for user to delete temp storage when done [optional]

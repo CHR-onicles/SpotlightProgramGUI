@@ -1,4 +1,4 @@
-# SpottyApp v0.1
+# SpottyApp v0.3.2
 > Completely rewrote [Spotlight Program](https://github.com/CHR-onicles/SpotlightProgram) with GUI using PyQt5.
 
 ## Description
@@ -14,8 +14,8 @@ features and has a good amount of tooltips to describe the functions of widgets 
 > * [send2trash](https://pypi.org/project/Send2Trash/)
 > * [Pillow](https://pypi.org/project/Pillow/)
 
-## Run File
-> * `SpottyApp.py`
+## Run
+> * `main.py`
 > * Executable: [*(release version will be published soon)*]()
 
 
@@ -27,10 +27,8 @@ features and has a good amount of tooltips to describe the functions of widgets 
 ## Demo:
 [Short Demo](https://imgur.com/zVA7aUH)
 
-## PS:
-> * App is still in development and still needs more features, users may also encounter some bugs/glitches.
-> * A release version(.exe) is being worked on currently...
-> * Contact: tpandivine48@gmail.com
+### PS:
+> * App is still in development and may not always work as expected.
 
 
 

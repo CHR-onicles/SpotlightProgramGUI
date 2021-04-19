@@ -12,12 +12,14 @@ import style
 
 
 
+# GLOBAL VARIABLE
+app_name = 'SpottyApp'
 
 class MainWindow(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.title = 'SpottyApp' + ' v' + __version__
+        self.title = app_name + ' v' + __version__
         self.setWindowTitle(self.title)
         self.setWindowIcon(QIcon(':/icons/cat'))
 
