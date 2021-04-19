@@ -128,13 +128,20 @@ dmypy.json
 # For my personal logs and testing; (*.log) is already included
 test.py
 test_func.py
-build_test_5/
-build_zip_include/
 build_template/
 build_1/
 build_2/
 build_console_1/
-build_console_2/
-build_console_3/
-build_console_4/
 demo/
+build_1-v0.3.2/python3.dll
+build_1-v0.3.2/python39.dll
+build_1-v0.3.2/Spotty App.exe
+build_console_1(legacy)/python3.dll
+build_console_1(legacy)/python38.dll
+build_console_1(legacy)/Spotty App.exe
+build_console_1(legacy)/SpottyApp before UI updates.txt
+build_console_1(legacy)/vcruntime140.dll
+build_console_2/python3.dll
+build_console_2/python38.dll
+build_console_2/Spotty App.exe
+build_console_2/vcruntime140.dll
