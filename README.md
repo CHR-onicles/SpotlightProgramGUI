@@ -14,7 +14,7 @@ These photos are usually set by default as your lockscreen, but it is worth ment
 > * [Pillow](https://pypi.org/project/Pillow/)
 
 ## Run File
-> * `SpottyApp.py`
+> * `main.py`
 > * Executable: [*(release version will be published soon)*]()
 
 
