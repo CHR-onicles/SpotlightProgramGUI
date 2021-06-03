@@ -128,13 +128,5 @@ dmypy.json
 # For my personal logs and testing; (*.log) is already included
 test.py
 test_func.py
-build_test_5/
-build_zip_include/
-build_template/
-build_1/
-build_2/
-build_console_1/
-build_console_2/
-build_1-v0.3.2-console/
-build_2-v0.3.2/
 demo/
+builds/
