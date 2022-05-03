@@ -1,4 +1,12 @@
-# SpottyApp v0.3.2
+<a href="#"><img title="Version" src="https://img.shields.io/badge/Version-0.3.2-green.svg" /></a>
+<a href="#"><img title="UNMAINTAINED" src="https://img.shields.io/badge/UNMAINTAINED-YES-blue.svg" /></a>
+
+
+### This repository is no longer maintained by the owner
+
+<br>
+
+# SpottyApp
 > Completely rewrote [Spotlight Program](https://github.com/CHR-onicles/SpotlightProgram) with GUI using PyQt5.
 
 ## Description
@@ -26,12 +34,9 @@ These photos are usually set by default as your lockscreen.
 ## Demo:
 [Short Demo](https://imgur.com/zVA7aUH)
 
-### PS:
-> * App is still in development and may not always work as expected.
+<br>
 
-
-
-
+PS: This app will be rewritten with ElectronJS some time in the future 🤞🏽
 
 
 
